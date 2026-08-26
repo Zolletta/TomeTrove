@@ -29,6 +29,8 @@ This directory holds TomeTrove's ADRs. Each ADR is a short markdown file capturi
 | [0021](0021-data-erasure-and-export.md)        | Data erasure and export                           | Accepted |
 | [0022](0022-ui-string-i18n.md)                 | UI string internationalization                    | Accepted |
 | [0023](0023-logging-and-monitoring.md)         | Logging and monitoring                            | Accepted |
+| [0024](0024-database-environments.md)          | Database environment separation                   | Accepted |
+| [0025](0025-collation-convention.md)           | Character set and collation convention            | Accepted |
 
 ## Statuses
 
