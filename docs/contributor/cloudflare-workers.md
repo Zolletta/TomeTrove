@@ -41,7 +41,11 @@ Run `drizzle-kit generate` after changing schema in `src/db/schema.ts`.
 Retrieve API references and limits from:
 `/kv/` · `/r2/` · `/d1/` · `/durable-objects/` · `/queues/` · `/vectorize/` · `/workers-ai/` · `/agents/`
 
-Relevant ADRs: [ADR 0003](../explanation/adr/0003-database-choice.md) (D1), [ADR 0005](../explanation/adr/0005-media-cover-storage.md) (R2), [ADR 0008](../explanation/adr/0008-http-routing.md) (Hono on Workers).
+Relevant ADRs: [ADR 0003](../explanation/adr/0003-database-choice.md) (TiDB Cloud Starter via serverless driver), [ADR 0005](../explanation/adr/0005-media-cover-storage.md) (R2), [ADR 0008](../explanation/adr/0008-http-routing.md) (Hono on Workers).
+
+## TiDB Cloud integration
+
+TomeTrove connects to TiDB Cloud Starter using the [`@tidbcloud/serverless`](https://www.npmjs.com/package/@tidbcloud/serverless) driver, which works over HTTP (Workers cannot make TCP connections). See the [coding style guide](coding.md#database-connection) for setup and usage, and the [official PingCAP integration docs](https://docs.pingcap.com/tidbcloud/integrate-tidbcloud-with-cloudflare/).
 
 ## Best Practices (conditional)
 

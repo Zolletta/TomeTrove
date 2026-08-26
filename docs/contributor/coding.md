@@ -54,12 +54,56 @@ npx vitest
 
 ## Schema changes
 
-After changing `src/db/schema.ts`, generate a migration and apply it with [Drizzle Kit](https://orm.drizzle.team/docs/kit-overview). For the migration strategy, see [ADR 0009](../explanation/adr/0009-schema-migrations.md); for the database choice (D1 + Drizzle), see [ADR 0003](../explanation/adr/0003-database-choice.md).
+After changing `src/db/schema.ts`, generate a migration and apply it with [Drizzle Kit](https://orm.drizzle.team/docs/kit-overview). For the migration strategy, see [ADR 0009](../explanation/adr/0009-schema-migrations.md); for the database choice (TiDB Cloud Starter + Drizzle), see [ADR 0003](../explanation/adr/0003-database-choice.md).
 
 ```bash
 npx drizzle-kit generate
 npx drizzle-kit migrate
 ```
+
+## Database connection
+
+TomeTrove uses [TiDB Cloud Starter](https://www.pingcap.com/tidb-cloud/) (MySQL-compatible) as its database ([ADR 0003](../explanation/adr/0003-database-choice.md)). Workers run on the V8 engine and cannot make direct TCP connections, so TomeTrove uses the [`@tidbcloud/serverless`](https://www.npmjs.com/package/@tidbcloud/serverless) driver, which connects to TiDB over HTTP. This is the [official integration path](https://docs.pingcap.com/tidbcloud/integrate-tidbcloud-with-cloudflare/) documented by PingCAP for Cloudflare Workers.
+
+### Setup
+
+The driver is installed as a dependency:
+
+```bash
+npm install @tidbcloud/serverless
+```
+
+The connection string is stored as a Worker secret (not in `wrangler.jsonc`):
+
+```bash
+npx wrangler secret put DATABASE_URL
+```
+
+The URL follows the `mysql://username:password@host/database` format. Get it from the TiDB Cloud console (Cluster → Connect → Serverless Driver).
+
+### Usage with Drizzle
+
+Drizzle ORM connects through the serverless driver. The driver provides a `connect()` function that returns a connection object Drizzle can use:
+
+```typescript
+import { connect } from "@tidbcloud/serverless";
+import { drizzle } from "drizzle-orm/mysql-serverless";
+
+const conn = connect({ url: env.DATABASE_URL });
+const db = drizzle(conn);
+```
+
+The connection is created per-request (Workers cannot keep TCP connections alive between requests). The serverless driver handles pooling internally over HTTP — no Hyperdrive binding needed.
+
+### Local development
+
+For `wrangler dev`, set `DATABASE_URL` in `.dev.vars` (gitignored):
+
+```
+DATABASE_URL=mysql://username:password@host/database
+```
+
+Use a local MySQL instance or a TiDB Cloud Starter dev cluster for local development.
 
 ## Type generation
 
