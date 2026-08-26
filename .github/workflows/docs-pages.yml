@@ -1,0 +1,86 @@
+---
+name: Docs (Pages)
+
+on:
+  push:
+    branches: [docs]
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, cancel runs in progress.
+concurrency:
+  group: "docs-pages"
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  build-deploy:
+    name: Build & deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install MkDocs Material
+        run: uv tool install "mkdocs==1.6.1" --with "mkdocs-material==9.7.6" --with "mkdocs-git-revision-date-localized-plugin"
+
+      - name: Stage mkdocs.yml and rewrite links for site build
+        # mkdocs.yml lives in docs/ — copy it to the repo root for the build.
+        # Source docs use relative paths that escape docs_dir (../../AGENTS.md,
+        # ../../../PRIVACY.md, etc.) — valid on GitHub, invalid in MkDocs. Rewrite
+        # them to absolute GitHub URLs in the staged copy only; source files stay
+        # untouched.
+        run: |
+          cp docs/mkdocs.yml mkdocs.yml
+          python - <<'PY'
+          import pathlib, re
+          REPO = "https://github.com/Zolletta/TomeTrove/blob/docs"
+          rewrites = [
+              (r'\]\(\.\./\.\./AGENTS\.md\)', f']({REPO}/AGENTS.md)'),
+              (r'\]\(\.\./\.\./\.\./PRIVACY\.md\)', f']({REPO}/PRIVACY.md)'),
+              (r'\]\(\.\./\.\./\.\./LICENSE\)', f']({REPO}/LICENSE)'),
+              (r'\]\(\.\./\.\./\.\./CONTRIBUTING\.md\)', f']({REPO}/CONTRIBUTING.md)'),
+              (r'\]\(\.\./\.\./\.\./README\.md\)', f']({REPO}/README.md)'),
+          ]
+          for path in pathlib.Path("docs").rglob("*.md"):
+              text = path.read_text()
+              for pattern, replacement in rewrites:
+                  text = re.sub(pattern, replacement, text)
+              path.write_text(text)
+          PY
+
+      - name: Build site
+        run: mkdocs build --clean --strict
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v5
