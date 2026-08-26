@@ -3,7 +3,7 @@ site_url: https://docs.tometrove.zolletta.org/
 site_description: The definitive book list
 repo_url: https://github.com/Zolletta/TomeTrove
 repo_name: Zolletta/TomeTrove
-edit_uri: edit/docs/docs/
+edit_uri: edit/main/docs/
 
 docs_dir: docs
 
