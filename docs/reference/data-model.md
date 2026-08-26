@@ -340,15 +340,16 @@ Table: `author`
 | author_name_latin           | string        | Romanized name in "Surname, Firstname" format (e.g. "Poe, Edgar Allan", "Tolstoj, Lev"). Always present.                                                |
 | author_name_original        | string (null) | Name in the original script (e.g. "Толстой, Лев"). Null for Latin-script authors (Poe, Austen).                                                         |
 | author_original_language_id | FK → Language | The language of the original script form. Null when `author_name_original` is null. Drives display: show original only when user's UI language matches. |
-| author_aliases              | json          | Array of alternative names (e.g. `["E. A. Poe", "Edgar Poe"]`). Pre-loaded from OpenLibrary's `alternate_names` field via the dump import (ADR 0016).   |
-| author_openlibrary_id       | string (null) | OpenLibrary author ID (e.g. `OL26348A`). Populated when imported from OpenLibrary.                                                                      |
+| author_aliases              | json          | Array of alternative names (e.g. `["E. A. Poe", "Edgar Poe"]`). Generated per [author normalization](author-normalization.md#alias-generation).         |
+| author_wikidata_id          | string (null) | Wikidata item QID (e.g. `Q1734`). Stable and language-independent, unlike a per-language Wikipedia page id.                                             |
+| author_openlibrary_id       | string (null) | OpenLibrary author ID (e.g. `OL26348A`). Populated from Wikidata `P648`, or when imported from OpenLibrary.                                             |
 | author_googlebooks_id       | string (null) | Google Books author ID. Populated when imported from Google Books.                                                                                      |
 
 **Display logic**: if `author_name_original` is null, show `author_name_latin`. If `author_name_original` is not null AND the user's UI language matches `author_original_language_id`, show `author_name_original`. Otherwise show `author_name_latin`.
 
-**Pre-loaded**: the `author` table is pre-loaded from OpenLibrary author dumps before any user interaction (ADR 0016). Most authors already exist when a user enters a name.
+**Pre-loaded**: the `author` table is pre-loaded from Wikidata before any user interaction (ADR 0016). Most authors already exist when a user enters a name. The mechanical rules that produce each field — name split, suffix and particle handling, script and language detection, alias permutations, disambiguation — are specified in [author normalization](author-normalization.md).
 
-**Normalization rule**: for manual entry, the user picks from autocomplete suggestions (prefix search on `author_name_latin` and `author_aliases`, min 3 characters). For CSV import, the system resolves via exact alias match, then prefix-scoped Levenshtein on the pre-loaded authors (see ADR 0016).
+**Normalization rule**: for manual entry, the user picks from autocomplete suggestions (prefix search on `author_name_latin` and `author_aliases`, min 3 characters). For CSV import, the system resolves via exact alias match, then prefix-scoped Levenshtein on the pre-loaded authors (see ADR 0016). Which alias matches resolve automatically and which only produce candidates is specified in [author normalization](author-normalization.md#disambiguation).
 
 ## Store
 

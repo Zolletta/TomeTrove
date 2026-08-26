@@ -67,6 +67,7 @@ nav:
   - "Reference":
       - reference/index.md
       - "Data model": reference/data-model.md
+      - "Author normalization": reference/author-normalization.md
       - "Ontology":
           - reference/ontology/index.md
           - "Fiction": reference/ontology/fiction.md
