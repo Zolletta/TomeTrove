@@ -166,7 +166,8 @@ dist
 !.env.example
 .wrangler/
 
-.vscode
+.vscode/
+.temp/
 
 # Python (assets/db/tools)
 
