@@ -146,8 +146,7 @@ def build_row(qid: str, record: dict, code: str) -> dict | None:
     if not latin_source:
         return None
 
-    surname_first = original is not None and normalize.script_of(original) in normalize.SURNAME_FIRST_SCRIPTS
-    parsed = normalize.parse(latin_source, surname_first=surname_first)
+    parsed = normalize.parse(latin_source, surname_first=code in normalize.SURNAME_FIRST_LANGUAGES)
     if parsed is None:
         return None
 

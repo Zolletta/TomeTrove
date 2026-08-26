@@ -193,15 +193,31 @@ Script-to-language fallback, used only when the source gives no label language: 
 > [!WARNING]
 > Mechanical transliteration of Han, Kana and Hangul is per-character and produces wrong names (`三島 由紀夫` transliterates to "San Dao You Ji Fu", not "Mishima, Yukio"). CJK authors are therefore imported **only** when the source provides a Latin label; otherwise the record is skipped rather than stored with an invented Latin name.
 
-### Surname-first scripts
+### Surname-first languages
 
-For Han, Kana and Hangul names the **first** token is the surname, the reverse of the [default rule](#8-default). The split is applied to the Latin label with this ordering.
+Whether the **first** token of a Latin label is the surname — the reverse of the [default rule](#8-default) — depends on the language batch, not on the script of the original name: what matters is the order Wikidata uses in the Latin label it publishes.
+
+Surname-first batches are Chinese, Korean and Vietnamese.
 
 ```text
-"三島 由紀夫"  (Latin label "Yukio Mishima")  -> surname "Mishima"  latin "Mishima, Yukio"
+"Mo Yan"           (zh) -> surname "Mo"      latin "Mo, Yan"
+"Hwang Sok-yong"   (ko) -> surname "Hwang"   latin "Hwang, Sok-yong"
+"Nguyễn Thụy Anh"  (vi) -> surname "Nguyễn"  latin "Nguyễn, Thụy Anh"
 ```
 
-Because Wikidata's Latin labels are usually already in Western order (`Yukio Mishima`), this rule applies to the *original* token order and is only used to decide which part of the Latin label is the family name.
+Japanese is **not** one of them. Its original script is surname-first (`江藤淳` is Etō Jun) but the Latin label is given-first, so the default rule produces the right split and the surname-first rule would invert it.
+
+```text
+"Jun Etō"  (ja, original "江藤淳")  -> surname "Etō"  latin "Etō, Jun"
+```
+
+### Numbered title holders
+
+A name whose **first** token is an ordinal — `3rd`, `IV` — numbers a holder of a title rather than naming a family. Such names keep their source order, are not inverted, and are filed under the token after the ordinal.
+
+```text
+"3rd Jebtsundamba Khutughtu"  -> surname "Jebtsundamba"  latin "3rd Jebtsundamba Khutughtu"
+```
 
 ### Language identifiers
 
