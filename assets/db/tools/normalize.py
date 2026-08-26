@@ -223,10 +223,15 @@ SCRIPT_RANGES = (
     ("Georgian", "ka"),
 )
 
-SURNAME_FIRST_SCRIPTS = ("Han", "Hiragana", "Katakana", "Hangul")
+# Languages whose Latin labels keep the native surname-first order on Wikidata:
+# "Mo Yan", "Hwang Sok-yong", "Nguyễn Thụy Anh". Japanese is deliberately
+# absent: its Latin labels are given-first ("Jun Etō") even though the original
+# script is surname-first, so the default rule applies.
+SURNAME_FIRST_LANGUAGES = ("zh", "ko", "vi")
 
 _WS = re.compile(r"\s+")
 _PARENTHETICAL = re.compile(r"\s*[\(\[][^\)\]]*[\)\]]")
+_ORDINAL = re.compile(r"\d+(?:st|nd|rd|th)", re.IGNORECASE | re.ASCII)
 
 
 def script_of(text: str) -> str:
@@ -268,6 +273,10 @@ def strip_qualifier(label: str) -> str:
 
 def _is_roman_numeral(token: str) -> bool:
     return bool(_ROMAN.fullmatch(token))
+
+
+def _is_ordinal(token: str) -> bool:
+    return bool(_ORDINAL.fullmatch(token.strip(".")))
 
 
 def _is_pen_name_tail(token: str) -> bool:
@@ -421,6 +430,11 @@ def parse(name: str, surname_first: bool = False) -> Name | None:
     # keep their order and are filed under the given name: "papa Clemente IX",
     # "Louis XIV". With two or more names before the ordinal the ordinal is a
     # generational suffix instead, handled by _pop_suffix above.
+    # A leading ordinal numbers a title holder rather than naming a family:
+    # "3rd Jebtsundamba Khutughtu" keeps its order, filed under the title.
+    if len(tokens) >= 2 and (_is_ordinal(tokens[0]) or _is_roman_numeral(tokens[0])):
+        return Name(tokens[1], "", suffix, pen_name=" ".join(tokens))
+
     leading = tokens[0].lower()
     if leading in REGNAL_TITLES and (leading in RELIGIOUS_TITLES or _is_roman_numeral(tokens[-1])):
         return Name(tokens[1], "", suffix, pen_name=" ".join(tokens))

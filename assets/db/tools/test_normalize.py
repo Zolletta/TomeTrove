@@ -38,6 +38,7 @@ CASES: list[tuple[str, str, str]] = [
     ("papa Clemente IX", "Clemente", "papa Clemente IX"),
     ("Papa Giovanni Paolo I", "Giovanni", "Papa Giovanni Paolo I"),
     ("Louis XIV", "Louis", "Louis XIV"),
+    ("3rd Jebtsundamba Khutughtu", "Jebtsundamba", "3rd Jebtsundamba Khutughtu"),
     ("Bernardino Re", "Re", "Re, Bernardino"),
     ("Gastone Rossi D.", "Rossi", "Rossi, Gastone D."),
     ("Militant A", "Militant", "Militant A"),
@@ -105,10 +106,20 @@ for raw, script, language in SCRIPT_CASES:
     if got_script != script or got_language != language:
         failures.append(f"{raw!r}: got script={got_script!r} language={got_language!r}, expected {script!r} / {language!r}")
 
-# Surname-first (Han/Kana/Hangul originals, applied to the Latin label).
+# Japanese Latin labels are given-first, so the default rule applies.
 mishima = normalize.parse("Yukio Mishima")
 if mishima is None or mishima.latin != "Mishima, Yukio":
     failures.append(f"'Yukio Mishima': got {mishima!r}")
+
+# Chinese, Korean and Vietnamese Latin labels keep the native surname-first order.
+for raw, expected in (
+    ("Mo Yan", "Mo, Yan"),
+    ("Hwang Sok-yong", "Hwang, Sok-yong"),
+    ("Nguyễn Thụy Anh", "Nguyễn, Thụy Anh"),
+):
+    parsed = normalize.parse(raw, surname_first=True)
+    if parsed is None or parsed.latin != expected:
+        failures.append(f"{raw!r}: got {parsed!r}, expected {expected!r}")
 
 if failures:
     print(f"{len(failures)} failure(s):")
