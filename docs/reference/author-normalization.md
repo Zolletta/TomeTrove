@@ -1,6 +1,6 @@
 # Author normalization rules
 
-This page is the canonical, mechanical specification for turning an external author record into a row of the [`author` table](data-model.md#author--curator). It covers the name split, the suffix and particle vocabularies, script handling, the alias permutations, and the disambiguation rules applied when two records look like the same person. For the design rationale (why a pre-loaded author pool exists at all), see [ADR 0016](../explanation/adr/0016-data-normalization.md).
+This page is the canonical, mechanical specification for turning an external author record into a row of the [`author` table](data-model.md#author-curator). It covers the name split, the suffix and particle vocabularies, script handling, the alias permutations, and the disambiguation rules applied when two records look like the same person. For the design rationale (why a pre-loaded author pool exists at all), see [ADR 0016](../explanation/adr/0016-data-normalization.md).
 
 The rules are deterministic: the same input always produces the same output, with no network lookup and no human judgement. Anything requiring judgement is a *candidate* handed to the user, never an automatic write.
 
@@ -27,15 +27,15 @@ Two consequences drive the design:
 - **Aliases must be generated, not imported.** Only 0.9% of OpenLibrary authors carry `alternate_names`, so the exact-alias-match step of [ADR 0016](../explanation/adr/0016-data-normalization.md) would be dead code without the [generated permutations](#alias-generation) below.
 - **OpenLibrary has no nationality and effectively no per-language Wikipedia links.** Across 3M records there were 1,394 Wikipedia links in total (`en` 983, `de` 227, `es` 41, `fr` 40, `it` 4, the rest in single digits). Language and nationality therefore come from Wikidata, not from OpenLibrary.
 
-OpenLibrary remains relevant only as an identifier: Wikidata's `P648` fills [`author_openlibrary_id`](data-model.md#author--curator), which stays the deduplication key across refreshes.
+OpenLibrary remains relevant only as an identifier: Wikidata's `P648` fills [`author_openlibrary_id`](data-model.md#author-curator), which stays the deduplication key across refreshes.
 
 ## Identifiers
 
-| Column                  | Source                       | Notes                                                                                                                                   |
-|-------------------------|------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| `author_wikidata_id`    | Wikidata item QID (`Q1734`)  | Language-independent and stable. Preferred over a Wikipedia page id, which differs per language edition and changes when pages are moved. |
-| `author_openlibrary_id` | Wikidata `P648`              | Present for a minority of items; the dedup key for OpenLibrary-sourced refreshes.                                                       |
-| `author_googlebooks_id` | not available from Wikidata  | Populated only by a Google Books lookup at runtime.                                                                                     |
+| Column                  | Source                      | Notes                                                                                                                                     |
+|-------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| `author_wikidata_id`    | Wikidata item QID (`Q1734`) | Language-independent and stable. Preferred over a Wikipedia page id, which differs per language edition and changes when pages are moved. |
+| `author_openlibrary_id` | Wikidata `P648`             | Present for a minority of items; the dedup key for OpenLibrary-sourced refreshes.                                                         |
+| `author_googlebooks_id` | not available from Wikidata | Populated only by a Google Books lookup at runtime.                                                                                       |
 
 ## Canonical name form
 
@@ -166,14 +166,14 @@ The last token is the surname; everything before it is the given names.
 
 Suffixes are normalized to one canonical spelling so that `King Jr` and `King Jr.` collapse to a single form.
 
-| Input variants                | Canonical |
-|-------------------------------|-----------|
-| `Jr`, `Jr.`, `Junior`, `jr`   | `Jr.`     |
-| `Sr`, `Sr.`, `Senior`, `sr`   | `Sr.`     |
-| `II`, `2nd`                   | `II`      |
-| `III`, `3rd`                  | `III`     |
-| `IV`, `4th`                   | `IV`      |
-| `V`, `5th`                    | `V`       |
+| Input variants              | Canonical |
+|-----------------------------|-----------|
+| `Jr`, `Jr.`, `Junior`, `jr` | `Jr.`     |
+| `Sr`, `Sr.`, `Senior`, `sr` | `Sr.`     |
+| `II`, `2nd`                 | `II`      |
+| `III`, `3rd`                | `III`     |
+| `IV`, `4th`                 | `IV`      |
+| `V`, `5th`                  | `V`       |
 
 ## Scripts and languages
 
