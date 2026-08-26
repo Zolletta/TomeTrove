@@ -49,6 +49,18 @@ Given names are **never abbreviated** in the canonical form. If the source name 
 "J. R. R. Tolkien"      -> surname "Tolkien"    latin "Tolkien, J. R. R."
 ```
 
+## Source label cleanup
+
+Before any split, two things are removed from the source label.
+
+- **Disambiguating qualifiers.** Wikidata labels carry a parenthesized qualifier when two items share a name: `Michele Alboreto (calciatore)`, `Aurel Cosma (junior)`. Anything inside `(...)` or `[...]` is dropped — it is metadata about the item, not part of the name.
+- **Leading titles.** {`Dr.`, `Prof.`, `Sir`, `Dame`, `Lord`, `Lady`, `Rev.`, `Mr.`, `Mrs.`, `Ms.`} at the front, and [credentials](#6-trailing-suffix) at the end.
+
+```text
+"Michele Alboreto (calciatore)"  -> latin "Alboreto, Michele"
+"Dr. Jane Goodall"               -> latin "Goodall, Jane"
+```
+
 ## Name split rules
 
 Apply in order; the first rule that fires wins.
@@ -84,7 +96,34 @@ A one-token name is a mononym: no comma, and the token is both surname and full 
 "Voltaire"  -> surname "Voltaire"  latin "Voltaire"
 ```
 
-### 4. Trailing suffix
+### 4. Regnal names
+
+A name introduced by a religious or regnal title, or a single name followed by a Roman ordinal, is a regnal name: it keeps its source order, is **not** inverted, and is filed under the given name.
+
+```text
+"papa Clemente IX"        -> surname "Clemente"  latin "papa Clemente IX"
+"Papa Giovanni Paolo I"   -> surname "Giovanni"  latin "Papa Giovanni Paolo I"
+"Louis XIV"               -> surname "Louis"     latin "Louis XIV"
+```
+
+An ordinal after **two or more** names is a generational suffix instead, handled by [rule 6](#6-trailing-suffix): `Henry Ford III` is not a monarch. Titles that are also ordinary surnames — Italian `Re`, `Conte`, `Duca` — only count as titles when the name ends in an ordinal, so `Bernardino Re` still files as `Re, Bernardino`.
+
+### 5. Pen names and trailing initials
+
+A final token that carries no letter, or is a single letter, cannot be a surname. Such names are collective or stage pen names: kept verbatim, filed under the first token, and given no [generated aliases](#alias-generation) because permuting them is meaningless.
+
+```text
+"Wu Ming 1"     -> surname "Wu"         latin "Wu Ming 1"
+"Militant A"    -> surname "Militant"   latin "Militant A"
+```
+
+The exception is a name of three tokens or more ending in a single letter, where that letter is a misplaced given-name initial rather than a pen-name marker:
+
+```text
+"Gastone Rossi D."  -> surname "Rossi"  latin "Rossi, Gastone D."
+```
+
+### 6. Trailing suffix
 
 Trailing generational suffixes are detached before splitting and re-appended at the end, comma-separated, following library cataloguing practice (`Surname, Given, Suffix`). The suffix is never part of `author_surname`.
 
@@ -96,7 +135,7 @@ Trailing generational suffixes are detached before splitting and re-appended at 
 
 Academic and honorific credentials — {`PhD`, `Ph.D.`, `MD`, `M.D.`, `Esq.`, `Dr.`, `Prof.`, `Sir`, `Dame`} — are **stripped** from the canonical form and preserved only as aliases. They are titles, not parts of a name.
 
-### 5. Nobiliary and patronymic particles
+### 7. Nobiliary and patronymic particles
 
 A surname preceded by particles keeps them, in source order and with the **source's capitalization** — `De Filippo` and `de Filippo` are both legitimate and are not recased. Consecutive particles chain.
 
@@ -115,7 +154,7 @@ Particle vocabulary, matched case-insensitively: `van`, `van der`, `van den`, `v
 
 Prefixes written without a following space — `Mc`, `Mac`, `O'`, `Fitz`, `D'`, `L'` — are part of the token itself and need no special handling (`McCarthy`, `O'Brien`, `D'Annunzio`).
 
-### 6. Default
+### 8. Default
 
 The last token is the surname; everything before it is the given names.
 
@@ -156,7 +195,7 @@ Script-to-language fallback, used only when the source gives no label language: 
 
 ### Surname-first scripts
 
-For Han, Kana and Hangul names the **first** token is the surname, the reverse of the [default rule](#6-default). The split is applied to the Latin label with this ordering.
+For Han, Kana and Hangul names the **first** token is the surname, the reverse of the [default rule](#8-default). The split is applied to the Latin label with this ordering.
 
 ```text
 "三島 由紀夫"  (Latin label "Yukio Mishima")  -> surname "Mishima"  latin "Mishima, Yukio"
@@ -197,7 +236,7 @@ Rules for the generator:
 - The canonical form itself is never repeated in the array.
 - Suffix-bearing names generate both with-suffix and without-suffix variants (`Martin Luther King Jr.`, `Martin Luther King`, `King, Martin Luther`, `M. L. King Jr.`).
 - Particle surnames additionally generate the particle-last filing form used by some catalogues (`van Gogh, Vincent` → `Gogh, Vincent van`), because Dutch and Portuguese names are filed both ways.
-- Mononyms and corporate names generate no permutations.
+- Mononyms, pen names, regnal names and corporate names generate no permutations.
 - Generation is capped at four given-name tokens; beyond that only the full form and the all-initials form are emitted, to bound the array size.
 - Aliases are stored with their original case and accents. Matching is expected to be case- and accent-insensitive, so accent-stripped variants are **not** stored as separate aliases.
 
@@ -226,6 +265,21 @@ The generated seed lives in `assets/db/sql/author/`, batched by language so a hu
 - Multi-row `INSERT`s in fixed column order, UTF-8 (`utf8mb4`), MySQL/TiDB dialect ([ADR 0003](../explanation/adr/0003-database-choice.md)).
 - A temporary `language` seed file, loaded first, so `author_original_language_id` resolves.
 - An alias permutation script, run after load, that fills `author_aliases` per the [alias rules](#alias-generation).
+
+The generator lives in `assets/db/tools/`: `normalize.py` implements this page, `languages.py` holds the temporary language ids, `harvest.py` queries Wikidata and writes the files, `permute_aliases.py` fills the aliases after load, and `test_normalize.py` checks the normalizer against every example on this page.
+
+```bash
+python3 assets/db/tools/test_normalize.py
+python3 assets/db/tools/harvest.py --language it
+python3 assets/db/tools/harvest.py --all
+python3 assets/db/tools/permute_aliases.py --dsn mysql://user:pass@host:4000/tometrove
+```
+
+## Language batching
+
+A writer belongs to the batch of the language they write in, taken from Wikidata's `P1412` (languages spoken, written or signed), `P103` (native language) and `P6886` (writing language), unioned. Multilingual writers therefore appear in several candidate sets, so a writer is emitted **once**, in the first language batch that claims them, and the run order is the order of `assets/db/tools/languages.py` — Italian first. Re-running a single language is idempotent for that language but does not reshuffle writers already claimed by an earlier one.
+
+Italian, harvested on 2026-08-26: 16,741 candidate QIDs (`P1412` 16,694, `P6886` 4,802, `P103` 795), 16,451 rows emitted, 290 skipped as [rejected records](#disambiguation) or non-Latin items with no Latin label.
 
 ## Future enrichment
 
