@@ -1,2 +1,2 @@
 # TomeTrove
-The definitive wish list
+The definitive book list

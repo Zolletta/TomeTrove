@@ -1,41 +1,10 @@
-# Cloudflare Workers
+# TomeTrove — Agent instructions
 
-STOP. Your knowledge of Cloudflare Workers APIs and limits may be outdated. Always retrieve current documentation before any Workers, KV, R2, D1, Durable Objects, Queues, Vectorize, AI, or Agents SDK task.
+STOP. Before you start, identify which guide applies to your task and read it first.
 
-## Docs
+- **Working with Cloudflare Workers, KV, R2, D1, Durable Objects, Queues, or the Agents SDK?** Read [Cloudflare Workers](docs/contributor/cloudflare-workers.md) — then retrieve current docs before writing any code.
+- **Writing or editing TypeScript, running builds, tests, or schema migrations?** Read [Coding style](docs/contributor/coding.md) — Biome, method binding (ADR 0012), testing, Drizzle.
+- **Writing or editing documentation?** Read [Documentation style](docs/contributor/documentation.md) — Diátaxis quadrants, formatting rules, ADR conventions.
+- **Running an automated review before a PR?** Read [Automated review](docs/contributor/auto-review.md) — [Zolletta-MetaSkill](https://metaskill.zolletta.org) for code and documentation review.
 
-- https://developers.cloudflare.com/workers/
-- MCP: `https://docs.mcp.cloudflare.com/mcp`
-
-For all limits and quotas, retrieve from the product's `/platform/limits/` page. eg. `/workers/platform/limits`
-
-## Commands
-
-| Command               | Purpose                   |
-|-----------------------|---------------------------|
-| `npx wrangler dev`    | Local development         |
-| `npx wrangler deploy` | Deploy to Cloudflare      |
-| `npx wrangler types`  | Generate TypeScript types |
-
-Run `wrangler types` after changing bindings in wrangler.jsonc.
-
-## Node.js Compatibility
-
-https://developers.cloudflare.com/workers/runtime-apis/nodejs/
-
-## Errors
-
-- **Error 1102** (CPU/Memory exceeded): Retrieve limits from `/workers/platform/limits/`
-- **All errors**: https://developers.cloudflare.com/workers/observability/errors/
-
-## Product Docs
-
-Retrieve API references and limits from:
-`/kv/` · `/r2/` · `/d1/` · `/durable-objects/` · `/queues/` · `/vectorize/` · `/workers-ai/` · `/agents/`
-
-## Best Practices (conditional)
-
-If the application uses Durable Objects or Workflows, refer to the relevant best practices:
-
-- Durable Objects: https://developers.cloudflare.com/durable-objects/best-practices/rules-of-durable-objects/
-- Workflows: https://developers.cloudflare.com/workflows/build/rules-of-workflows/
+If your task spans more than one area, read all the relevant guides.

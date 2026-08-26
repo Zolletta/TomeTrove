@@ -1,0 +1,120 @@
+site_name: TomeTrove
+site_url: https://tometrove.zolletta.org/
+site_description: The definitive book list
+repo_url: https://github.com/Zolletta/TomeTrove
+repo_name: Zolletta/TomeTrove
+edit_uri: edit/docs/docs/
+
+docs_dir: docs
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - content.action.edit
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search
+
+nav:
+  - "Home": index.md
+  - "Tutorials":
+      - tutorials/index.md
+  - "How-to guides":
+      - how-to/index.md
+  - "Reference":
+      - reference/index.md
+      - "Data model": reference/data-model.md
+      - "Ontology":
+          - reference/ontology/index.md
+          - "Fiction": reference/ontology/fiction.md
+          - "Poetry": reference/ontology/poetry.md
+          - "Theatre": reference/ontology/theatre.md
+          - "Comics": reference/ontology/comics.md
+          - "Essay": reference/ontology/essay.md
+          - "Memoir": reference/ontology/memoir.md
+          - "Manual": reference/ontology/manual.md
+          - "Travel": reference/ontology/travel.md
+          - "Reference": reference/ontology/reference-type.md
+          - "Dynamic modifiers": reference/ontology/dynamic-modifiers.md
+          - "Disambiguation rules": reference/ontology/disambiguation-rules.md
+          - "Ontology mappings": reference/ontology/ontology-mappings.md
+  - "Explanation":
+      - explanation/index.md
+      - "Data model": explanation/data-model.md
+      - "Book classification ontology":
+          - explanation/ontology/index.md
+          - "Classification structure": explanation/ontology/classification-structure.md
+          - "The three universal rules": explanation/ontology/rules.md
+      - "Architecture Decision Records":
+          - explanation/adr/index.md
+          - "0001 — TypeScript as primary language": explanation/adr/0001-typescript-as-primary-language.md
+          - "0002 — Cloudflare Workers runtime": explanation/adr/0002-cloudflare-workers-runtime.md
+          - "0003 — Database choice": explanation/adr/0003-database-choice.md
+          - "0004 — Book metadata source": explanation/adr/0004-book-metadata-source.md
+          - "0005 — Media / cover storage": explanation/adr/0005-media-cover-storage.md
+          - "0006 — Authentication model": explanation/adr/0006-authentication-model.md
+          - "0007 — Frontend delivery": explanation/adr/0007-frontend-delivery.md
+          - "0008 — HTTP routing": explanation/adr/0008-http-routing.md
+          - "0009 — Schema migrations": explanation/adr/0009-schema-migrations.md
+          - "0010 — Testing strategy": explanation/adr/0010-testing-strategy.md
+          - "0011 — Learning path: TS via PHP": explanation/adr/0011-learning-path-ts-via-php.md
+          - "0012 — Method binding strategy": explanation/adr/0012-method-binding-strategy.md
+          - "0013 — Store integration architecture": explanation/adr/0013-store-integration-architecture.md
+          - "0014 — Scheduled price fetching": explanation/adr/0014-scheduled-price-fetching.md
+          - "0015 — Alert delivery": explanation/adr/0015-alert-delivery.md
+          - "0016 — Data normalization": explanation/adr/0016-data-normalization.md
+          - "0017 — Public list sharing": explanation/adr/0017-public-wish-list-sharing.md
+          - "0018 — Ontology data model": explanation/adr/0018-ontology-data-model.md
+          - "0019 — Ontology internationalization": explanation/adr/0019-ontology-i18n.md
+          - "0020 — Datetime convention": explanation/adr/0020-datetime-convention.md
+          - "0021 — Data erasure and export": explanation/adr/0021-data-erasure-and-export.md
+          - "0022 — UI string internationalization": explanation/adr/0022-ui-string-i18n.md
+          - "0023 — Logging and monitoring": explanation/adr/0023-logging-and-monitoring.md
+  - "Contributor":
+      - contributor/coding.md
+      - contributor/documentation.md
+      - contributor/cloudflare-workers.md
+      - contributor/auto-review.md
