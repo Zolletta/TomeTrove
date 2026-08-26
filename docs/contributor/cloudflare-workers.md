@@ -1,6 +1,6 @@
 # Cloudflare Workers
 
-This page is the canonical reference for working with Cloudflare Workers in TomeTrove. It is also linked from the root [`AGENTS.md`](../../AGENTS.md) so that AI agents follow the same rules. For the rationale behind choosing Workers, see [ADR 0002](../explanation/adr/0002-cloudflare-workers-runtime.md). For coding conventions including the commands below, see [Coding style](coding.md).
+This page is the canonical reference for working with Cloudflare Workers in TomeTrove. For the rationale behind choosing Workers, see [ADR 0002](../explanation/adr/0002-cloudflare-workers-runtime.md). For coding conventions including the commands below, see [Coding style](coding.md).
 
 STOP. Your knowledge of Cloudflare Workers APIs and limits may be outdated. Always retrieve current documentation before any Workers, KV, R2, D1, Durable Objects, Queues, Vectorize, AI, or Agents SDK task.
 

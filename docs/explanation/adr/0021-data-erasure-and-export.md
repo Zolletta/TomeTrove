@@ -7,7 +7,7 @@
 
 TomeTrove stores only the user's numeric GitHub User ID (pseudonymized data) — no email, no handle, no personal name ([ADR 0006](0006-authentication-model.md)). Nevertheless, [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj) Article 17 (Right to erasure) and Article 20 (Right to data portability) apply: users must be able to delete their account and all associated data, and to export their data in a machine-readable format.
 
-The privacy policy (see [`PRIVACY.md`](../../../PRIVACY.md)) commits to both features being available from the personal area, with physical (not soft) deletion. The tables referenced below are documented in the [data model reference](../../reference/data-model.md).
+The privacy policy commits to both features being available from the personal area, with physical (not soft) deletion. The tables referenced below are documented in the [data model reference](../../reference/data-model.md).
 
 ### Tables referencing a user
 

@@ -1,6 +1,6 @@
 # Documentation style
 
-This page is the canonical reference for how to write and structure documentation in TomeTrove. It is also linked from the root [`AGENTS.md`](../../AGENTS.md) so that AI agents follow the same rules. For coding conventions, see [Coding style](coding.md); for the Cloudflare runtime, see [Cloudflare Workers](cloudflare-workers.md).
+This page is the canonical reference for how to write and structure documentation in TomeTrove. For coding conventions, see [Coding style](coding.md); for the Cloudflare runtime, see [Cloudflare Workers](cloudflare-workers.md).
 
 ## Framework
 

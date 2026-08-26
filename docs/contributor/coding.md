@@ -1,6 +1,6 @@
 # Coding style
 
-This page is the canonical reference for coding conventions in TomeTrove. It is also linked from the root [`AGENTS.md`](../../AGENTS.md) so that AI agents follow the same rules. For the Cloudflare runtime context (wrangler, drizzle-kit, Workers limits), see [Cloudflare Workers](cloudflare-workers.md). For documentation conventions, see [Documentation style](documentation.md).
+This page is the canonical reference for coding conventions in TomeTrove. For the Cloudflare runtime context (wrangler, drizzle-kit, Workers limits), see [Cloudflare Workers](cloudflare-workers.md). For documentation conventions, see [Documentation style](documentation.md).
 
 ## Language
 
