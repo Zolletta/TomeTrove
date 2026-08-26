@@ -167,3 +167,8 @@ dist
 .wrangler/
 
 .vscode
+
+# Python (assets/db/tools)
+
+__pycache__/
+*.py[cod]
