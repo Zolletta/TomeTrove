@@ -168,3 +168,8 @@ dist
 
 .vscode/
 .temp/
+
+# Python (assets/db/tools)
+
+__pycache__/
+*.py[cod]
