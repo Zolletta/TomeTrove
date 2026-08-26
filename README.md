@@ -25,7 +25,7 @@ The definitive book list — track books you want, monitor prices across stores,
 
 ## Documentation
 
-The full documentation is at [tometrove.zolletta.org](https://tometrove.zolletta.org/) and covers:
+The full documentation is at [docs.tometrove.zolletta.org](https://docs.tometrove.zolletta.org/) and covers:
 
 - **Architecture Decision Records** — 23 ADRs documenting every major design choice, from the runtime to the ontology i18n strategy.
 - **Data model reference** — tables, fields, types, and constraints.
