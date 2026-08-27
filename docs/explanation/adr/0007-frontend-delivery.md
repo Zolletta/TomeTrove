@@ -17,11 +17,11 @@ Constraints:
 
 ## Decision
 
-Adopt a **multi-page application (MPA) with a mini-SPA per page**, using **[Alpine.js](https://alpinejs.dev/)** as the per-page interactivity framework.
+Adopt a **multi-page application (MPA) with a mini-SPA per page**, using **[Alpine.js](https://alpinejs.dev/)** as the per-page interactivity framework and **[Tailwind CSS](https://tailwindcss.com/)** as the styling layer.
 
 ### Architecture
 
-Each page is a separate HTML document served as a static asset. Navigation between pages is a full browser page load — no client-side router, no single-page shell. Within each page, a small Alpine.js app handles that page's interactivity: fetching from the REST API, rendering the UI, handling user input.
+Each page is a separate HTML document served as a static asset. Navigation between pages is a full browser page load — no client-side router, no single-page shell. Within each page, a small Alpine.js app handles that page's interactivity: fetching from the REST API, rendering the UI, handling user input. Styling is provided by Tailwind utility classes applied directly in the HTML.
 
 This gives:
 
@@ -36,18 +36,31 @@ This gives:
 
 This contrasts with component-based frameworks like [Preact](https://preactjs.dev/) or React, where HTML is generated from JavaScript (JSX). That approach is more powerful for complex state management but represents a bigger mental shift from PHP and doesn't integrate well with design-tool output (see below).
 
-### Design-to-code workflow with Google Stitch
+### Why Tailwind CSS
 
-[Google Stitch](https://stitch.withgoogle.com/) is an AI design tool by Google Labs that generates UI designs from text prompts, sketches, or screenshots, and exports clean, semantic HTML + CSS (with Tailwind CSS). It does not generate JavaScript — it produces the layout and styling, not the interactivity.
+[Tailwind CSS](https://tailwindcss.com/) is a utility-first CSS framework — you style elements by composing utility classes directly in the HTML (`class="flex items-center gap-4 rounded-lg shadow-md"`), rather than writing custom CSS rules in separate stylesheets.
+
+Tailwind is chosen over a component library (Material UI, Mantine, etc.) for these reasons:
+
+- **No framework lock-in** — component libraries like Material UI require React, which is rejected (see Options below). Tailwind is framework-agnostic: it works with plain HTML, which is what Alpine.js operates on.
+- **Design-tool alignment** — [Figma](https://www.figma.com/) is the design tool for TomeTrove's UI (see the design-to-code workflow below). Figma's Dev Mode maps design tokens (colors, spacing, typography) to Tailwind utility classes, so the handoff from design to HTML is direct. A component library would impose its own design language and fight the Figma output.
+- **Material aesthetic without the dependency** — Tailwind's utility classes can express Material Design visual language (elevation shadows, rounded corners, ripple effects, app bars, snackbars) without pulling in a Material component library that brings its own JS and fights Alpine for DOM control.
+- **Tiny output** — Tailwind's JIT compiler emits only the utility classes actually used in the HTML. The production CSS is small (typically 10-30 KB), which matters on Workers where every byte of static asset is served on every page load.
+- **No CSS file to maintain by hand** — utility classes compose into components inline. There is no separate `.css` file per page that drifts from the HTML. Custom component classes (e.g. `.btn`, `.card`) are defined once in `tailwind.config` via `@apply` if reuse is needed.
+- **Learning value** — Tailwind teaches CSS properties and the box model directly (every utility maps to a CSS declaration), rather than abstracting them behind component props. This reinforces the learning goal alongside TypeScript.
+
+### Design-to-code workflow with Figma
+
+[Figma](https://www.figma.com/) is the design tool for TomeTrove's UI. Designs are authored in Figma; Figma's Dev Mode exports clean, semantic HTML + Tailwind utility classes. It does not generate JavaScript — it produces the layout and styling, not the interactivity.
 
 The workflow for each page:
 
-1. **Design in Stitch** — prompt it to generate the page layout (e.g. "a book wish list page with a search bar, a table of books with title/author/price, and a CSV import button").
-2. **Export HTML + CSS** — download the clean HTML for the screen.
-3. **Add Alpine.js directives** — sprinkle `x-data`, `x-for`, `x-show` attributes onto the HTML elements that need interactivity. The HTML structure from Stitch stays intact — you're adding behavior, not rewriting.
+1. **Design in Figma** — lay out the page (e.g. a book wish list page with a search bar, a table of books with title/author/price, and a CSV import button).
+2. **Export HTML + Tailwind classes** — use Figma Dev Mode to get the HTML skeleton with Tailwind utility classes applied.
+3. **Add Alpine.js directives** — sprinkle `x-data`, `x-for`, `x-show` attributes onto the HTML elements that need interactivity. The HTML structure from Figma stays intact — you're adding behavior, not rewriting.
 4. **Add `fetch()` calls** — write small `<script>` blocks that call the REST endpoints and populate the Alpine state.
 
-Stitch gives the HTML skeleton. Alpine gives it behavior. `fetch()` connects it to the API. Three layers, each doing one thing. This workflow doesn't work with Preact/React because those frameworks require converting HTML into JSX components — manually rewriting every element as a JavaScript function, which defeats the purpose of using a design tool.
+Figma gives the HTML skeleton with Tailwind styling. Alpine gives it behavior. `fetch()` connects it to the API. Three layers, each doing one thing. This workflow doesn't work with Preact/React because those frameworks require converting HTML into JSX components — manually rewriting every element as a JavaScript function, which defeats the purpose of using a design tool.
 
 ### Page set
 
@@ -63,15 +76,16 @@ Stitch gives the HTML skeleton. Alpine gives it behavior. `fetch()` connects it 
 
 ## Options considered
 
-1. **MPA + mini-SPA per page with Alpine.js (chosen)** — each page is a separate HTML document with Alpine.js for interactivity. Full page reloads on navigation, client-side interactivity within a page. Integrates naturally with Google Stitch's HTML export. Best balance of simplicity, performance, developer experience, and design-tool workflow.
-2. **MPA + Preact/HTM** — same MPA pattern, but Preact as the per-page framework. More structured than Alpine, but requires converting Stitch's HTML output to JSX components — defeats the design-tool workflow. Bigger mental shift from PHP.
+1. **MPA + mini-SPA per page with Alpine.js + Tailwind (chosen)** — each page is a separate HTML document with Alpine.js for interactivity and Tailwind for styling. Full page reloads on navigation, client-side interactivity within a page. Integrates naturally with Figma's HTML + Tailwind export. Best balance of simplicity, performance, developer experience, and design-tool workflow.
+2. **MPA + Preact/HTM** — same MPA pattern, but Preact as the per-page framework. More structured than Alpine, but requires converting Figma's HTML output to JSX components — defeats the design-tool workflow. Bigger mental shift from PHP.
 3. **Static HTML + vanilla TS (no framework)** — same MPA pattern, but no per-page framework. Viable but more boilerplate for complex pages (trees, charts, reactive forms).
 4. **Server-side rendering in the Worker (Hono / JSX)** — server generates HTML with data embedded. Rejected — the UI consumes REST endpoints only ([ADR 0008](0008-http-routing.md)), so the backend returns JSON, not pre-rendered HTML.
 5. **Full SPA (React/Vue/Svelte + Vite)** — single-page app with client-side routing. Rejected — too much complexity and resource consumption for TomeTrove's needs.
 6. **HTMX + server-rendered HTML** — server returns HTML fragments. Rejected — conflicts with the REST-only constraint (HTMX expects HTML responses, not JSON).
+7. **MPA + Alpine.js + a component library (Material UI, Mantine)** — rejected. Component libraries like Material UI require React (option 5 in disguise); framework-agnostic CSS component libraries (Material Components Web, Materialize) ship their own JS for component behavior (ripples, dialogs, menus) which overlaps and conflicts with Alpine.js for DOM control. Tailwind expresses the same Material visual language via utility classes without the JS conflict.
 
 ## Consequences
 
-- **Positive**: no client-side router — the biggest source of SPA complexity is gone; URLs are real pages — browser navigation, deep linking, and bookmarking work natively; small JS bundles per page — each page loads only what it needs; independent pages — failures are isolated, no shared global state; Workers-friendly — static assets + JSON API, simple deployment; the pattern is close to the PHP request-response mental model — each page is a self-contained unit; Alpine.js integrates naturally with Google Stitch's HTML export — design in Stitch, add Alpine directives, add fetch(), done.
-- **Negative**: full page reload on navigation — there is a flash/latency on each navigation (mitigated by static asset caching and small page sizes); no shared state between pages — each page boots from scratch, re-fetching data the previous page already had (acceptable — the REST API is fast, and pages are independent by design); Alpine.js has a smaller ecosystem than React/Vue — but it covers what TomeTrove's pages need (reactive forms, lists, conditional display).
-- **Neutral**: the page set (7 pages) may grow as features are added — each new page is a new HTML document + Alpine app, following the same pattern; charts on the monitored/books pages will need a charting library (e.g. Chart.js) loaded only on those pages; the public list page is the only unauthenticated page — it follows the same pattern but without JWT in the API calls; Stitch's HTML output is a starting point, not production-ready — it needs adaptation for the tech stack (adding Alpine directives, fetch calls, real data binding).
+- **Positive**: no client-side router — the biggest source of SPA complexity is gone; URLs are real pages — browser navigation, deep linking, and bookmarking work natively; small JS bundles per page — each page loads only what it needs; independent pages — failures are isolated, no shared global state; Workers-friendly — static assets + JSON API, simple deployment; the pattern is close to the PHP request-response mental model — each page is a self-contained unit; Alpine.js integrates naturally with Figma's HTML + Tailwind export — design in Figma, add Alpine directives, add fetch(), done; Tailwind's JIT output is small and keeps the static asset payload lean; the Material aesthetic is achievable via Tailwind utilities without a component library that fights Alpine.
+- **Negative**: full page reload on navigation — there is a flash/latency on each navigation (mitigated by static asset caching and small page sizes); no shared state between pages — each page boots from scratch, re-fetching data the previous page already had (acceptable — the REST API is fast, and pages are independent by design); Alpine.js has a smaller ecosystem than React/Vue — but it covers what TomeTrove's pages need (reactive forms, lists, conditional display); Tailwind's utility-class soup can be verbose in HTML — mitigated by extracting reusable component classes via `@apply` in `tailwind.config` when patterns repeat.
+- **Neutral**: the page set (7 pages) may grow as features are added — each new page is a new HTML document + Alpine app, following the same pattern; charts on the monitored/books pages will need a charting library (e.g. Chart.js) loaded only on those pages; the public list page is the only unauthenticated page — it follows the same pattern but without JWT in the API calls; Figma's HTML output is a starting point, not production-ready — it needs adaptation for the tech stack (adding Alpine directives, fetch calls, real data binding).
