@@ -164,6 +164,8 @@ Table: `price_quote_historic`
 
 Table: `wish`
 
+A wish is for a **book**, not an edition. The user wants the book; the editions they are willing to accept are listed in the `wish_edition` junction. These are **alternatives** — the user wants one copy, in any of the accepted editions. A price drop on any of them triggers the notification.
+
 | Field                      | Type            | Notes                                                                                                                                                |
 |----------------------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | wish_id                    | PK              |                                                                                                                                                      |
@@ -173,9 +175,31 @@ Table: `wish`
 | wish_is_monitored          | boolean         | If true, this book is included in scheduled price fetching.                                                                                          |
 | wish_baseline_refreshed_at | DATETIME (null) | UTC (ADR 0020). When the baseline was last refreshed. Set at election time; refreshed by the month-end consolidation job after 12 months (ADR 0014). |
 
-**Constraint**: maximum 5 rows per `user_id` where `wish_is_monitored = true`. The baseline price quote is fetched when a book is first marked as monitored.
+**Constraint**: maximum 5 rows per `user_id` where `wish_is_monitored = true` — 5 monitored **books**, regardless of how many editions per book. The baseline price quote is fetched when a book is first marked as monitored.
 
 **Unique constraint**: `(user_id, book_id)` — a book can appear only once per user's wish list.
+
+### Wish editions
+
+Table: `wish_edition`
+
+Junction table linking a wish to the specific editions the user is willing to accept. These are alternatives — the user wants one copy of the book, in any of these editions. Price monitoring fetches prices for all editions in a wish's `wish_edition` rows; a price drop on any of them triggers the notification.
+
+| Field      | Type         | Notes |
+|------------|--------------|-------|
+| wish_id    | FK → Wish    |       |
+| edition_id | FK → Edition |       |
+
+**Primary key**: `(wish_id, edition_id)`.
+
+**Population rules**:
+
+- **Title search**: one `wish_edition` row per language the user reads (most recent edition per language, per the edition filtering rule). If the user reads 5 languages, that's 5 `wish_edition` rows — but still 1 wish (1 monitored book).
+- **ISBN search**: one `wish_edition` row for the specific edition found via ISBN. The edition is linked to its parent `book_id`, and the wish is created for that book.
+- **Language mismatch**: if the user enters an ISBN for an edition in a language not in their reading matrix, a warning is shown but the wish is still allowed ("wishes win"). The edition is added to `wish_edition` regardless.
+
+> [!NOTE]
+> A future "I own this book" feature will let users mark books as owned (not just wished). This requires a separate `owned_book` table and is deferred until TomeTrove tracks owned books, not just wish lists. The button will appear alongside `delete-wish`, `elect-watchlist`, and `on-demand-fetch` in `list-wishes`.
 
 ## List
 
@@ -328,6 +352,31 @@ Table: `language`
 | language_code        | string | ISO 639-1 (e.g. `it`, `en`, `fa`)                 |
 | language_name_en     | string | English name (e.g. "Italian")                     |
 | language_name_native | string | Native name (e.g. "Italiano", "Farsi", "English") |
+
+## Currency
+
+Table: `currency`
+
+Reference table of ISO 4217 currency codes. Pre-filled at seed time. Used by the `currency-selector` component on the preferences page and by the `user_preference.user_currency` field.
+
+| Field            | Type   | Notes                                       |
+|------------------|--------|---------------------------------------------|
+| currency_id      | PK     |                                             |
+| currency_code    | string | ISO 4217 alpha-3 (e.g. `EUR`, `USD`, `GBP`) |
+| currency_name_en | string | English name (e.g. "Euro", "US Dollar")     |
+| currency_symbol  | string | Symbol (e.g. `€`, `$`, `£`)                 |
+
+## Country
+
+Table: `country`
+
+Reference table of ISO 3166-1 alpha-2 country codes. Pre-filled at seed time. Used by the `country-selector` component on the preferences page and by the `user_preference.user_country` field.
+
+| Field           | Type   | Notes                                        |
+|-----------------|--------|----------------------------------------------|
+| country_id      | PK     |                                              |
+| country_code    | string | ISO 3166-1 alpha-2 (e.g. `IT`, `US`, `DE`)   |
+| country_name_en | string | English name (e.g. "Italy", "United States") |
 
 ## Author / Curator
 

@@ -13,5 +13,8 @@
     "@types/node": "^26.2.0",
     "typescript": "^5.5.2",
     "wrangler": "^4.125.0"
+  },
+  "dependencies": {
+    "@tidbcloud/serverless": "^0.3.0"
   }
 }
