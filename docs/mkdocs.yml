@@ -5,7 +5,8 @@ repo_url: https://github.com/Zolletta/TomeTrove
 repo_name: Zolletta/TomeTrove
 edit_uri: edit/main/docs/
 
-docs_dir: docs
+docs_dir: .
+site_dir: ../mkdocs_build
 
 theme:
   name: material
@@ -73,6 +74,8 @@ nav:
   - "Reference":
       - reference/index.md
       - "Data model": reference/data-model.md
+      - "API endpoints": reference/api-endpoints.md
+      - "Scheduled flows": reference/scheduled-flows.md
       - "Author normalization": reference/author-normalization.md
       - "Ontology":
           - reference/ontology/index.md
@@ -125,5 +128,15 @@ nav:
   - "Contributor":
       - contributor/coding.md
       - contributor/documentation.md
+      - contributor/mermaid-style.md
       - contributor/cloudflare-workers.md
       - contributor/auto-review.md
+      - "UX":
+          - contributor/ux/features.md
+          - "User journeys":
+              - contributor/ux/user-journeys/index.md
+              - "Onboarding": contributor/ux/user-journeys/onboarding.md
+              - "Add a wish": contributor/ux/user-journeys/add-a-wish.md
+              - "Price monitoring loop": contributor/ux/user-journeys/price-monitoring.md
+              - "CSV import": contributor/ux/user-journeys/csv-import.md
+              - "Sharing": contributor/ux/user-journeys/sharing.md

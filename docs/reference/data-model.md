@@ -17,12 +17,12 @@ Table: `user`
 
 Table: `user_preference`
 
-| Field                           | Type        | Notes                                                                                                                                                       |
-|---------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| user_id                         | FK → User   |                                                                                                                                                             |
-| user_format_preference          | json        | Ordered list of accepted formats, best-to-worst (e.g. `["used", "new", "ebook"]`). Formats not listed are excluded.                                         |
-| user_next_fetch_hour            | int (0-23)  | Hour at which monitored books are fetched daily (ADR 0014). Assigned round-robin when user elects first monitored book.                                     |
-| user_alert_threshold_percentage | int (0-100) | Minimum percentage drop below baseline to trigger external notification (ADR 0014). Default 5. Example: 10 means alert when price drops 10% below baseline. |
+| Field                           | Type          | Notes                                                                                                                                                       |
+|---------------------------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| user_id                         | FK → User     |                                                                                                                                                             |
+| user_format_preference          | json          | Ordered list of accepted formats, best-to-worst (e.g. `["used", "new", "ebook"]`). Formats not listed are excluded.                                         |
+| user_next_fetch_hour            | int (0-23)    | Hour at which monitored books are fetched daily (ADR 0014). Assigned round-robin when user elects first monitored book.                                     |
+| user_alert_threshold_percentage | int (0-100)   | Minimum percentage drop below baseline to trigger external notification (ADR 0014). Default 5. Example: 10 means alert when price drops 10% below baseline. |
 | user_currency                   | FK → Currency | ISO 4217 code (e.g. `EUR`). Chosen by the user on first login from the union of all `store_currencies`. Price quotes are filtered to this currency.         |
 | user_country                    | FK → Country  | ISO 3166-1 alpha-2 country code (e.g. `IT`). Chosen by the user on first login. Determines which stores ship to the user; drives the `user_store` junction. |
 
@@ -160,9 +160,32 @@ Table: `price_quote_historic`
 
 **Unique constraint**: `(edition_id, store_id, price_quote_historic_month, price_quote_historic_type)`.
 
+## Alert
+
+Table: `alert`
+
+In-app notifications generated when a scheduled price fetch detects that a price has dropped by at least the user's `user_alert_threshold_percentage` below the baseline quote. One row per alert event. Email and webhook delivery are deferred to a later phase ([ADR 0015](../explanation/adr/0015-alert-delivery.md)) — the in-app row is always created regardless.
+
+| Field              | Type            | Notes                                                                              |
+|--------------------|-----------------|------------------------------------------------------------------------------------|
+| alert_id           | PK              |                                                                                    |
+| user_id            | FK → User       |                                                                                    |
+| wish_id            | FK → Wish       | The wish whose monitored book triggered the alert                                  |
+| edition_id         | FK → Edition    | The specific edition whose price dropped                                           |
+| store_id           | FK → Store      | The store offering the dropped price                                               |
+| alert_message      | string          | Human-readable summary (e.g. "Hamlet dropped 12% below baseline at Amazon.it")     |
+| alert_price        | int             | The triggering price in cents                                                      |
+| alert_previous_low | int (null)      | The previous low price in cents, for context                                       |
+| alert_created_at   | DATETIME        | UTC (ADR 0020). When the alert was generated                                       |
+| alert_read_at      | DATETIME (null) | UTC (ADR 0020). When the user dismissed / marked the alert as read. Null = unread. |
+
+**Index**: `(user_id, alert_read_at)` for listing unread alerts per user.
+
 ## Wish
 
 Table: `wish`
+
+A wish is for a **book**, not an edition. The user wants the book; the editions they are willing to accept are listed in the `wish_edition` junction. These are **alternatives** — the user wants one copy, in any of the accepted editions. A price drop on any of them triggers the notification.
 
 | Field                      | Type            | Notes                                                                                                                                                |
 |----------------------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -173,27 +196,64 @@ Table: `wish`
 | wish_is_monitored          | boolean         | If true, this book is included in scheduled price fetching.                                                                                          |
 | wish_baseline_refreshed_at | DATETIME (null) | UTC (ADR 0020). When the baseline was last refreshed. Set at election time; refreshed by the month-end consolidation job after 12 months (ADR 0014). |
 
-**Constraint**: maximum 5 rows per `user_id` where `wish_is_monitored = true`. The baseline price quote is fetched when a book is first marked as monitored.
+**Constraint**: maximum 5 rows per `user_id` where `wish_is_monitored = true` — 5 monitored **books**, regardless of how many editions per book. The baseline price quote is fetched when a book is first marked as monitored.
 
 **Unique constraint**: `(user_id, book_id)` — a book can appear only once per user's wish list.
+
+### Wish editions
+
+Table: `wish_edition`
+
+Junction table linking a wish to the specific editions the user is willing to accept. These are alternatives — the user wants one copy of the book, in any of these editions. Price monitoring fetches prices for all editions in a wish's `wish_edition` rows; a price drop on any of them triggers the notification.
+
+| Field      | Type         | Notes |
+|------------|--------------|-------|
+| wish_id    | FK → Wish    |       |
+| edition_id | FK → Edition |       |
+
+**Primary key**: `(wish_id, edition_id)`.
+
+**Population rules**:
+
+- **Title search**: one `wish_edition` row per language the user reads (most recent edition per language, per the edition filtering rule). If the user reads 5 languages, that's 5 `wish_edition` rows — but still 1 wish (1 monitored book).
+- **ISBN search**: one `wish_edition` row for the specific edition found via ISBN. The edition is linked to its parent `book_id`, and the wish is created for that book.
+- **Language mismatch**: if the user enters an ISBN for an edition in a language not in their reading matrix, a warning is shown but the wish is still allowed ("wishes win"). The edition is added to `wish_edition` regardless.
+
+> [!NOTE]
+> A future "I own this book" feature will let users mark books as owned (not just wished). This requires a separate `owned_book` table and is deferred until TomeTrove tracks owned books, not just wish lists. The button will appear alongside `delete-wish`, `elect-watchlist`, and `on-demand-fetch` in `list-wishes`.
 
 ## List
 
 Table: `list`
 
-| Field                 | Type        | Notes                                                                                                  |
-|-----------------------|-------------|--------------------------------------------------------------------------------------------------------|
-| list_id               | PK          |                                                                                                        |
-| user_id               | FK → User   |                                                                                                        |
-| list_name             | string      | User-facing label (e.g. "Birthday list", "Christmas list")                                             |
-| list_token            | string      | Random unguessable token (nanoid) — used in the share URL                                              |
-| list_filter_types     | json        | Array of Type IDs to include (null/empty = all Types)                                                  |
-| list_filter_genres    | json        | Array of Genre IDs to include (null/empty = all genres)                                                |
-| list_filter_languages | json        | Array of language IDs to include (null/empty = all languages)                                          |
-| list_expiration_date  | DATE (null) | If set, the list is auto-deleted after this date. Checked on user access and during scheduled fetches. |
-| list_created_at       | DATETIME    | UTC (ADR 0020)                                                                                         |
+A shared list is a **materialized public subset of the user's wishes** — not a runtime-filtered view. Filters are used only at creation time to populate the initial set of `list_item` rows; afterwards the list is a concrete, editable subset. The owner can add or remove individual wishes from the list without affecting their wish list, and removing a wish from the wish list automatically removes it from every shared list that contained it (via the foreign key on `list_item.wish_id` with `ON DELETE CASCADE`). The list is accessible at `tometrove.app/list/{list_token}` — public, read-only for visitors, no auth required. Shows title, author, and a link to the user's preferred store. No prices, no personal info. Lists can have an optional expiration date and are physically deleted when revoked or expired. See [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md).
+
+| Field                 | Type        | Notes                                                                                                                                                  |
+|-----------------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| list_id               | PK          |                                                                                                                                                        |
+| user_id               | FK → User   |                                                                                                                                                        |
+| list_name             | string      | User-facing label (e.g. "Birthday list", "Christmas list")                                                                                             |
+| list_token            | string      | Random unguessable token (nanoid) — used in the share URL                                                                                              |
+| list_filter_types     | json        | Array of Type IDs used to seed the list at creation (null/empty = all Types). Retained for reference / re-apply; not consulted at render time.         |
+| list_filter_genres    | json        | Array of Genre IDs used to seed the list at creation (null/empty = all genres). Retained for reference / re-apply; not consulted at render time.       |
+| list_filter_languages | json        | Array of language IDs used to seed the list at creation (null/empty = all languages). Retained for reference / re-apply; not consulted at render time. |
+| list_expiration_date  | DATE (null) | If set, the list is auto-deleted after this date. Checked on user access and during the daily cleanup cron.                                            |
+| list_created_at       | DATETIME    | UTC (ADR 0020)                                                                                                                                         |
 
 **Unique constraints**: `(user_id, list_name)` and `list_token`.
+
+### List items
+
+Table: `list_item`
+
+Junction table materializing which wishes belong to a shared list. Populated at creation time from the list's filters, then editable: the owner can add or remove wishes manually. The `wish_id` foreign key uses `ON DELETE CASCADE`, so deleting a wish automatically removes it from every shared list that referenced it — but removing a `list_item` row does not delete the underlying wish.
+
+| Field   | Type      | Notes                                                                                         |
+|---------|-----------|-----------------------------------------------------------------------------------------------|
+| list_id | FK → List |                                                                                               |
+| wish_id | FK → Wish | `ON DELETE CASCADE` — when a wish is deleted, its `list_item` rows are deleted automatically. |
+
+**Primary key**: `(list_id, wish_id)`.
 
 ## Classification ontology
 
@@ -322,11 +382,11 @@ No foreign key from `translation_entity_id` to the entity tables — the `transl
 
 Table: `language`
 
-| Field                | Type   | Notes                                             |
-|----------------------|--------|---------------------------------------------------|
+| Field                | Type        | Notes                                                                     |
+|----------------------|-------------|---------------------------------------------------------------------------|
 | language_id          | PK (string) | ISO 639-1 code (e.g. `it`, `en`, `fa`) — the natural key, no surrogate id |
-| language_name_en     | string      | English name (e.g. "Italian")                     |
-| language_name_native | string      | Native name (e.g. "Italiano", "فارسی", "English") |
+| language_name_en     | string      | English name (e.g. "Italian")                                             |
+| language_name_native | string      | Native name (e.g. "Italiano", "فارسی", "English")                         |
 
 **Pre-loaded**: the full ISO 639-1 set, seeded from `assets/db/sql/language/language_0001.sql` (generated by `assets/db/tools/iso_seed.py`). Codes and English names are downloaded from the [Debian iso-codes project](https://salsa.debian.org/iso-codes-team/iso-codes) (`iso_639-2.json`), native names from [Wikidata](https://query.wikidata.org/) (items with P218); the names fixed in `assets/db/tools/languages.py` take precedence.
 
@@ -350,7 +410,7 @@ Reference table of ISO 4217 currencies, used to pre-fill the currency selector (
 Table: `currency`
 
 | Field                | Type        | Notes                                                                                                            |
-|----------------------|-------------|--------------------------------------------------------------------------------------------------------------------|
+|----------------------|-------------|------------------------------------------------------------------------------------------------------------------|
 | currency_id          | PK (string) | ISO 4217 alpha-3 code (e.g. `EUR`, `USD`) — the natural key, no surrogate id                                     |
 | currency_name_en     | string      | English name (e.g. "Euro", "US Dollar")                                                                          |
 | currency_minor_units | int (null)  | Number of digits after the decimal separator (e.g. 2 for `EUR`, 0 for `JPY`). Null where the standard lists N.A. |

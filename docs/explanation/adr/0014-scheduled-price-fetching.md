@@ -48,7 +48,7 @@ Adopt **option 1: hourly cron + Queue, spread across users**.
 Hourly Cron Trigger (1 of 5 free cron slots)
 │
 ├── selects users whose fetch hour == current hour
-│   (user_preferences.next_fetch_hour, assigned round-robin 0-23)
+│   (user_preference.user_next_fetch_hour, assigned round-robin 0-23)
 │
 ├── for each selected user:
 │   ├── filters actionable stores ([ADR 0013](0013-store-integration-architecture.md): per-user capability filtering)
@@ -57,12 +57,12 @@ Hourly Cron Trigger (1 of 5 free cron slots)
 └── Queue consumer (batch of up to 100 messages):
     ├── for each message:
     │   ├── calls store Worker.fetchPrice(edition) via service binding ([ADR 0013](0013-store-integration-architecture.md))
-    │   ├── stores price quote in TiDB
+    │   ├── stores price_quote row in TiDB
     │   ├── compares to baseline:
     │   │   ├── if price dropped ≥ threshold (default 5%): generate alert
-    │   │   │   └── store alert row in TiDB (in-app, always)
+    │   │   │   └── insert alert row in TiDB (in-app, always)
     │   │   │       (email/webhook delivery deferred to later phase — [ADR 0015](0015-alert-delivery.md))
-    │   │   └── if no drop: store quote only (visible in-app)
+    │   │   └── if no drop: quote stored only (visible in-app)
     │   └── on error: mark message for retry (Queue handles retries, up to 100)
     └── batch complete
 ```
@@ -85,33 +85,37 @@ User requests price for a book
 └── returns cheapest result to user
 ```
 
-The cooldown is tracked per (edition_id, store_id) — a `last_fetched_at` timestamp on the latest price quote for that pair. If the most recent successful fetch was less than 1 hour ago, the cached quote is returned. If the most recent fetch errored, the cooldown is bypassed (the `error` flag on the quote allows retry).
+The cooldown is tracked per (edition_id, store_id) — the `price_quote_datetime` timestamp on the latest price quote for that pair. If the most recent successful fetch was less than 1 hour ago, the cached quote is returned. If the most recent fetch errored (`price_quote_fetch_status = error`), the cooldown is bypassed (the error flag allows retry).
 
 ### Watchlist election
 
 When a user elects a book for monitoring:
 1. Fetch prices immediately from all actionable stores (on-demand fetch, bypassing the 1-hour cooldown for this one-time baseline fetch).
-2. Store the quotes as the **baseline** — `is_baseline = true` on the quote rows.
-3. Set `user_preferences.next_fetch_hour` if not already set (round-robin assignment 0-23).
+2. Store the quotes as the **baseline** — `price_quote_is_baseline = true` on the quote rows.
+3. Set `user_preference.user_next_fetch_hour` if not already set (round-robin assignment 0-23).
 4. The book is now in the daily monitoring cycle.
 
 ### Alert threshold
 
-- Default: 5% drop below baseline triggers an alert (in-app notification — stored as a row in TiDB).
-- Configurable per user in `user_preferences.alert_threshold_percentage`.
+- Default: 5% drop below baseline triggers an alert (in-app notification — stored as a row in the `alert` table in TiDB).
+- Configurable per user in `user_preference.user_alert_threshold_percentage` (int 0-100, default 5).
 - In-app notifications are always generated for any price change (not just drops) — the user sees all daily quotes in the app.
 - The baseline is the price at election time. If the price drops below baseline by ≥ threshold, an alert is generated. If the price rises above baseline and then drops back, a new alert is generated each time it crosses the threshold downward.
-- **Baseline refresh**: the baseline is refreshed to the most recent month's `price_quote_historic` mean after 12 months. This corrects for inflation and list-price drift on long-tracked books — without it, a book whose list price has risen would never trigger alerts (everything is above the old baseline), and a book whose list price has fallen would trigger on every minor fluctuation. The refresh happens during the existing month-end consolidation job — no new scheduled job is needed. The `price_quote_baseline_refreshed_at` timestamp on `wish` records when the baseline was last refreshed; the consolidation job checks this and refreshes if it is older than 12 months.
-- **Email/webhook delivery of alerts is deferred to a later phase** ([ADR 0015](0015-alert-delivery.md)). For now, alerts are in-app only — stored as rows in the `alerts` table and shown in the UI.
+- **Baseline refresh**: the baseline is refreshed to the most recent month's `price_quote_historic` mean after 12 months. This corrects for inflation and list-price drift on long-tracked books — without it, a book whose list price has risen would never trigger alerts (everything is above the old baseline), and a book whose list price has fallen would trigger on every minor fluctuation. The refresh happens during the existing month-end consolidation job — no new scheduled job is needed. The `wish_baseline_refreshed_at` timestamp on `wish` records when the baseline was last refreshed; the consolidation job checks this and refreshes if it is older than 12 months.
+- **Email/webhook delivery of alerts is deferred to a later phase** ([ADR 0015](0015-alert-delivery.md)). For now, alerts are in-app only — stored as rows in the `alert` table and shown in the UI.
 
 ### Data model additions
 
-- `user_preferences.next_fetch_hour` (int 0-23, nullable) — the hour at which this user's monitored books are fetched daily. Assigned round-robin when the user elects their first monitored book.
-- `user_preferences.alert_threshold_percentage` (decimal, default 5.0) — minimum percentage drop below baseline to trigger external notification.
-- `price_quotes.is_baseline` (boolean) — marks the quote as the baseline (first fetch at election time).
-- `price_quotes.last_fetched_at` (datetime) — when this quote was fetched (used for the 1-hour cooldown on on-demand fetches).
-- `price_quotes.fetch_status` (enum: `success`, `error`) — if `error`, the cooldown is bypassed for on-demand retry.
-- `monitored_books` junction table: `user_id`, `book_id`, `elected_at` — the user's watchlist (max 5 rows per user, enforced at application level).
+The fields below are documented in the [data model reference](../../reference/data-model.md); this section records the naming used there.
+
+- `user_preference.user_next_fetch_hour` (int 0-23, nullable) — the hour at which this user's monitored books are fetched daily. Assigned round-robin when the user elects their first monitored book.
+- `user_preference.user_alert_threshold_percentage` (int 0-100, default 5) — minimum percentage drop below baseline to trigger external notification.
+- `price_quote.price_quote_is_baseline` (boolean) — marks the quote as the baseline (first fetch at election time).
+- `price_quote.price_quote_datetime` (datetime) — when this quote was fetched (used for the 1-hour cooldown on on-demand fetches).
+- `price_quote.price_quote_fetch_status` (enum: `success`, `error`) — if `error`, the cooldown is bypassed for on-demand retry.
+- `wish.wish_is_monitored` (boolean) — marks the wish as monitored. The 5-book watchlist cap is enforced at the application level as a maximum of 5 rows per `user_id` where `wish_is_monitored = true` (no separate junction table).
+- `wish.wish_baseline_refreshed_at` (datetime, nullable) — when the baseline was last refreshed; checked by the month-end consolidation job.
+- `alert` table — one row per alert event (`user_id`, `wish_id`, `edition_id`, `store_id`, `alert_message`, `alert_price`, `alert_previous_low`, `alert_created_at`, `alert_read_at`).
 
 ## Consequences
 

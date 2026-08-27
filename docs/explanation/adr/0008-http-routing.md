@@ -28,54 +28,11 @@ Constraints:
 
 ### Endpoints
 
-| Business object | Route                                 | Method | Purpose                                                                        |
-|-----------------|---------------------------------------|--------|--------------------------------------------------------------------------------|
-| **Books**       | `/api/books`                          | GET    | List (with optional `?q=` search)                                              |
-|                 | `/api/books`                          | POST   | Create                                                                         |
-|                 | `/api/books/:id`                      | GET    | Get one                                                                        |
-|                 | `/api/books/:id`                      | PUT    | Update                                                                         |
-|                 | `/api/books/:id`                      | DELETE | Delete                                                                         |
-| **Editions**    | `/api/books/:bookId/editions`         | GET    | List editions for a book                                                       |
-|                 | `/api/books/:bookId/editions`         | POST   | Add an edition                                                                 |
-|                 | `/api/editions/:id`                   | GET    | Get one edition (flat, by ID)                                                  |
-| **Prices**      | `/api/editions/:editionId/prices`     | GET    | List prices for an edition                                                     |
-|                 | `/api/editions/:editionId/prices`     | POST   | On-demand price fetch                                                          |
-| **Authors**     | `/api/authors`                        | GET    | List/search (with `?q=`, min 3 chars — [ADR 0016](0016-data-normalization.md)) |
-|                 | `/api/authors`                        | POST   | Create (user-created author not found in the pre-loaded database)              |
-|                 | `/api/authors/:id`                    | GET    | Get one                                                                        |
-|                 | `/api/authors/:id`                    | PUT    | Update (e.g. fix name, add aliases)                                            |
-|                 | `/api/authors/:id`                    | DELETE | Delete (only if no books reference this author)                                |
-| **Wishes**      | `/api/wishes`                         | GET    | List user's wish list                                                          |
-|                 | `/api/wishes`                         | POST   | Add a book to wish list                                                        |
-|                 | `/api/wishes/:id`                     | DELETE | Remove from wish list                                                          |
-|                 | `/api/wishes/:id`                     | PATCH  | Update (e.g. toggle `is_monitored`)                                            |
-|                 | `/api/wishes/import`                  | POST   | CSV import                                                                     |
-| **Lists**       | `/api/lists`                          | GET    | List user's lists                                                              |
-|                 | `/api/lists`                          | POST   | Create a list                                                                  |
-|                 | `/api/lists/:id`                      | GET    | Get one (owner)                                                                |
-|                 | `/api/lists/:id`                      | DELETE | Delete a list                                                                  |
-|                 | `/api/lists/:token`                   | GET    | Public list view (no auth — [ADR 0017](0017-public-wish-list-sharing.md))      |
-| **Preferences** | `/api/user/preferences`               | GET    | Get user preferences                                                           |
-|                 | `/api/user/preferences`               | PUT    | Update user preferences                                                        |
-|                 | `/api/user/preferences/languages`     | GET    | List user's readable languages                                                 |
-|                 | `/api/user/preferences/languages`     | POST   | Add a language                                                                 |
-|                 | `/api/user/preferences/languages/:id` | DELETE | Remove a language                                                              |
-| **Stores**      | `/api/stores`                         | GET    | List all stores                                                                |
-|                 | `/api/user/stores`                    | GET    | List stores applicable to the user (filtered by country/currency/format)       |
-| **Languages**   | `/api/languages`                      | GET    | List all languages                                                             |
-| **Types**       | `/api/types`                          | GET    | List the 9 Types                                                               |
-| **Genres**      | `/api/genres`                         | GET    | List genres (optionally filtered by `?type_id=`)                               |
-| **Ontology**    | `/api/ontology`                       | GET    | List ontology nodes (optionally filtered by `?type_id=&genre_id=`)             |
-| **Alerts**      | `/api/alerts`                         | GET    | List alerts                                                                    |
-|                 | `/api/alerts/:id`                     | PATCH  | Mark as read                                                                   |
+The canonical, up-to-date list of endpoints — routes, methods, purposes, and auth scoping — lives in the [API endpoints reference](../../reference/api-endpoints.md). This ADR records the conventions and architecture; the reference is the single source of truth for the endpoint inventory and is kept current as new endpoints are added.
 
 ### Auth scoping
 
-All endpoints under `/api/` require JWT authentication ([ADR 0006](0006-authentication-model.md)) except:
-
-- `GET /api/lists/:token` — public list sharing, no auth ([ADR 0017](0017-public-wish-list-sharing.md)).
-
-User-scoped resources (wishes, lists, preferences, alerts) are automatically filtered to the authenticated user — no `:userId` in the path. The user ID is extracted from the JWT.
+All endpoints under `/api/` require JWT authentication ([ADR 0006](0006-authentication-model.md)) except the public list share endpoint (`GET /api/lists/:token`, [ADR 0017](0017-public-wish-list-sharing.md)). User-scoped resources (wishes, lists, preferences, alerts) are automatically filtered to the authenticated user — no `:userId` in the path. The user ID is extracted from the JWT.
 
 ## Options
 

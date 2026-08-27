@@ -36,7 +36,7 @@ Limits (retrieved 2026-08-24 from `pingcap.com` / `docs.pingcap.com`):
 | Free instances / org      | 5          |
 
 - **MySQL dialect** — directly maps to the author's existing mental model.
-- External to Cloudflare; reached over the public network. From a Worker, either a direct driver (`@tidb.ai/serverless` / `mysql2`) or via **Hyperdrive** (see below).
+- External to Cloudflare; reached over the public network. From a Worker, either a direct driver (`@tidbcloud/serverless` / `mysql2`) or via **Hyperdrive** (see below).
 - Built-in full-text search and vector search (could matter for book search later).
 - Scales to zero; throttles (not bills) when the free quota is hit.
 

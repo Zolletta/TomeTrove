@@ -6,8 +6,11 @@ Before you start, read the guides that apply to your work:
 
 - [Coding style](docs/contributor/coding.md) — TypeScript conventions, Biome formatting, method binding (ADR 0012), testing, schema migrations, type generation, **semantic commits**.
 - [Documentation style](docs/contributor/documentation.md) — Diátaxis framework, formatting rules, navigation, ADRs, cross-references.
+- [Mermaid diagram style](docs/contributor/mermaid-style.md) — boxes have no fill and no background; border colors only, 2 px max thickness.
 - [Cloudflare Workers](docs/contributor/cloudflare-workers.md) — runtime docs, commands, limits, error references, best practices.
 - [Automated review](docs/contributor/auto-review.md) — [Zolletta-MetaSkill](https://metaskill.zolletta.org) for automated code and documentation review.
+- [Feature inventory](docs/contributor/ux/features.md) — all planned features with their UI type and container.
+- [User journeys](docs/contributor/ux/user-journeys/index.md) — flows that connect features (onboarding, add a wish, price monitoring, CSV import, sharing).
 
 AI agents should also read [`AGENTS.md`](AGENTS.md), which links to the same guides.
 

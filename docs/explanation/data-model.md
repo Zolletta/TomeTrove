@@ -17,7 +17,9 @@ erDiagram
 
     user_store }o--|| store : references
 
+    wish ||--o{ wish_edition : "accepts alternatives"
     wish }o--|| book : tracks
+    wish_edition }o--|| edition : "specific edition"
 
     book ||--o{ edition : "published as"
     book ||--o{ book_author : "written/curated by"
@@ -62,7 +64,7 @@ Anthologies and collections have a table of contents (`edition_toc`) where each 
 
 ### User preferences and store applicability
 
-User preferences (`user_preference`) drive which editions are listed and which stores are queried for each different user. The `user_store` junction pre-computes which stores are applicable for a user by intersecting the user's currency, country, and format preferences against store capabilities. This avoids scanning and parsing JSON arrays on every price fetch — D1 (SQLite) cannot index JSON array intersection. The junction is rebuilt for a single user when their preferences change, and for all users when a store is added or modified. The per-edition language filter (`store_languages` vs the edition's language) is still applied at fetch time, since it depends on the edition, not the user.
+User preferences (`user_preference`) drive which editions are listed and which stores are queried for each different user. The `user_store` junction pre-computes which stores are applicable for a user by intersecting the user's currency, country, and format preferences against store capabilities. This avoids scanning and parsing JSON arrays on every price fetch — MySQL (TiDB) JSON columns cannot be indexed for array-membership intersection. The junction is rebuilt for a single user when their preferences change, and for all users when a store is added or modified. The per-edition language filter (`store_languages` vs the edition's language) is still applied at fetch time, since it depends on the edition, not the user.
 
 ### Classification: Type + Genre + tags
 
@@ -76,7 +78,15 @@ A `price_quote` is a snapshot of an edition's price at a specific store on a spe
 
 ### Wish list add
 
-User adds a book to their wish list (e.g. by title and author). The system populates `book`, `author`, and `publishing_house` if not already present, and creates `edition` rows for each language the user can read (copied from existing editions for the same `book_id` and `language_id` if available). Normalization ([ADR 0016](adr/0016-data-normalization.md)): author name resolution, title canonicalization, genre auto-fill where possible. `edition_toc` is not populated in this phase.
+User adds a book to their wish list by entering a title or an ISBN.
+
+**Title search**: the system searches the `edition` table for editions matching the title in languages the user reads. If found, the user confirms ("Is this the book?"). If not found, the system fetches from OpenLibrary/Google Books ([ADR 0004](adr/0004-book-metadata-source.md)). One `wish` row is created (linking `user_id` to `book_id`), and one `wish_edition` row is created per language the user reads — the most recent edition per language. These are **alternatives**: the user wants one copy, in any of these editions.
+
+**ISBN search**: the ISBN maps to a specific edition. The system looks up the edition in the DB, then goes up to its parent `book_id`. If not found, the system fetches from OpenLibrary/Google Books by ISBN, creates the `edition` and `book` rows. One `wish` row is created, with one `wish_edition` row for that specific edition only.
+
+**Language mismatch**: if the user enters an ISBN for an edition in a language not in their reading matrix, a warning is shown but the wish is still allowed ("wishes win"). The edition is added to `wish_edition` regardless.
+
+**Normalization** ([ADR 0016](adr/0016-data-normalization.md)): author name resolution via the alias table, title canonicalization, genre auto-fill where possible. `edition_toc` is not populated in this phase.
 
 ### On-demand price fetch
 
@@ -96,4 +106,4 @@ A user creates a named `list` with filters (Type, genre, language). The list is 
 
 ### Data erasure and export
 
-Users can delete their account and all associated data from the personal area — physical deletion, not soft delete. The deletion cascade covers all tables with a `user_id` foreign key (`user_preference`, `user_store`, `user_language`, `wish`, `list`, `price_quote`). Shared catalog data (books, authors, stores, consolidated price history) is not deleted — it is anonymous and may be referenced by other users. Users can also export all their data in JSON format from the personal area. See [ADR 0021](adr/0021-data-erasure-and-export.md).
+Users can delete their account and all associated data from the personal area — physical deletion, not soft delete. The deletion cascade covers all tables with a `user_id` foreign key (`user_preference`, `user_store`, `user_language`, `wish`, `wish_edition` (via wish), `list`, `price_quote`). Shared catalog data (books, authors, stores, consolidated price history) is not deleted — it is anonymous and may be referenced by other users. Users can also export all their data in JSON format from the personal area. See [ADR 0021](adr/0021-data-erasure-and-export.md).
