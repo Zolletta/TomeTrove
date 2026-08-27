@@ -122,6 +122,8 @@ nav:
           - "0021 — Data erasure and export": explanation/adr/0021-data-erasure-and-export.md
           - "0022 — UI string internationalization": explanation/adr/0022-ui-string-i18n.md
           - "0023 — Logging and monitoring": explanation/adr/0023-logging-and-monitoring.md
+          - "0024 — Database environment separation": explanation/adr/0024-database-environments.md
+          - "0025 — Character set and collation convention": explanation/adr/0025-collation-convention.md
   - "Contributor":
       - contributor/coding.md
       - contributor/documentation.md
