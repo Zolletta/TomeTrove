@@ -92,14 +92,19 @@ Acceptable editions (alternatives) for a wish, tracked via the `wish_edition` ju
 
 ### Lists (shared wish lists)
 
-| Route               | Method | Purpose                                                                                      | Auth | Source                                                          |
-|---------------------|--------|----------------------------------------------------------------------------------------------|------|-----------------------------------------------------------------|
-| `/api/lists`        | GET    | List user's shared lists                                                                     | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
-| `/api/lists`        | POST   | Create a shared list (with filter criteria)                                                  | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
-| `/api/lists/:id`    | GET    | Get one list (owner view, with filter config)                                                | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
-| `/api/lists/:id`    | PATCH  | Rename a shared list (token and URL stay the same)                                           | Yes  | [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md) |
-| `/api/lists/:id`    | DELETE | Delete/revoke a shared list                                                                  | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
-| `/api/lists/:token` | GET    | Public list view (no auth — [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md)) | No   | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
+Shared lists are materialized public subsets of the user's wishes — see [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md). Filters seed the list at creation; afterwards the owner adds or removes individual wishes. Removing a wish from the wish list automatically removes it from every shared list (cascade).
+
+| Route                          | Method | Purpose                                                                                      | Auth | Source                                                          |
+|--------------------------------|--------|----------------------------------------------------------------------------------------------|------|-----------------------------------------------------------------|
+| `/api/lists`                   | GET    | List user's shared lists                                                                     | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
+| `/api/lists`                   | POST   | Create a shared list (with filter criteria — seeds `list_item` rows)                         | Yes  | [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md) |
+| `/api/lists/:id`               | GET    | Get one list (owner view, with items and filter config)                                      | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
+| `/api/lists/:id`               | PATCH  | Rename a shared list (token and URL stay the same)                                           | Yes  | [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md) |
+| `/api/lists/:id`               | DELETE | Delete/revoke a shared list                                                                  | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
+| `/api/lists/:id/items`         | GET    | List the wishes in a shared list                                                             | Yes  | [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md) |
+| `/api/lists/:id/items`         | POST   | Add a wish to a shared list (manual, beyond the original filter set)                         | Yes  | [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md) |
+| `/api/lists/:id/items/:wishId` | DELETE | Remove a wish from a shared list (the underlying wish is unaffected)                         | Yes  | [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md) |
+| `/api/lists/:token`            | GET    | Public list view (no auth — [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md)) | No   | [ADR 0008](../explanation/adr/0008-http-routing.md)             |
 
 ### Alerts (notifications)
 
@@ -137,5 +142,4 @@ Acceptable editions (alternatives) for a wish, tracked via the `wish_edition` ju
 
 ## Open questions
 
-- **Shared list item removal**: the feature inventory lists `remove-share-items` (removing individual books from a shared list), but [ADR 0017](../explanation/adr/0017-public-wish-list-sharing.md) uses filter-based generation, not item-based snapshots. Resolving this may require either an exclusion list on the `list` table or a `list_item` junction table — and a corresponding endpoint (`DELETE /api/lists/:id/items/:bookId`).
 - **Historic prices endpoint shape**: `GET /api/editions/:editionId/prices/historic` could return monthly aggregates only, or merge recent raw quotes with historic data. The wish-detail page needs both for its price history graph.

@@ -173,3 +173,7 @@ dist
 
 __pycache__/
 *.py[cod]
+
+# MkDocs build output
+
+mkdocs_build/

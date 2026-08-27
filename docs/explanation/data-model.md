@@ -64,7 +64,7 @@ Anthologies and collections have a table of contents (`edition_toc`) where each 
 
 ### User preferences and store applicability
 
-User preferences (`user_preference`) drive which editions are listed and which stores are queried for each different user. The `user_store` junction pre-computes which stores are applicable for a user by intersecting the user's currency, country, and format preferences against store capabilities. This avoids scanning and parsing JSON arrays on every price fetch — D1 (SQLite) cannot index JSON array intersection. The junction is rebuilt for a single user when their preferences change, and for all users when a store is added or modified. The per-edition language filter (`store_languages` vs the edition's language) is still applied at fetch time, since it depends on the edition, not the user.
+User preferences (`user_preference`) drive which editions are listed and which stores are queried for each different user. The `user_store` junction pre-computes which stores are applicable for a user by intersecting the user's currency, country, and format preferences against store capabilities. This avoids scanning and parsing JSON arrays on every price fetch — MySQL (TiDB) JSON columns cannot be indexed for array-membership intersection. The junction is rebuilt for a single user when their preferences change, and for all users when a store is added or modified. The per-edition language filter (`store_languages` vs the edition's language) is still applied at fetch time, since it depends on the edition, not the user.
 
 ### Classification: Type + Genre + tags
 

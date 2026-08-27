@@ -5,7 +5,7 @@
 
 ## Context
 
-TomeTrove uses TiDB Cloud Starter (MySQL-compatible) via Hyperdrive ([ADR 0003](0003-database-choice.md)). The schema is significantly complex — see the [data model reference](../../reference/data-model.md) for the full spec. Key tables: users, user_preferences, readable_languages, books, book_authors, editions, price_quotes, genres, genre_translations, languages, authors, stores, store_capabilities, alerts, external_identifiers. The schema will evolve as features are built.
+TomeTrove uses TiDB Cloud Starter (MySQL-compatible) via Hyperdrive ([ADR 0003](0003-database-choice.md)). The schema is significantly complex — see the [data model reference](../../reference/data-model.md) for the full spec. Key tables: `user`, `user_preference`, `user_language`, `book`, `book_author`, `edition`, `price_quote`, `type`, `genre`, `translation`, `language`, `author`, `store`, `alert`. The schema will evolve as features are built.
 
 The author is used to Laravel migrations / Doctrine migrations from PHP.
 

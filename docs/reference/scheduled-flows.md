@@ -4,14 +4,14 @@ This is the canonical list of TomeTrove's automatic (background) flows — tasks
 
 ## Flow summary
 
-| # | Flow | Trigger | Source ADR | Status |
-|---|------|---------|------------|--------|
-| 1 | [Hourly price fetch dispatch](#1-hourly-price-fetch-dispatch) | Cron, hourly | [ADR 0014](../explanation/adr/0014-scheduled-price-fetching.md) | Planned |
-| 2 | [Queue consumer: price fetch](#2-queue-consumer-price-fetch) | Queue message | [ADR 0014](../explanation/adr/0014-scheduled-price-fetching.md) | Planned |
-| 3 | [Month-end consolidation](#3-month-end-consolidation) | Cron, monthly | [ADR 0014](../explanation/adr/0014-scheduled-price-fetching.md) | Planned |
-| 4 | [Log retention cleanup](#4-log-retention-cleanup) | Cron, daily | [ADR 0023](../explanation/adr/0023-logging-and-monitoring.md) | Planned |
-| 5 | [Shared list expiration cleanup](#5-shared-list-expiration-cleanup) | Cron, daily | [Data model](data-model.md#list) | Planned |
-| 6 | [Alert delivery (email/webhook)](#6-alert-delivery-emailwebhook) | Post-fetch side effect | [ADR 0015](../explanation/adr/0015-alert-delivery.md) | Deferred |
+| # | Flow                                                                | Trigger                | Source ADR                                                      | Status   |
+|---|---------------------------------------------------------------------|------------------------|-----------------------------------------------------------------|----------|
+| 1 | [Hourly price fetch dispatch](#1-hourly-price-fetch-dispatch)       | Cron, hourly           | [ADR 0014](../explanation/adr/0014-scheduled-price-fetching.md) | Planned  |
+| 2 | [Queue consumer: price fetch](#2-queue-consumer-price-fetch)        | Queue message          | [ADR 0014](../explanation/adr/0014-scheduled-price-fetching.md) | Planned  |
+| 3 | [Month-end consolidation](#3-month-end-consolidation)               | Cron, monthly          | [ADR 0014](../explanation/adr/0014-scheduled-price-fetching.md) | Planned  |
+| 4 | [Log retention cleanup](#4-log-retention-cleanup)                   | Cron, daily            | [ADR 0023](../explanation/adr/0023-logging-and-monitoring.md)   | Planned  |
+| 5 | [Shared list expiration cleanup](#5-shared-list-expiration-cleanup) | Cron, daily            | [Data model](data-model.md#list)                                | Planned  |
+| 6 | [Alert delivery (email/webhook)](#6-alert-delivery-emailwebhook)    | Post-fetch side effect | [ADR 0015](../explanation/adr/0015-alert-delivery.md)           | Deferred |
 
 ## 1. Hourly price fetch dispatch
 
@@ -150,12 +150,12 @@ Post-fetch (within Queue consumer, after alert row is created)
 
 TomeTrove uses the following Cron Triggers (max 5 on the free tier):
 
-| Cron expression | Flow | Worker |
-|-----------------|------|--------|
-| `0 * * * *` (hourly) | Price fetch dispatch (#1) | Main Worker |
-| `0 0 1 * *` (1st of month, midnight) | Month-end consolidation (#3) | Main Worker |
-| `0 3 * * *` (daily, 3 AM) | Log retention cleanup (#4) | Logging Worker |
-| `0 4 * * *` (daily, 4 AM) | Shared list expiration (#5) | Main Worker |
+| Cron expression                      | Flow                         | Worker         |
+|--------------------------------------|------------------------------|----------------|
+| `0 * * * *` (hourly)                 | Price fetch dispatch (#1)    | Main Worker    |
+| `0 0 1 * *` (1st of month, midnight) | Month-end consolidation (#3) | Main Worker    |
+| `0 3 * * *` (daily, 3 AM)            | Log retention cleanup (#4)   | Logging Worker |
+| `0 4 * * *` (daily, 4 AM)            | Shared list expiration (#5)  | Main Worker    |
 
 One slot remains free for future use.
 

@@ -13,18 +13,20 @@ The privacy policy commits to both features being available from the personal ar
 
 The following tables have a `user_id` foreign key and must be included in the deletion cascade:
 
-| Table             | Relationship   | Notes                                                                                 |
-|-------------------|----------------|---------------------------------------------------------------------------------------|
-| `user`            | PK row         | The user's own row                                                                    |
-| `user_preference` | 1:1            | Preferences (currency, country, format, fetch hour, threshold)                        |
-| `user_store`      | 1:N            | Pre-computed applicable stores junction                                               |
-| `user_language`   | 1:N            | Readable languages matrix                                                             |
-| `wish`            | 1:N            | Wish list entries (one per book)                                                      |
-| `wish_edition`    | 1:N (via wish) | Acceptable editions per wish (alternatives)                                           |
-| `list`            | 1:N            | Public shared lists                                                                   |
-| `price_quote`     | 1:N            | Price quotes triggered by this user (nullable — system fetches have `user_id = null`) |
+| Table             | Relationship                 | Notes                                                                                               |
+|-------------------|------------------------------|-----------------------------------------------------------------------------------------------------|
+| `user`            | PK row                       | The user's own row                                                                                  |
+| `user_preference` | 1:1                          | Preferences (currency, country, format, fetch hour, threshold)                                      |
+| `user_store`      | 1:N                          | Pre-computed applicable stores junction                                                             |
+| `user_language`   | 1:N                          | Readable languages matrix                                                                           |
+| `wish`            | 1:N                          | Wish list entries (one per book)                                                                    |
+| `wish_edition`    | 1:N (via wish)               | Acceptable editions per wish (alternatives)                                                         |
+| `list`            | 1:N                          | Public shared lists                                                                                 |
+| `list_item`       | 1:N (via list, and via wish) | Materialized wishes per shared list. Deleted via `list` cascade and via `wish` `ON DELETE CASCADE`. |
+| `price_quote`     | 1:N                          | Price quotes triggered by this user (nullable — system fetches have `user_id = null`)               |
+| `alert`           | 1:N                          | In-app notifications generated for this user                                                        |
 
-Tables that do NOT reference `user_id` and are NOT deleted: `book`, `edition`, `author`, `publishing_house`, `language`, `type`, `genre`, `ontology`, `store`, `price_quote_historic`. These are shared catalog data — deleting a user does not remove books or price history that other users may reference. `price_quote_historic` is keyed by `(edition_id, store_id, month, type)` with no `user_id` — consolidated history is anonymous and retained.
+Tables that do NOT reference `user_id` and are NOT deleted: `book`, `edition`, `author`, `publishing_house`, `language`, `country`, `currency`, `type`, `genre`, `ontology`, `store`, `price_quote_historic`. These are shared catalog data — deleting a user does not remove books or price history that other users may reference. `price_quote_historic` is keyed by `(edition_id, store_id, month, type)` with no `user_id` — consolidated history is anonymous and retained.
 
 ## Options
 
@@ -45,9 +47,11 @@ User clicks "Delete this account" in personal area
 │
 ├── on confirm (authenticated request):
 │   ├── BEGIN TRANSACTION
+│   ├── DELETE FROM alert WHERE user_id = ?
 │   ├── DELETE FROM price_quote WHERE user_id = ?
+│   ├── DELETE FROM list_item WHERE list_id IN (SELECT list_id FROM list WHERE user_id = ?)
 │   ├── DELETE FROM list WHERE user_id = ?
-│   ├── DELETE FROM wish WHERE user_id = ?
+│   ├── DELETE FROM wish WHERE user_id = ?   -- cascades to wish_edition and list_item
 │   ├── DELETE FROM user_language WHERE user_id = ?
 │   ├── DELETE FROM user_store WHERE user_id = ?
 │   ├── DELETE FROM user_preference WHERE user_id = ?
@@ -69,16 +73,18 @@ User clicks "Export my data" in personal area
 │   ├── SELECT * FROM user_preference WHERE user_id = ?
 │   ├── SELECT * FROM user_language WHERE user_id = ?
 │   ├── SELECT * FROM wish WHERE user_id = ? (joined with book/edition for readability)
-│   ├── SELECT * FROM list WHERE user_id = ?
+│   ├── SELECT * FROM list WHERE user_id = ? (with list_item counts)
 │   ├── SELECT * FROM price_quote WHERE user_id = ?
+│   ├── SELECT * FROM alert WHERE user_id = ?
 │   ├── assemble JSON payload:
 │   │   {
 │   │     "exported_at": "2026-08-24T12:00:00Z",
-│   │     "user_preferences": { ... },
+│   │     "user_preference": { ... },
 │   │     "user_languages": [ ... ],
-│   │     "wish_list": [ { "book_title": "...", "authors": [...], "is_monitored": true, ... } ],
+│   │     "wishes": [ { "book_title": "...", "authors": [...], "is_monitored": true, ... } ],
 │   │     "lists": [ ... ],
-│   │     "price_quotes": [ ... ]
+│   │     "price_quotes": [ ... ],
+│   │     "alerts": [ ... ]
 │   │   }
 │   └── return as application/json download (Content-Disposition: attachment)
 ```

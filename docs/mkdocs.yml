@@ -5,7 +5,8 @@ repo_url: https://github.com/Zolletta/TomeTrove
 repo_name: Zolletta/TomeTrove
 edit_uri: edit/main/docs/
 
-docs_dir: docs
+docs_dir: .
+site_dir: ../mkdocs_build
 
 theme:
   name: material
