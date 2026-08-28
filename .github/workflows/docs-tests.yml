@@ -5,10 +5,12 @@ on:
   push:
     paths:
       - "docs/**"
+      - "mkdocs.yml"
       - ".github/workflows/docs-tests.yml"
   pull_request:
     paths:
       - "docs/**"
+      - "mkdocs.yml"
       - ".github/workflows/docs-tests.yml"
 
 permissions:
@@ -38,4 +40,4 @@ jobs:
         run: uv tool install "mkdocs==1.6.1" --with "mkdocs-material==9.7.6" --with "mkdocs-git-revision-date-localized-plugin"
 
       - name: Build site (strict)
-        run: mkdocs build --clean --strict --config-file docs/mkdocs.yml
+        run: mkdocs build --clean --strict

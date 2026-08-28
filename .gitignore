@@ -177,3 +177,6 @@ __pycache__/
 # MkDocs build output
 
 mkdocs_build/
+
+# Local dev scripts
+restart-mkdocs.sh
