@@ -51,7 +51,7 @@ every asset created or reworked.
 - [x] `icon/barcode` (111:112)
 - [x] `icon/x` (111:117)
 - [x] `icon/check` (111:121)
-- [ ] Delete the old Icons STRING variable collection (Unicode chars)
+- [x] Delete the old Icons STRING variable collection (Unicode chars)
 
 ### 2. Widgets — rework with Phosphor icon instances
 
@@ -79,10 +79,55 @@ every asset created or reworked.
 
 ### 5. Documentation & validation
 
-- [ ] Screenshot verification of every component
-- [ ] Verify all color variables bound (no hardcoded fills)
-- [ ] Component index/cover on the Widgets & Components page
-- [ ] Design system ↔ docs-site (extra.css) discrepancy report — reconciliation decided by the user
+- [x] Screenshot verification of every component (icons, widgets, components, mini-SPA)
+- [x] Verify all color variables bound — final scan reports zero unbound solid fills/strokes across all components on 66:2 (icon white bg fills removed at source, theme-toggle knob → text-on-accent, wordmark "Trove" → primitive forest-green, underline → primitive coral)
+- [x] Component index/cover on the Widgets & Components page (`cover/index`, 121:286)
+- [x] Design system ↔ docs-site (extra.css) discrepancy report — see below; reconciliation decided by the user
+
+## Discrepancy report — Figma Semantics vs `docs/assets/css/extra.css`
+
+Status: **awaiting user reconciliation** — no CSS or Figma value changed yet.
+
+### A. Same token, different value (conflicts to reconcile)
+
+| Token | Figma Light | CSS Light | Figma Dark | CSS Dark |
+|---|---|---|---|---|
+| background | `#EDF4F6` | `#D0E2F0` | `#0A2540` | `#041526` |
+| border | `#C5D9DC` (=) | `#C5D9DC` | `#2E6B94` | `#184D75` |
+| text-primary | `#0A396E` | `#000000` | `#EDF4F6` | `#DBEBEF` |
+| accent | `#0F8A4F` | `#3BCB83` | `#0F8A4F` | `#3BCB83` |
+| accent-hover | `#0A7641` | `#186E46` | `#1E9E5F` | `#2F8A4A` |
+
+Matching in both: surface, surface-elevated, text-secondary (both modes), error, light border.
+
+Note: the CSS accent `#3BCB83` equals the Figma **primitive** `color/forest-green`, while the
+Figma **semantic** `color/accent` is `#0F8A4F` (which aliases no primitive) — the two sources
+disagree on which green is "the" accent.
+
+### B. In the docs CSS but missing from the design system
+
+- Link tokens: `--tt-link` (light `#0A396E`, dark `#A8CCE8`) — no `color/link` semantic in Figma.
+- Badge tokens: `--tt-badge-bg` / `--tt-badge-fg` — no badge semantics in Figma.
+- Header/footer treatment: docs render header, tabs and footer **always deep-navy** (`#0A2B4E` bg,
+  `#DBEBEF` text, hardcoded — bypasses `--tt-*` vars) in both color schemes; the Figma `header`
+  uses `surface` and adapts to Light/Dark.
+- Coral gradient hairline under header/tabs and above footer — decorative brand element absent from Figma.
+- Heading color: docs headings use accent green; Figma headings use `text-primary`.
+- Link styling: weight 600 + dotted coral underline on hover; Outfit 600 is imported but the DS
+  typography only defines Regular/Medium.
+- Code/syntax-highlight palette (amber `#D68E15`, honey `#F0A638`, sage `#259868`, coral) — partially
+  overlaps Figma `warning`/`success` but is not tokenised.
+
+### C. In the design system but missing from the docs CSS
+
+- `color/success`, `color/warning`, `color/text-on-accent` semantics have no `--tt-*` counterparts.
+- Spacing (`space-4…64`), radius (`radius-4…full`) and Elevation effect styles have no CSS custom-property equivalents (docs use ad-hoc px values).
+
+### D. Docs non-compliance with the design system
+
+- Many rules use hardcoded hex values instead of the `--tt-*` variables the file itself defines
+  (header, tabs, footer, search, headings, links), so a token change would not propagate.
+- Light-mode body text is pure black `#000000` instead of the DS `text-primary` deep navy.
 
 ## Log
 
@@ -93,3 +138,6 @@ every asset created or reworked.
 - 2026-08-28: reworked all 7 existing widgets/components with Phosphor icon instances, Outfit typography, and frame-sizing fixes; deleted duplicate selectors.
 - 2026-08-28: built alert-threshold, accepted-formats, reading-languages, add-wish, rename-share.
 - 2026-08-28: composed mini-spa/preferences (1200px, header + wizard + footer).
+- 2026-08-28: deleted the old Icons STRING (Unicode) variable collection; created `cover/index` (121:286).
+- 2026-08-28: binding validation — removed white bg fills from all 16 icon components, bound theme-toggle knob and wordmark brand colors; final scan: zero unbound solid paints.
+- 2026-08-28: wrote the Figma ↔ extra.css discrepancy report (above), pending user reconciliation.
