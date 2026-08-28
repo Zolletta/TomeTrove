@@ -141,3 +141,5 @@ disagree on which green is "the" accent.
 - 2026-08-28: deleted the old Icons STRING (Unicode) variable collection; created `cover/index` (121:286).
 - 2026-08-28: binding validation — removed white bg fills from all 16 icon components, bound theme-toggle knob and wordmark brand colors; final scan: zero unbound solid paints.
 - 2026-08-28: wrote the Figma ↔ extra.css discrepancy report (above), pending user reconciliation.
+- 2026-08-28: user reconciliation (partial) — docs-only concepts approved for Figma: added Semantics variables `color/link` (128:2), `color/badge-bg` (128:3), `color/badge-fg` (128:4), `color/chrome-bg` (128:5), `color/chrome-fg` (128:6), `color/heading` (128:7) with values from extra.css, and `decoration/coral-hairline` (132:298). Per-token conflict choices still pending.
+- 2026-08-28: added `icon/user` (129:293) and `personal-area-link` (129:294, icon/user + "Personal area") to the header before Logout — links to the personal area (for now the preferences page); updated `docs/contributor/ux/features.md` (feature #41) and `docs/reference/icons.md`.
