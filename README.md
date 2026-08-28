@@ -1,4 +1,8 @@
-# TomeTrove
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/images/dark_logo_wordmark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/images/light_logo_wordmark.svg">
+  <img src="assets/images/light_logo_wordmark.svg" alt="TomeTrove" width="400">
+</picture>
 
 The definitive book list — track books you want, monitor prices across stores, and get alerts when the price drops.
 

@@ -11,6 +11,10 @@ site_dir: ../mkdocs_build
 theme:
   name: material
   language: en
+  custom_dir: overrides
+  font:
+    text: Outfit
+    code: Outfit
   features:
     - navigation.tabs
     - navigation.sections
@@ -23,17 +27,17 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/weather-night
+        icon: tometrove/moon
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/weather-sunny
+        icon: tometrove/sun
         name: Switch to light mode
 
 markdown_extensions:
@@ -56,6 +60,9 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 
+extra_css:
+  - assets/css/extra.css
+
 plugins:
   - search
   - git-revision-date-localized:
@@ -77,6 +84,7 @@ nav:
       - "API endpoints": reference/api-endpoints.md
       - "Scheduled flows": reference/scheduled-flows.md
       - "Author normalization": reference/author-normalization.md
+      - "Icons": reference/icons.md
       - "Ontology":
           - reference/ontology/index.md
           - "Fiction": reference/ontology/fiction.md
@@ -106,7 +114,7 @@ nav:
           - "0004 — Book metadata source": explanation/adr/0004-book-metadata-source.md
           - "0005 — Media / cover storage": explanation/adr/0005-media-cover-storage.md
           - "0006 — Authentication model": explanation/adr/0006-authentication-model.md
-          - "0007 — Frontend delivery": explanation/adr/0007-frontend-delivery.md
+          - "0007 — Frontend technology decisions": explanation/adr/0007-frontend-delivery.md
           - "0008 — HTTP routing": explanation/adr/0008-http-routing.md
           - "0009 — Schema migrations": explanation/adr/0009-schema-migrations.md
           - "0010 — Testing strategy": explanation/adr/0010-testing-strategy.md
