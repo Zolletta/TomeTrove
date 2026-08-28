@@ -1,6 +1,31 @@
 /* ── Typography: Josefin Sans for headings, Outfit for body ── */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Outfit:wght@400;500;600&display=swap');
 
+/* ── Scrollbar: reset to macOS default (works in both modes) ── */
+.md-sidebar__scrollwrap,
+.md-search__scrollwrap,
+.md-content__inner {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+}
+.md-sidebar__scrollwrap::-webkit-scrollbar,
+.md-search__scrollwrap::-webkit-scrollbar,
+.md-content__inner::-webkit-scrollbar {
+  width: auto;
+  height: auto;
+  -webkit-appearance: none;
+}
+.md-sidebar__scrollwrap::-webkit-scrollbar-thumb,
+.md-search__scrollwrap::-webkit-scrollbar-thumb,
+.md-content__inner::-webkit-scrollbar-thumb {
+  -webkit-appearance: none;
+}
+.md-sidebar__scrollwrap::-webkit-scrollbar-thumb:hover,
+.md-search__scrollwrap::-webkit-scrollbar-thumb:hover,
+.md-content__inner::-webkit-scrollbar-thumb:hover {
+  -webkit-appearance: none;
+}
+
 .md-typeset h1,
 .md-typeset h2,
 .md-typeset h3,
@@ -12,80 +37,320 @@
   font-weight: 700;
 }
 
-/* ── TomeTrove design system colors ── */
-/* Light mode (default scheme) */
+/* ════════════════════════════════════════════════════════════════
+   TomeTrove design system tokens
+   Source: Figma "TomeTrove Design System" file
+   These are the canonical color values — do not edit individually.
+
+   Color reference (hex → name):
+     #DBEBEF  ice blue          #041526  midnight navy
+     #FFFFFF  white             #0A2B4E  deep navy
+     #F5FAF9  mint white        #123C63  steel navy
+     #C5D9DC  pale teal         #184D75  blue steel
+     #000000  black             #96B4C4  dusty blue
+     #0A396E  deep navy (brand) #A8CCE8  baby blue
+     #41677E  slate blue        #3BCB83  mint green
+     #186E46  forest green      #2F8A4A  light forest
+     #259868  sage green        #D68E15  amber
+     #F0A638  honey             #FFC04D  golden
+     #F75454  coral
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Light mode ── */
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #0A396E;
-  --md-primary-fg-color--light: #41677E;
-  --md-primary-fg-color--dark: #041526;
-  --md-primary-bg-color: #EDF4F6;
-  --md-primary-bg-color--light: #F5FAF9;
+  --tt-background:        #D0E2F0; /* soft blue       */
+  --tt-surface:           #FFFFFF; /* white           */
+  --tt-surface-elevated:  #F5FAF9; /* mint white      */
+  --tt-border:            #C5D9DC; /* pale teal       */
+  --tt-text-primary:      #000000; /* black           */
+  --tt-text-secondary:    #41677E; /* slate blue      */
+  --tt-accent:            #3BCB83; /* mint green      */
+  --tt-accent-hover:      #186E46; /* forest green    */
+  --tt-error:             #F75454; /* coral           */
+  --tt-link:              #0A396E; /* deep navy       */
+  --tt-badge-bg:          #0A2B4E; /* deep navy       */
+  --tt-badge-fg:          #DBEBEF; /* ice blue        */
 
-  --md-accent-fg-color: #186E46;
-  --md-accent-fg-color--transparent: rgba(24, 110, 70, 0.1);
+  /* MkDocs content-area mappings (header/footer handled directly below) */
+  --md-default-bg-color:              var(--tt-background);
+  --md-default-fg-color:              var(--tt-text-primary);
+  --md-default-fg-color--light:       var(--tt-text-secondary);
+  --md-default-fg-color--lighter:     var(--tt-text-secondary);
+  --md-default-fg-color--lightest:    var(--tt-border);
 
-  --md-default-bg-color: #EDF4F6;
-  --md-default-fg-color: #0A396E;
-  --md-default-fg-color--light: #41677E;
-  --md-default-fg-color--lighter: #41677E;
-  --md-default-fg-color--lightest: #C5D9DC;
+  --md-code-bg-color:                 var(--tt-surface-elevated);
+  --md-code-fg-color:                 var(--tt-text-primary);
 
-  --md-code-bg-color: #F5FAF9;
-  --md-code-fg-color: #0A396E;
+  --md-typeset-color:                 var(--tt-text-primary);
+  --md-typeset-a-color:               var(--tt-link);
 
-  --md-typeset-color: #0A396E;
-  --md-typeset-a-color: #186E46;
-
-  --md-admonition-fg-color: #0A396E;
-  --md-admonition-bg-color: #F5FAF9;
+  --md-admonition-fg-color:           var(--tt-text-primary);
+  --md-admonition-bg-color:           var(--tt-surface-elevated);
 
   /* Syntax highlighting */
-  --md-code-hl-keyword-color: #186E46;
-  --md-code-hl-string-color: #1B6A3A;
-  --md-code-hl-number-color: #D68E15;
-  --md-code-hl-comment-color: #41677E;
-  --md-code-hl-function-color: #0A396E;
-  --md-code-hl-variable-color: #41677E;
-  --md-code-hl-constant-color: #F75454;
+  --md-code-hl-keyword-color:         var(--tt-accent);
+  --md-code-hl-string-color:          var(--tt-accent-hover);
+  --md-code-hl-number-color:          #D68E15; /* amber           */
+  --md-code-hl-comment-color:         var(--tt-text-secondary);
+  --md-code-hl-function-color:        var(--tt-text-primary);
+  --md-code-hl-variable-color:        var(--tt-text-secondary);
+  --md-code-hl-constant-color:        var(--tt-error);
 }
 
-/* Dark mode (slate scheme) */
+/* ── Dark mode ── */
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #0A2B4E;
-  --md-primary-fg-color--light: #123C63;
-  --md-primary-fg-color--dark: #041526;
-  --md-primary-bg-color: #041526;
-  --md-primary-bg-color--light: #0A2B4E;
+  --tt-background:        #041526; /* midnight navy   */
+  --tt-surface:           #0A2B4E; /* deep navy       */
+  --tt-surface-elevated:  #123C63; /* steel navy      */
+  --tt-border:            #184D75; /* blue steel      */
+  --tt-text-primary:      #DBEBEF; /* ice blue        */
+  --tt-text-secondary:    #96B4C4; /* dusty blue      */
+  --tt-accent:            #3BCB83; /* mint green      */
+  --tt-accent-hover:      #2F8A4A; /* light forest    */
+  --tt-error:             #F75454; /* coral           */
+  --tt-link:              #A8CCE8; /* baby blue       */
+  --tt-badge-bg:          #DBEBEF; /* ice blue        */
+  --tt-badge-fg:          #0A2B4E; /* deep navy       */
 
-  --md-accent-fg-color: #2F8A4A;
-  --md-accent-fg-color--transparent: rgba(47, 138, 74, 0.15);
+  /* MkDocs content-area mappings (header/footer handled directly below) */
+  --md-default-bg-color:              var(--tt-background);
+  --md-default-fg-color:              var(--tt-text-primary);
+  --md-default-fg-color--light:       var(--tt-text-secondary);
+  --md-default-fg-color--lighter:     var(--tt-text-secondary);
+  --md-default-fg-color--lightest:    var(--tt-border);
 
-  --md-default-bg-color: #041526;
-  --md-default-fg-color: #EDF4F6;
-  --md-default-fg-color--light: #96B4C4;
-  --md-default-fg-color--lighter: #96B4C4;
-  --md-default-fg-color--lightest: #184D75;
+  --md-code-bg-color:                 var(--tt-surface);
+  --md-code-fg-color:                 var(--tt-text-primary);
 
-  --md-code-bg-color: #0A2B4E;
-  --md-code-fg-color: #EDF4F6;
+  --md-typeset-color:                 var(--tt-text-primary);
+  --md-typeset-a-color:               var(--tt-link);
 
-  --md-typeset-color: #EDF4F6;
-  --md-typeset-a-color: #2F8A4A;
-
-  --md-admonition-fg-color: #EDF4F6;
-  --md-admonition-bg-color: #0A2B4E;
+  --md-admonition-fg-color:           var(--tt-text-primary);
+  --md-admonition-bg-color:           var(--tt-surface);
 
   /* Syntax highlighting */
-  --md-code-hl-keyword-color: #2F8A4A;
-  --md-code-hl-string-color: #259868;
-  --md-code-hl-number-color: #F0A638;
-  --md-code-hl-comment-color: #96B4C4;
-  --md-code-hl-function-color: #EDF4F6;
-  --md-code-hl-variable-color: #96B4C4;
-  --md-code-hl-constant-color: #F75454;
+  --md-code-hl-keyword-color:         var(--tt-accent-hover);
+  --md-code-hl-string-color:          #259868; /* sage green      */
+  --md-code-hl-number-color:          #F0A638; /* honey           */
+  --md-code-hl-comment-color:         var(--tt-text-secondary);
+  --md-code-hl-function-color:        var(--tt-text-primary);
+  --md-code-hl-variable-color:        var(--tt-text-secondary);
+  --md-code-hl-constant-color:        var(--tt-error);
 }
 
-/* ── Logo display based on theme ── */
+/* ════════════════════════════════════════════════════════════════
+   Header & footer — styled directly, bypassing Material variables.
+   Deep navy background + ice blue text in BOTH modes.
+   ════════════════════════════════════════════════════════════════ */
+.md-header {
+  background-color: #0A2B4E; /* deep navy */
+  color: #DBEBEF;            /* ice blue  */
+}
+
+/* Footer — solid deep navy */
+/* Footer — matches content background per mode, black/white text */
+[data-md-color-scheme="default"] .md-footer,
+[data-md-color-scheme="default"] .md-footer-meta {
+  background-color: var(--tt-background) !important;
+  color: #000000;
+}
+
+[data-md-color-scheme="slate"] .md-footer,
+[data-md-color-scheme="slate"] .md-footer-meta {
+  background-color: var(--tt-background) !important;
+  color: #FFFFFF;
+}
+
+.md-footer {
+  position: relative;
+}
+
+/* Footer top border — transparent to coral to transparent */
+.md-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #F75454 30%,
+    #F75454 70%,
+    transparent 100%
+  );
+}
+
+/* Header elements */
+.md-header .md-header__title,
+.md-header .md-header__topic,
+.md-header a,
+.md-header .md-header__button {
+  color: #DBEBEF; /* ice blue */
+}
+.md-header .md-search__input::placeholder {
+  color: #96B4C4; /* dusty blue */
+}
+
+/* Search — when open, use content-area colors for input and dropdown */
+.md-search__input {
+  color: #F75454; /* coral */
+}
+.md-search__input::placeholder {
+  color: var(--tt-text-secondary);
+}
+.md-search__scrollwrap {
+  background-color: var(--tt-background);
+}
+.md-search-result__item .md-search-result__link {
+  color: var(--tt-text-primary);
+}
+.md-search-result__item .md-search-result__link:hover,
+.md-search-result__item .md-search-result__link--active {
+  background-color: var(--tt-surface-elevated);
+  color: var(--tt-link);
+}
+/* Search meta — fill container, no border */
+.md-search-result__meta {
+  color: var(--tt-badge-fg);
+  background-color: var(--tt-badge-bg);
+  border: none;
+  border-radius: 0;
+  padding: 0.5em 0.8rem;
+  margin: 0;
+  display: block;
+  font-size: 0.7rem;
+}
+
+/* Searched token highlight — coral */
+.md-search-result mark,
+.md-search-result__article mark {
+  color: #F75454 !important; /* coral */
+  background-color: transparent;
+  text-decoration: underline dotted;
+  text-decoration-color: #F75454;
+}
+
+/* Search result articles — content-area colors */
+.md-search-result__article .md-search-result__title {
+  color: var(--tt-text-primary);
+}
+.md-search-result__article .md-search-result__terms {
+  color: var(--tt-text-secondary);
+}
+
+/* Search result items — white bg in light, surface bg in dark;
+   focused/hover → light blue bg */
+.md-search-result__link {
+  background-color: var(--tt-surface);
+}
+.md-search-result__link:focus,
+.md-search-result__link:hover,
+.md-search-result__link--active {
+  background-color: var(--tt-surface-elevated);
+}
+
+/* "Load more" — badge, float right, half height offset */
+.md-search-result__more > summary > div {
+  color: var(--tt-badge-fg);
+  background-color: var(--tt-badge-bg);
+  border: 1px solid var(--tt-badge-fg);
+  border-radius: 0.4rem;
+  padding: 0.3em 0.6rem;
+  font-size: 0.7rem;
+  float: right;
+  margin-top: -44px;
+  height: 22px;
+  margin-right: 4px;
+}
+.md-search-result__more > summary > div:hover {
+  color: var(--tt-badge-bg);
+  background-color: var(--tt-badge-fg);
+  border-color: var(--tt-badge-bg);
+}
+
+/* Remove default padding-left on wide screens */
+@media screen and (min-width: 60em) {
+  [dir=ltr] .md-search-result__more > summary > div {
+    padding-left: 0.6rem;
+  }
+}
+
+/* Tabs — steel navy (slightly lighter than header), coral top border fading at edges */
+.md-tabs {
+  background-color: #123C63; /* steel navy */
+  color: #DBEBEF;            /* ice blue  */
+  position: relative;
+}
+.md-tabs::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #F75454 30%,
+    #F75454 70%,
+    transparent 100%
+  );
+}
+.md-tabs a,
+.md-tabs .md-tabs__link {
+  color: #DBEBEF; /* ice blue */
+}
+.md-tabs .md-tabs__link--active {
+  color: #3BCB83; /* mint green */
+}
+
+/* Footer elements */
+/* Footer text — black in light, ice blue in dark */
+[data-md-color-scheme="default"] .md-footer a,
+[data-md-color-scheme="default"] .md-footer .md-footer-meta,
+[data-md-color-scheme="default"] .md-footer .md-footer-meta__inner {
+  color: #000000;
+}
+[data-md-color-scheme="slate"] .md-footer a,
+[data-md-color-scheme="slate"] .md-footer .md-footer-meta,
+[data-md-color-scheme="slate"] .md-footer .md-footer-meta__inner {
+  color: #DBEBEF;
+}
+/* "Made with Material for MkDocs" link — mint green */
+.md-footer-meta .md-footer-meta__inner a,
+.md-copyright a {
+  color: #3BCB83 !important; /* mint green */
+}
+
+/* Copyright text — black in light, ice blue in dark */
+[data-md-color-scheme="default"] .md-copyright {
+  color: #000000 !important;
+}
+[data-md-color-scheme="slate"] .md-copyright {
+  color: #DBEBEF !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Navigation — styled directly, bypassing Material variables.
+   ════════════════════════════════════════════════════════════════ */
+.md-nav__link {
+  color: var(--tt-text-secondary);
+}
+.md-nav__link:hover,
+.md-nav__link:focus {
+  color: var(--tt-accent);
+}
+.md-nav__item .md-nav__link--active,
+.md-nav__item .md-nav__link--active code {
+  color: var(--tt-link);
+}
+.md-nav__title {
+  color: var(--tt-text-primary);
+}
+
+/* ── Logo display based on theme (homepage) ── */
 [data-md-color-scheme="default"] .logo-dark {
   display: none;
 }
@@ -97,4 +362,81 @@
 }
 [data-md-color-scheme="slate"] .logo-light {
   display: none;
+}
+
+/* Header logo — wordmark replaces text title */
+.md-header__button.md-logo img {
+  width: auto;
+  height: 28px;
+}
+/* Header is deep navy in both modes — always show dark wordmark */
+.md-header__button.md-logo .logo-light {
+  display: none;
+}
+.md-header__button.md-logo .logo-dark {
+  display: inline-block;
+}
+/* Hide site name text — wordmark already says TomeTrove.
+   Keep the title element in the flex layout (visibility:hidden + flex:1)
+   so search, repo link, and theme toggle stay right-aligned. */
+.md-header__title {
+  visibility: hidden;
+  flex: 1;
+}
+
+/* Homepage h1 — logo replaces "Home" text */
+h1#home {
+  text-indent: -9999px;   /* hide any text */
+  height: auto;
+  border: none;
+  margin-bottom: 1.5rem;
+}
+h1#home .headerlink {
+  display: none;           /* hide permalink icon */
+}
+h1#home .logo-light,
+h1#home .logo-dark {
+  text-indent: 0;
+  margin: 0 auto;
+}
+
+/* ── Headings: mint green (same as wordmark "Trove") ── */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  color: var(--tt-accent);
+}
+
+/* ── Link styling ── */
+/* Links: deep navy (light) / baby blue (dark), bold, dotted coral underline on hover */
+.md-typeset a,
+.md-typeset a:link,
+.md-typeset a:visited {
+  font-weight: 600;
+  color: var(--tt-link) !important;
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+}
+.md-typeset a:hover,
+.md-typeset a:focus {
+  color: var(--tt-link) !important;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--tt-error);
+  text-underline-offset: 3px;
+}
+
+/* Code inside links: same color as the link, monospace font only */
+.md-typeset a code,
+.md-typeset a:link code,
+.md-typeset a:visited code {
+  color: var(--tt-link) !important;
+  background-color: transparent !important;
+}
+.md-typeset a:hover code,
+.md-typeset a:focus code {
+  color: var(--tt-link) !important;
+  background-color: transparent !important;
 }

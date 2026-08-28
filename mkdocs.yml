@@ -4,14 +4,18 @@ site_description: The definitive book list
 repo_url: https://github.com/Zolletta/TomeTrove
 repo_name: Zolletta/TomeTrove
 edit_uri: edit/main/docs/
+dev_addr: 127.0.0.1:8000
 
-docs_dir: .
-site_dir: ../mkdocs_build
+docs_dir: docs
+site_dir: mkdocs_build
 
 theme:
   name: material
   language: en
-  custom_dir: overrides
+  custom_dir: docs/overrides
+  logo: assets/images/light_wordmark.svg
+  icon:
+    search: tometrove/magnifying-glass
   font:
     text: Outfit
     code: Outfit
@@ -78,6 +82,7 @@ nav:
       - tutorials/index.md
   - "How-to guides":
       - how-to/index.md
+      - "Navigate the docs": how-to/navigate-the-docs.md
   - "Reference":
       - reference/index.md
       - "Data model": reference/data-model.md

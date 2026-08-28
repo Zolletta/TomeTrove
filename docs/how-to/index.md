@@ -2,4 +2,4 @@
 
 Task-oriented guides that solve a specific, real-world problem. Assumes some familiarity with the project.
 
-_No how-to guides yet — to be written as the project develops._
+- [Navigate the docs](navigate-the-docs.md) — how this documentation is organized and where to find what you need.

@@ -1,0 +1,6 @@
+{% block logo %}
+<a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}">
+  <img class="logo-light" src="{{ 'assets/images/light_wordmark.svg' | url }}" alt="{{ config.site_name }}">
+  <img class="logo-dark" src="{{ 'assets/images/dark_wordmark.svg' | url }}" alt="{{ config.site_name }}">
+</a>
+{% endblock %}

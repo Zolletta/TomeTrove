@@ -1,5 +1,7 @@
+<h1 id="home">
 <img class="logo-light" src="assets/images/light_logo_wordmark.svg" alt="TomeTrove" width="400">
 <img class="logo-dark" src="assets/images/dark_logo_wordmark.svg" alt="TomeTrove" width="400">
+</h1>
 
 The definitive book list — track books you want, monitor prices across stores, and get alerts when the price drops.
 
@@ -25,18 +27,4 @@ The definitive book list — track books you want, monitor prices across stores,
 
 ## Documentation
 
-This site follows the [Diátaxis](https://diataxis.fr/) framework, which organizes content into four quadrants based on the reader's intent.
-
-| Quadrant        | Path                                   | Purpose                                                                                                  | Audience                  |
-|-----------------|----------------------------------------|----------------------------------------------------------------------------------------------------------|---------------------------|
-| **Tutorials**   | [`tutorials/`](tutorials/index.md)     | Learning-oriented guides. Walk a newcomer through a task end-to-end so they learn by doing.              | New to the project        |
-| **How-to**      | [`how-to/`](how-to/index.md)           | Task-oriented guides. Solve a specific, real-world problem. Assumes some familiarity.                    | Practitioners             |
-| **Reference**   | [`reference/`](reference/index.md)     | Information-oriented. Describe the machinery neutrally — APIs, schemas, config. No explanation.          | Anyone who needs a fact   |
-| **Explanation** | [`explanation/`](explanation/index.md) | Understanding-oriented. Discourse, background, trade-offs, and **Architecture Decision Records (ADRs)**. | People who want the "why" |
-
-Highlights:
-
-- **[Architecture Decision Records](explanation/adr/index.md)** — every major design choice, from the runtime to the ontology i18n strategy.
-- **[Data model reference](reference/data-model.md)** — tables, fields, types, and constraints.
-- **[Book classification ontology](reference/ontology/index.md)** — the 9 Types, genre hierarchies, and modifier vocabularies.
-- **[Contributor guides](contributor/coding.md)** — coding style, documentation style, Cloudflare Workers reference.
+This site follows the [Diátaxis](https://diataxis.fr/) framework. See [how this documentation is organized](how-to/navigate-the-docs.md) for a guide to the four quadrants and where to find what you need.
