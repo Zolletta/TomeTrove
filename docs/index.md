@@ -1,4 +1,5 @@
-# TomeTrove
+<img class="logo-light" src="assets/images/light_logo_wordmark.svg" alt="TomeTrove" width="400">
+<img class="logo-dark" src="assets/images/dark_logo_wordmark.svg" alt="TomeTrove" width="400">
 
 The definitive book list — track books you want, monitor prices across stores, and get alerts when the price drops.
 
