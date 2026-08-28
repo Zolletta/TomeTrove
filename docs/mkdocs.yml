@@ -11,6 +11,10 @@ site_dir: ../mkdocs_build
 theme:
   name: material
   language: en
+  custom_dir: overrides
+  font:
+    text: Outfit
+    code: Outfit
   features:
     - navigation.tabs
     - navigation.sections
@@ -23,17 +27,17 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/weather-night
+        icon: tometrove/moon
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/weather-sunny
+        icon: tometrove/sun
         name: Switch to light mode
 
 markdown_extensions:

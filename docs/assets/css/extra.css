@@ -1,4 +1,91 @@
-/* Auto-switch logo based on MkDocs Material theme toggle */
+/* ── Typography: Josefin Sans for headings, Outfit for body ── */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Outfit:wght@400;500;600&display=swap');
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6,
+.md-header__title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 700;
+}
+
+/* ── TomeTrove design system colors ── */
+/* Light mode (default scheme) */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #0A396E;
+  --md-primary-fg-color--light: #41677E;
+  --md-primary-fg-color--dark: #041526;
+  --md-primary-bg-color: #EDF4F6;
+  --md-primary-bg-color--light: #F5FAF9;
+
+  --md-accent-fg-color: #186E46;
+  --md-accent-fg-color--transparent: rgba(24, 110, 70, 0.1);
+
+  --md-default-bg-color: #EDF4F6;
+  --md-default-fg-color: #0A396E;
+  --md-default-fg-color--light: #41677E;
+  --md-default-fg-color--lighter: #41677E;
+  --md-default-fg-color--lightest: #C5D9DC;
+
+  --md-code-bg-color: #F5FAF9;
+  --md-code-fg-color: #0A396E;
+
+  --md-typeset-color: #0A396E;
+  --md-typeset-a-color: #186E46;
+
+  --md-admonition-fg-color: #0A396E;
+  --md-admonition-bg-color: #F5FAF9;
+
+  /* Syntax highlighting */
+  --md-code-hl-keyword-color: #186E46;
+  --md-code-hl-string-color: #1B6A3A;
+  --md-code-hl-number-color: #D68E15;
+  --md-code-hl-comment-color: #41677E;
+  --md-code-hl-function-color: #0A396E;
+  --md-code-hl-variable-color: #41677E;
+  --md-code-hl-constant-color: #F75454;
+}
+
+/* Dark mode (slate scheme) */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #0A2B4E;
+  --md-primary-fg-color--light: #123C63;
+  --md-primary-fg-color--dark: #041526;
+  --md-primary-bg-color: #041526;
+  --md-primary-bg-color--light: #0A2B4E;
+
+  --md-accent-fg-color: #2F8A4A;
+  --md-accent-fg-color--transparent: rgba(47, 138, 74, 0.15);
+
+  --md-default-bg-color: #041526;
+  --md-default-fg-color: #EDF4F6;
+  --md-default-fg-color--light: #96B4C4;
+  --md-default-fg-color--lighter: #96B4C4;
+  --md-default-fg-color--lightest: #184D75;
+
+  --md-code-bg-color: #0A2B4E;
+  --md-code-fg-color: #EDF4F6;
+
+  --md-typeset-color: #EDF4F6;
+  --md-typeset-a-color: #2F8A4A;
+
+  --md-admonition-fg-color: #EDF4F6;
+  --md-admonition-bg-color: #0A2B4E;
+
+  /* Syntax highlighting */
+  --md-code-hl-keyword-color: #2F8A4A;
+  --md-code-hl-string-color: #259868;
+  --md-code-hl-number-color: #F0A638;
+  --md-code-hl-comment-color: #96B4C4;
+  --md-code-hl-function-color: #EDF4F6;
+  --md-code-hl-variable-color: #96B4C4;
+  --md-code-hl-constant-color: #F75454;
+}
+
+/* ── Logo display based on theme ── */
 [data-md-color-scheme="default"] .logo-dark {
   display: none;
 }
