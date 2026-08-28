@@ -1,0 +1,11 @@
+{% block logo %}
+<a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}">
+  {% if config.theme.logo %}
+  <img class="logo-light" src="{{ config.theme.logo | url }}" alt="{{ config.site_name }}">
+  <img class="logo-dark" src="assets/images/dark_logo.svg" alt="{{ config.site_name }}">
+  {% else %}
+  {% set icon = config.theme.icon.logo %}
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="{{ icon[:1] == ':' and icon[1:] or icon }}"/></svg>
+  {% endif %}
+</a>
+{% endblock %}

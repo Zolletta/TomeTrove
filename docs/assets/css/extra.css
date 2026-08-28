@@ -15,11 +15,11 @@
 /* ── TomeTrove design system colors ── */
 /* Light mode (default scheme) */
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #0A396E;
-  --md-primary-fg-color--light: #41677E;
-  --md-primary-fg-color--dark: #041526;
-  --md-primary-bg-color: #EDF4F6;
-  --md-primary-bg-color--light: #F5FAF9;
+  --md-primary-fg-color: #FFFFFF;
+  --md-primary-fg-color--light: #F5FAF9;
+  --md-primary-fg-color--dark: #C5D9DC;
+  --md-primary-bg-color: #0A396E;
+  --md-primary-bg-color--light: #41677E;
 
   --md-accent-fg-color: #186E46;
   --md-accent-fg-color--transparent: rgba(24, 110, 70, 0.1);
@@ -39,6 +39,14 @@
   --md-admonition-fg-color: #0A396E;
   --md-admonition-bg-color: #F5FAF9;
 
+  /* Header & footer */
+  --md-header-fg-color: #0A396E;
+  --md-header-fg-color--light: #41677E;
+  --md-header-bg-color: #FFFFFF;
+  --md-footer-fg-color: #41677E;
+  --md-footer-fg-color--light: #0A396E;
+  --md-footer-bg-color: #FFFFFF;
+
   /* Syntax highlighting */
   --md-code-hl-keyword-color: #186E46;
   --md-code-hl-string-color: #1B6A3A;
@@ -54,8 +62,8 @@
   --md-primary-fg-color: #0A2B4E;
   --md-primary-fg-color--light: #123C63;
   --md-primary-fg-color--dark: #041526;
-  --md-primary-bg-color: #041526;
-  --md-primary-bg-color--light: #0A2B4E;
+  --md-primary-bg-color: #EDF4F6;
+  --md-primary-bg-color--light: #96B4C4;
 
   --md-accent-fg-color: #2F8A4A;
   --md-accent-fg-color--transparent: rgba(47, 138, 74, 0.15);
@@ -74,6 +82,14 @@
 
   --md-admonition-fg-color: #EDF4F6;
   --md-admonition-bg-color: #0A2B4E;
+
+  /* Header & footer */
+  --md-header-fg-color: #EDF4F6;
+  --md-header-fg-color--light: #96B4C4;
+  --md-header-bg-color: #0A2B4E;
+  --md-footer-fg-color: #96B4C4;
+  --md-footer-fg-color--light: #EDF4F6;
+  --md-footer-bg-color: #0A2B4E;
 
   /* Syntax highlighting */
   --md-code-hl-keyword-color: #2F8A4A;
@@ -97,4 +113,28 @@
 }
 [data-md-color-scheme="slate"] .logo-light {
   display: none;
+}
+
+/* ── Header & footer styling ── */
+.md-header {
+  box-shadow: 0 1px 0 0 var(--md-default-fg-color--lightest);
+}
+
+.md-footer {
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* Header logo */
+.md-header__button.md-logo img {
+  width: auto;
+  height: 28px;
+}
+.md-header__button.md-logo .logo-dark {
+  display: none;
+}
+[data-md-color-scheme="slate"] .md-header__button.md-logo .logo-light {
+  display: none;
+}
+[data-md-color-scheme="slate"] .md-header__button.md-logo .logo-dark {
+  display: inline-block;
 }
