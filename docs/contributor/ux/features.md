@@ -40,6 +40,7 @@ Features grouped by subject, then by type.
 |---|-------------------------------------------------------------------------------------------------------|----------|----------------|--------------|
 | 4 | Export your data (JSON, [ADR 0021](../../explanation/adr/0021-data-erasure-and-export.md))            | Mini-SPA | export-data    | N/A          |
 | 5 | Delete account (physical deletion, [ADR 0021](../../explanation/adr/0021-data-erasure-and-export.md)) | Mini-SPA | delete-account | N/A          |
+| 41 | Personal area link — header link to the user's personal area; for now it navigates to the `preferences` page (#6) | Button   | personal-area-link | header   |
 
 #### Preferences
 
@@ -102,7 +103,7 @@ Features grouped by subject, then by type.
 | 32 | Homepage — login/landing when unauthenticated; dashboard when authenticated. Aggregates summary components: recent wishes, watchlist overview, 3 most recent sharable lists, latest alerts. Click-through to dedicated pages for the full view. | Mini-SPA | homepage     | N/A          |
 | 33 | Privacy (view privacy policy, [PRIVACY](https://github.com/Zolletta/TomeTrove/blob/main/PRIVACY.md))                                                                                                                                            | Mini-SPA | privacy      | N/A          |
 | 34 | License (view license, [LICENSE](https://github.com/Zolletta/TomeTrove/blob/main/LICENSE))                                                                                                                                                      | Mini-SPA | license      | N/A          |
-| 2  | Header — global widget present on every authenticated page; hosts `logout`, `theme-toggle`, `notifications`, `search-wishes`                                                                                                                    | Widget   | header       | \<all\>      |
+| 2  | Header — global widget present on every authenticated page; hosts `logout`, `theme-toggle`, `notifications`, `search-wishes`, `personal-area-link`                                                                                             | Widget   | header       | \<all\>      |
 | 36 | Footer — global widget present on every page; hosts links to `privacy` and `license`                                                                                                                                                            | Widget   | footer       | \<all\>      |
 | 37 | Link to privacy page                                                                                                                                                                                                                            | Button   | privacy-link | footer       |
 | 38 | Link to license page                                                                                                                                                                                                                            | Button   | license-link | footer       |
@@ -128,6 +129,7 @@ graph LR
     root --> Account[Account]
     Account --> export[export-data<br/>Mini-SPA]
     Account --> del[delete-account<br/>Mini-SPA]
+    Account --> palink[personal-area-link<br/>Button]
 
     root --> Prefs[Preferences]
     Prefs --> prefpage[preferences<br/>Mini-SPA]
@@ -187,7 +189,7 @@ graph LR
     classDef meta stroke:#000000,stroke-width:2px,fill:none
 
     class Auth,login,logout auth
-    class Account,export,del account
+    class Account,export,del,palink account
     class Prefs,prefpage,currency,country,threshold,reading,formats,theme prefs
     class Wishes,listw,importw,addw,searchw,searchr,delw wishes
     class Sharing,creates,views,sharedl,renames,previews,removes,deletes,publicv sharing
@@ -228,6 +230,7 @@ graph TD
     header --> theme[theme-toggle]
     header --> searchw[search-wishes]
     header --> notiflist[notifications]
+    header --> palink[personal-area-link]
 
     %% Footer contents
     footer --> privlink[privacy-link]
@@ -278,6 +281,9 @@ graph TD
     %% on-demand-fetch navigates to wish-detail
     ondemand -.->|navigates to| wishd
 
+    %% personal-area-link navigates to preferences (for now)
+    palink -.->|navigates to| prefpage
+
     classDef auth stroke:#e6194b,stroke-width:2px,fill:none
     classDef account stroke:#3cb44b,stroke-width:2px,fill:none
     classDef prefs stroke:#ffe119,stroke-width:2px,fill:none
@@ -288,7 +294,7 @@ graph TD
     classDef meta stroke:#000000,stroke-width:2px,fill:none
 
     class login,logout auth
-    class export,del account
+    class export,del,palink account
     class prefpage,currency,country,threshold,reading,formats,theme prefs
     class listw,importw,addw,searchw,searchr,delw wishes
     class creates,views,sharedl,renames,previews,removes,deletes,publicv sharing
