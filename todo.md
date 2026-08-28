@@ -28,54 +28,54 @@ every asset created or reworked.
 
 ### 0. Foundations
 
-- [ ] Spacing variables (space-4 … space-64) as a Figma variable collection
-- [ ] Border radius variables (radius-4 … radius-full) as a Figma variable collection
+- [x] Spacing variables (space-4 … space-64) as a Figma variable collection (`Spacing`, 110:3…110:10)
+- [x] Border radius variables (radius-4 … radius-full) as a Figma variable collection (`Radius`, 110:12…110:16)
 - [x] Text styles — already present (Typography/Display … Overline)
-- [ ] Effect styles (elevation shadows)
+- [x] Effect styles — Elevation/1, Elevation/2, Elevation/3
 
 ### 1. Phosphor SVG icon components (replaces the Icons STRING variable collection)
 
-- [ ] `icon/sun`
-- [ ] `icon/moon`
-- [ ] `icon/magnifying-glass`
-- [ ] `icon/bell`
-- [ ] `icon/trend-down`
-- [ ] `icon/sign-out`
-- [ ] `icon/coins-money` (compound currency icon)
-- [ ] `icon/globe`
-- [ ] `icon/caret-down`
-- [ ] `icon/percent`
-- [ ] `icon/star`
-- [ ] `icon/dots-six-vertical`
-- [ ] `icon/book-open`
-- [ ] `icon/barcode`
-- [ ] `icon/x`
-- [ ] `icon/check`
+- [x] `icon/sun` (111:22)
+- [x] `icon/moon` (111:26)
+- [x] `icon/magnifying-glass` (111:31)
+- [x] `icon/bell` (111:36)
+- [x] `icon/trend-down` (111:41)
+- [x] `icon/sign-out` (111:47)
+- [x] `icon/coins-money` (compound currency icon) (111:66)
+- [x] `icon/globe` (111:73)
+- [x] `icon/caret-down` (111:77)
+- [x] `icon/percent` (111:83)
+- [x] `icon/star` (111:87)
+- [x] `icon/dots-six-vertical` (111:96)
+- [x] `icon/book-open` (111:101)
+- [x] `icon/barcode` (111:112)
+- [x] `icon/x` (111:117)
+- [x] `icon/check` (111:121)
 - [ ] Delete the old Icons STRING variable collection (Unicode chars)
 
 ### 2. Widgets — rework with Phosphor icon instances
 
-- [ ] `theme-toggle` (68:2) → icon/sun + icon/moon
-- [ ] `search-wishes` (72:2) → icon/magnifying-glass
-- [ ] `notifications` (73:2) → icon/bell
-- [ ] `notifications-dropdown` (75:2) → icon/trend-down ×3; fix frame sizing
-- [ ] `header` (76:2) → icon/sign-out; use wordmark logo from Logos - Definitive
-- [ ] `footer` (77:10) → no icons; verify bindings
-- [ ] Remove duplicate currency-selector 78:10 / country-selector 78:16
+- [x] `theme-toggle` (68:2) → icon/sun + icon/moon (bound to text-on-accent)
+- [x] `search-wishes` (72:2) → icon/magnifying-glass; Inter → Outfit
+- [x] `notifications` (73:2) → icon/bell; badge count bound to text-on-accent; Inter → Outfit
+- [x] `notifications-dropdown` (75:2) → icon/trend-down ×3 (bound to success); fixed height-1 frame sizing + FILL rows; removed hardcoded #fff frame fills; Inter → Outfit; Elevation/2
+- [x] `header` (76:2) → icon/sign-out; text logo replaced with `logo/wordmark` (114:14) instance built from Logos - Definitive (Tome bound to semantic text-primary so it adapts to Light/Dark); fixed logout frame width-1; removed hardcoded #fff section fills; Inter → Outfit
+- [x] `footer` (77:10) → no icons; Inter → Outfit
+- [x] Removed duplicate currency-selector 78:10 / country-selector 78:16 (verified uninstantiated)
 
 ### 3. Components
 
-- [ ] `currency-selector` (79:10) → icon/coins-money + icon/caret-down; fix frame sizing
-- [ ] `country-selector` (79:16) → icon/globe + icon/caret-down; fix frame sizing
-- [ ] `alert-threshold` — percentage input (0-100, default 5), icon/percent
-- [ ] `reading-languages` — language × ontology-Type checkbox matrix, icon/star for preferred
-- [ ] `accepted-formats` — sortable list (used, new, ebook), icon/dots-six-vertical handles
-- [ ] `add-wish` — title/ISBN segmented control (icon/book-open + icon/barcode), autocomplete results
-- [ ] `rename-share` — overlay form, Save (icon/check) / Cancel (icon/x)
+- [x] `currency-selector` (79:10) → icon/coins-money + icon/caret-down; fixed frame sizing; Inter → Outfit
+- [x] `country-selector` (79:16) → icon/globe + icon/caret-down; fixed frame sizing; Inter → Outfit
+- [x] `alert-threshold` (117:88) — percentage input (default 5), icon/percent
+- [x] `reading-languages` (118:113) — language rows with Type constraints, icon/check + icon/star (accent = preferred)
+- [x] `accepted-formats` (117:97) — sortable list (used, new, ebook) with rank, icon/dots-six-vertical handles
+- [x] `add-wish` (118:134) — Title/ISBN segmented control (icon/book-open + icon/barcode), search box, autocomplete results with "Is this the book?" prompt
+- [x] `rename-share` (118:169) — overlay form (Elevation/3), Save (icon/check, accent) / Cancel (icon/x)
 
 ### 4. Mini-SPA composition
 
-- [ ] Compose a mini-SPA page from widgets + components (header, footer, preference components)
+- [x] Composed `mini-spa/preferences` (119:141) — header + 3-step onboarding wizard cards (step 1: currency/country/alert-threshold, step 2: reading-languages, step 3: accepted-formats, per user-journeys/onboarding.md) + footer
 
 ### 5. Documentation & validation
 
@@ -87,3 +87,9 @@ every asset created or reworked.
 ## Log
 
 - 2026-08-28: session start; audited Figma file and repo; created this branch.
+- 2026-08-28: created Spacing + Radius variable collections and Elevation effect styles.
+- 2026-08-28: created all 16 `icon/*` Phosphor components (Icons section 111:10), strokes bound to semantic text-primary by default.
+- 2026-08-28: created `logo/wordmark` (114:14) from Logos - Definitive with mode-aware "Tome" fill.
+- 2026-08-28: reworked all 7 existing widgets/components with Phosphor icon instances, Outfit typography, and frame-sizing fixes; deleted duplicate selectors.
+- 2026-08-28: built alert-threshold, accepted-formats, reading-languages, add-wish, rename-share.
+- 2026-08-28: composed mini-spa/preferences (1200px, header + wizard + footer).
