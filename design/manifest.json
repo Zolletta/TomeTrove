@@ -13,434 +13,496 @@
       "id": "365:2372",
       "name": "watchlist / default",
       "theme": "light",
-      "slug": "watchlist-default"
+      "slug": "watchlist-default",
+      "contextJson": "context/watchlist/watchlist-default-light.json"
     },
     {
       "section": "watchlist",
       "id": "494:4093",
       "name": "watchlist / default",
       "theme": "dark",
-      "slug": "watchlist-default"
+      "slug": "watchlist-default",
+      "contextJson": "context/watchlist/watchlist-default-dark.json"
     },
     {
       "section": "my-wishes",
       "id": "263:879",
       "name": "my wishes / default",
       "theme": "light",
-      "slug": "my-wishes-default"
+      "slug": "my-wishes-default",
+      "contextJson": "context/my-wishes/my-wishes-default-light.json"
     },
     {
       "section": "my-wishes",
       "id": "314:835",
       "name": "my wishes / search results",
       "theme": "light",
-      "slug": "my-wishes-search-results"
+      "slug": "my-wishes-search-results",
+      "contextJson": "context/my-wishes/my-wishes-search-results-light.json"
     },
     {
       "section": "my-wishes",
       "id": "494:4064",
       "name": "my wishes / default",
       "theme": "dark",
-      "slug": "my-wishes-default"
+      "slug": "my-wishes-default",
+      "contextJson": "context/my-wishes/my-wishes-default-dark.json"
     },
     {
       "section": "my-wishes",
       "id": "494:4078",
       "name": "my wishes / search results",
       "theme": "dark",
-      "slug": "my-wishes-search-results"
+      "slug": "my-wishes-search-results",
+      "contextJson": "context/my-wishes/my-wishes-search-results-dark.json"
     },
     {
       "section": "homepage",
       "id": "263:741",
       "name": "homepage-not-logged-light",
       "theme": "light",
-      "slug": "homepage-not-logged"
+      "slug": "homepage-not-logged",
+      "contextJson": "context/homepage/homepage-not-logged-light.json"
     },
     {
       "section": "homepage",
       "id": "494:2612",
       "name": "homepage-not-logged-dark",
       "theme": "dark",
-      "slug": "homepage-not-logged"
+      "slug": "homepage-not-logged",
+      "contextJson": "context/homepage/homepage-not-logged-dark.json"
     },
     {
       "section": "alerts",
       "id": "229:70",
       "name": "alert-overlay-light",
       "theme": "light",
-      "slug": "alert-overlay"
+      "slug": "alert-overlay",
+      "contextJson": "context/alerts/alert-overlay-light.json"
     },
     {
       "section": "alerts",
       "id": "494:3547",
       "name": "alert-overlay-dark",
       "theme": "dark",
-      "slug": "alert-overlay"
+      "slug": "alert-overlay",
+      "contextJson": "context/alerts/alert-overlay-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "236:626",
       "name": "user-preference/all-closed",
       "theme": "light",
-      "slug": "user-preferences-all-closed"
+      "slug": "user-preferences-all-closed",
+      "contextJson": "context/user-preferences/user-preferences-all-closed-light.json"
     },
     {
       "section": "user-preferences",
       "id": "236:729",
       "name": "user-preference/country",
       "theme": "light",
-      "slug": "user-preferences-country"
+      "slug": "user-preferences-country",
+      "contextJson": "context/user-preferences/user-preferences-country-light.json"
     },
     {
       "section": "user-preferences",
       "id": "242:562",
       "name": "user-preference/theme",
       "theme": "light",
-      "slug": "user-preferences-theme"
+      "slug": "user-preferences-theme",
+      "contextJson": "context/user-preferences/user-preferences-theme-light.json"
     },
     {
       "section": "user-preferences",
       "id": "242:689",
       "name": "user-preference/format",
       "theme": "light",
-      "slug": "user-preferences-format"
+      "slug": "user-preferences-format",
+      "contextJson": "context/user-preferences/user-preferences-format-light.json"
     },
     {
       "section": "user-preferences",
       "id": "242:836",
       "name": "user-preferences/alert-thresold",
       "theme": "light",
-      "slug": "user-preferences-alert-threshold"
+      "slug": "user-preferences-alert-threshold",
+      "contextJson": "context/user-preferences/user-preferences-alert-threshold-light.json"
     },
     {
       "section": "user-preferences",
       "id": "242:963",
       "name": "user-preferences/reading-languages",
       "theme": "light",
-      "slug": "user-preferences-reading-languages"
+      "slug": "user-preferences-reading-languages",
+      "contextJson": "context/user-preferences/user-preferences-reading-languages-light.json"
     },
     {
       "section": "user-preferences",
       "id": "488:2557",
       "name": "user-preference/download-data/request",
       "theme": "light",
-      "slug": "user-preferences-download-data-request"
+      "slug": "user-preferences-download-data-request",
+      "contextJson": "context/user-preferences/user-preferences-download-data-request-light.json"
     },
     {
       "section": "user-preferences",
       "id": "489:4267",
       "name": "user-preference/download-data/waiting",
       "theme": "light",
-      "slug": "user-preferences-download-data-waiting"
+      "slug": "user-preferences-download-data-waiting",
+      "contextJson": "context/user-preferences/user-preferences-download-data-waiting-light.json"
     },
     {
       "section": "user-preferences",
       "id": "489:4385",
       "name": "user-preference/download-data/data-ready",
       "theme": "light",
-      "slug": "user-preferences-download-data-ready"
+      "slug": "user-preferences-download-data-ready",
+      "contextJson": "context/user-preferences/user-preferences-download-data-ready-light.json"
     },
     {
       "section": "user-preferences",
       "id": "488:2664",
       "name": "user-preference/delete-account",
       "theme": "light",
-      "slug": "user-preferences-delete-account"
+      "slug": "user-preferences-delete-account",
+      "contextJson": "context/user-preferences/user-preferences-delete-account-light.json"
     },
     {
       "section": "user-preferences",
       "id": "494:2626",
       "name": "user-preference/all-closed",
       "theme": "dark",
-      "slug": "user-preferences-all-closed"
+      "slug": "user-preferences-all-closed",
+      "contextJson": "context/user-preferences/user-preferences-all-closed-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:2693",
       "name": "user-preference/country",
       "theme": "dark",
-      "slug": "user-preferences-country"
+      "slug": "user-preferences-country",
+      "contextJson": "context/user-preferences/user-preferences-country-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:2761",
       "name": "user-preference/theme",
       "theme": "dark",
-      "slug": "user-preferences-theme"
+      "slug": "user-preferences-theme",
+      "contextJson": "context/user-preferences/user-preferences-theme-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:2838",
       "name": "user-preference/format",
       "theme": "dark",
-      "slug": "user-preferences-format"
+      "slug": "user-preferences-format",
+      "contextJson": "context/user-preferences/user-preferences-format-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:2907",
       "name": "user-preferences/alert-thresold",
       "theme": "dark",
-      "slug": "user-preferences-alert-threshold"
+      "slug": "user-preferences-alert-threshold",
+      "contextJson": "context/user-preferences/user-preferences-alert-threshold-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:2984",
       "name": "user-preferences/reading-languages",
       "theme": "dark",
-      "slug": "user-preferences-reading-languages"
+      "slug": "user-preferences-reading-languages",
+      "contextJson": "context/user-preferences/user-preferences-reading-languages-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:3091",
       "name": "user-preference/download-data/request",
       "theme": "dark",
-      "slug": "user-preferences-download-data-request"
+      "slug": "user-preferences-download-data-request",
+      "contextJson": "context/user-preferences/user-preferences-download-data-request-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:3202",
       "name": "user-preference/download-data/waiting",
       "theme": "dark",
-      "slug": "user-preferences-download-data-waiting"
+      "slug": "user-preferences-download-data-waiting",
+      "contextJson": "context/user-preferences/user-preferences-download-data-waiting-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:3312",
       "name": "user-preference/download-data/data-ready",
       "theme": "dark",
-      "slug": "user-preferences-download-data-ready"
+      "slug": "user-preferences-download-data-ready",
+      "contextJson": "context/user-preferences/user-preferences-download-data-ready-dark.json"
     },
     {
       "section": "user-preferences",
       "id": "494:3422",
       "name": "user-preference/delete-account",
       "theme": "dark",
-      "slug": "user-preferences-delete-account"
+      "slug": "user-preferences-delete-account",
+      "contextJson": "context/user-preferences/user-preferences-delete-account-dark.json"
     },
     {
       "section": "wish-detail",
       "id": "364:2033",
       "name": "wish detail / empty (no data)",
       "theme": "light",
-      "slug": "wish-detail-empty"
+      "slug": "wish-detail-empty",
+      "contextJson": "context/wish-detail/wish-detail-empty-light.json"
     },
     {
       "section": "wish-detail",
       "id": "367:2429",
       "name": "wish detail / delete confirmation",
       "theme": "light",
-      "slug": "wish-detail-delete-confirmation"
+      "slug": "wish-detail-delete-confirmation",
+      "contextJson": "context/wish-detail/wish-detail-delete-confirmation-light.json"
     },
     {
       "section": "wish-detail",
       "id": "479:482",
       "name": "wish detail / fetching quotes",
       "theme": "light",
-      "slug": "wish-detail-fetching-quotes"
+      "slug": "wish-detail-fetching-quotes",
+      "contextJson": "context/wish-detail/wish-detail-fetching-quotes-light.json"
     },
     {
       "section": "wish-detail",
       "id": "479:519",
       "name": "wish detail / watched (with data)",
       "theme": "light",
-      "slug": "wish-detail-watched"
+      "slug": "wish-detail-watched",
+      "contextJson": "context/wish-detail/wish-detail-watched-light.json"
     },
     {
       "section": "wish-detail",
       "id": "479:556",
       "name": "wish detail / unwatched (sparse data)",
       "theme": "light",
-      "slug": "wish-detail-unwatched"
+      "slug": "wish-detail-unwatched",
+      "contextJson": "context/wish-detail/wish-detail-unwatched-light.json"
     },
     {
       "section": "wish-detail",
       "id": "494:3576",
       "name": "wish detail / empty (no data)",
       "theme": "dark",
-      "slug": "wish-detail-empty"
+      "slug": "wish-detail-empty",
+      "contextJson": "context/wish-detail/wish-detail-empty-dark.json"
     },
     {
       "section": "wish-detail",
       "id": "494:3613",
       "name": "wish detail / delete confirmation",
       "theme": "dark",
-      "slug": "wish-detail-delete-confirmation"
+      "slug": "wish-detail-delete-confirmation",
+      "contextJson": "context/wish-detail/wish-detail-delete-confirmation-dark.json"
     },
     {
       "section": "wish-detail",
       "id": "494:3660",
       "name": "wish detail / fetching quotes",
       "theme": "dark",
-      "slug": "wish-detail-fetching-quotes"
+      "slug": "wish-detail-fetching-quotes",
+      "contextJson": "context/wish-detail/wish-detail-fetching-quotes-dark.json"
     },
     {
       "section": "wish-detail",
       "id": "494:3748",
       "name": "wish detail / watched (with data)",
       "theme": "dark",
-      "slug": "wish-detail-watched"
+      "slug": "wish-detail-watched",
+      "contextJson": "context/wish-detail/wish-detail-watched-dark.json"
     },
     {
       "section": "wish-detail",
       "id": "494:3882",
       "name": "wish detail / unwatched (sparse data)",
       "theme": "dark",
-      "slug": "wish-detail-unwatched"
+      "slug": "wish-detail-unwatched",
+      "contextJson": "context/wish-detail/wish-detail-unwatched-dark.json"
     },
     {
       "section": "shared-lists",
       "id": "414:1932",
       "name": "before-adding",
       "theme": "light",
-      "slug": "shared-lists-before-adding"
+      "slug": "shared-lists-before-adding",
+      "contextJson": "context/shared-lists/shared-lists-before-adding-light.json"
     },
     {
       "section": "shared-lists",
       "id": "420:1853",
       "name": "search-autocomplete-open",
       "theme": "light",
-      "slug": "shared-lists-search-autocomplete-open"
+      "slug": "shared-lists-search-autocomplete-open",
+      "contextJson": "context/shared-lists/shared-lists-search-autocomplete-open-light.json"
     },
     {
       "section": "shared-lists",
       "id": "420:1974",
       "name": "book-selected-add-to-list",
       "theme": "light",
-      "slug": "shared-lists-book-selected"
+      "slug": "shared-lists-book-selected",
+      "contextJson": "context/shared-lists/shared-lists-book-selected-light.json"
     },
     {
       "section": "shared-lists",
       "id": "423:824",
       "name": "book-added-overlay",
       "theme": "light",
-      "slug": "shared-lists-book-added-overlay"
+      "slug": "shared-lists-book-added-overlay",
+      "contextJson": "context/shared-lists/shared-lists-book-added-overlay-light.json"
     },
     {
       "section": "shared-lists",
       "id": "423:893",
       "name": "edit-wishlist-overlay",
       "theme": "light",
-      "slug": "shared-lists-edit-wishlist-overlay"
+      "slug": "shared-lists-edit-wishlist-overlay",
+      "contextJson": "context/shared-lists/shared-lists-edit-wishlist-overlay-light.json"
     },
     {
       "section": "shared-lists",
       "id": "539:4789",
       "name": "shared-wishes-items",
       "theme": "light",
-      "slug": "shared-lists-public-view"
+      "slug": "shared-lists-public-view",
+      "contextJson": "context/shared-lists/shared-lists-public-view-light.json"
     },
     {
       "section": "shared-lists",
       "id": "494:4284",
       "name": "before-adding",
       "theme": "dark",
-      "slug": "shared-lists-before-adding"
+      "slug": "shared-lists-before-adding",
+      "contextJson": "context/shared-lists/shared-lists-before-adding-dark.json"
     },
     {
       "section": "shared-lists",
       "id": "494:4356",
       "name": "search-autocomplete-open",
       "theme": "dark",
-      "slug": "shared-lists-search-autocomplete-open"
+      "slug": "shared-lists-search-autocomplete-open",
+      "contextJson": "context/shared-lists/shared-lists-search-autocomplete-open-dark.json"
     },
     {
       "section": "shared-lists",
       "id": "494:4415",
       "name": "book-selected-add-to-list",
       "theme": "dark",
-      "slug": "shared-lists-book-selected"
+      "slug": "shared-lists-book-selected",
+      "contextJson": "context/shared-lists/shared-lists-book-selected-dark.json"
     },
     {
       "section": "shared-lists",
       "id": "494:4473",
       "name": "book-added-overlay",
       "theme": "dark",
-      "slug": "shared-lists-book-added-overlay"
+      "slug": "shared-lists-book-added-overlay",
+      "contextJson": "context/shared-lists/shared-lists-book-added-overlay-dark.json"
     },
     {
       "section": "shared-lists",
       "id": "494:4532",
       "name": "edit-wishlist-overlay",
       "theme": "dark",
-      "slug": "shared-lists-edit-wishlist-overlay"
+      "slug": "shared-lists-edit-wishlist-overlay",
+      "contextJson": "context/shared-lists/shared-lists-edit-wishlist-overlay-dark.json"
     },
     {
       "section": "shared-lists",
       "id": "539:4849",
       "name": "shared-wishes-items",
       "theme": "dark",
-      "slug": "shared-lists-public-view"
+      "slug": "shared-lists-public-view",
+      "contextJson": "context/shared-lists/shared-lists-public-view-dark.json"
     },
     {
       "section": "import-wishes",
       "id": "451:1475",
       "name": "import-wishes / upload",
       "theme": "light",
-      "slug": "import-wishes-upload"
+      "slug": "import-wishes-upload",
+      "contextJson": "context/import-wishes/import-wishes-upload-light.json"
     },
     {
       "section": "import-wishes",
       "id": "451:1550",
       "name": "import-wishes / reconciling",
       "theme": "light",
-      "slug": "import-wishes-reconciling"
+      "slug": "import-wishes-reconciling",
+      "contextJson": "context/import-wishes/import-wishes-reconciling-light.json"
     },
     {
       "section": "import-wishes",
       "id": "451:1646",
       "name": "import-wishes / summary",
       "theme": "light",
-      "slug": "import-wishes-summary"
+      "slug": "import-wishes-summary",
+      "contextJson": "context/import-wishes/import-wishes-summary-light.json"
     },
     {
       "section": "import-wishes",
       "id": "494:3967",
       "name": "import-wishes / upload",
       "theme": "dark",
-      "slug": "import-wishes-upload"
+      "slug": "import-wishes-upload",
+      "contextJson": "context/import-wishes/import-wishes-upload-dark.json"
     },
     {
       "section": "import-wishes",
       "id": "494:4000",
       "name": "import-wishes / reconciling",
       "theme": "dark",
-      "slug": "import-wishes-reconciling"
+      "slug": "import-wishes-reconciling",
+      "contextJson": "context/import-wishes/import-wishes-reconciling-dark.json"
     },
     {
       "section": "import-wishes",
       "id": "494:4037",
       "name": "import-wishes / summary",
       "theme": "dark",
-      "slug": "import-wishes-summary"
+      "slug": "import-wishes-summary",
+      "contextJson": "context/import-wishes/import-wishes-summary-dark.json"
     },
     {
       "section": "privacy-policy",
       "id": "328:938",
       "name": "privacy-policy-light",
       "theme": "light",
-      "slug": "privacy-policy"
+      "slug": "privacy-policy",
+      "contextJson": "context/privacy-policy/privacy-policy-light.json"
     },
     {
       "section": "privacy-policy",
       "id": "494:4174",
       "name": "privacy-policy-dark",
       "theme": "dark",
-      "slug": "privacy-policy"
+      "slug": "privacy-policy",
+      "contextJson": "context/privacy-policy/privacy-policy-dark.json"
     },
     {
       "section": "license-agreement",
       "id": "328:1018",
       "name": "license-agreement-light",
       "theme": "light",
-      "slug": "license-agreement"
+      "slug": "license-agreement",
+      "contextJson": "context/license-agreement/license-agreement-light.json"
     },
     {
       "section": "license-agreement",
       "id": "494:4230",
       "name": "license-agreement-dark",
       "theme": "dark",
-      "slug": "license-agreement"
+      "slug": "license-agreement",
+      "contextJson": "context/license-agreement/license-agreement-dark.json"
     }
   ],
   "sections": [
@@ -578,7 +640,7 @@
         "screenshots/components/form-type-toggle-unselected-dark.png",
         "screenshots/components/form-type-toggle-unselected-hover-dark.png"
       ],
-      "modeVariants": "selected/hover × light/dark variants stacked in the source frame; captured separately"
+      "modeVariants": "selected/hover \u00d7 light/dark variants stacked in the source frame; captured separately"
     },
     {
       "id": "341:762",
@@ -665,7 +727,7 @@
         "screenshots/components/header-button-theme-toggle-light-default.png",
         "screenshots/components/header-button-theme-toggle-light-hover.png"
       ],
-      "modeVariants": "mode × state variants laid out in the source frame; captured separately"
+      "modeVariants": "mode \u00d7 state variants laid out in the source frame; captured separately"
     },
     {
       "id": "317:922",
@@ -683,7 +745,10 @@
         "screenshots/components/header-light.png",
         "screenshots/components/header-dark.png"
       ],
-      "modeVariants": "light and dark variants stacked in the source frame; captured separately"
+      "modeVariants": "light and dark variants stacked in the source frame; captured separately",
+      "contextJson": "context/components/header.json",
+      "exportedFromVersion": "2399505405459241420",
+      "exportedFromVersionLabel": "ready"
     },
     {
       "id": "187:458",
@@ -694,7 +759,10 @@
         "screenshots/components/logo-full-light.png",
         "screenshots/components/logo-full-dark.png"
       ],
-      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files"
+      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files",
+      "contextJson": "context/components/logo-full.json",
+      "exportedFromVersion": "2399505405459241420",
+      "exportedFromVersionLabel": "ready"
     },
     {
       "id": "187:489",
@@ -705,7 +773,10 @@
         "screenshots/components/logo-mark-light.png",
         "screenshots/components/logo-mark-dark.png"
       ],
-      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files"
+      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files",
+      "contextJson": "context/components/logo-mark.json",
+      "exportedFromVersion": "2399505405459241420",
+      "exportedFromVersionLabel": "ready"
     },
     {
       "id": "187:500",
@@ -716,7 +787,10 @@
         "screenshots/components/logo-wordmark-light.png",
         "screenshots/components/logo-wordmark-dark.png"
       ],
-      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files"
+      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files",
+      "contextJson": "context/components/logo-wordmark.json",
+      "exportedFromVersion": "2399505405459241420",
+      "exportedFromVersionLabel": "ready"
     },
     {
       "id": "464:86",
@@ -815,7 +889,7 @@
         "screenshots/components/notification-warning-light.png",
         "screenshots/components/notification-warning-dark.png"
       ],
-      "modeVariants": "type × mode variants stacked in the source frame; captured separately"
+      "modeVariants": "type \u00d7 mode variants stacked in the source frame; captured separately"
     },
     {
       "id": "132:298",
@@ -1191,5 +1265,18 @@
     "motion": "not exportable via MCP (requires a live selection in the Figma desktop app); the design is static - interaction behavior is specified in notes/behavior-notes.md",
     "codeConnect": "not available on the current Figma plan; no mappings exist",
     "libraries": "only public community kits were subscribed to the file; nothing custom to export"
+  },
+  "figmaFile": {
+    "key": "z6yz2kWXO9D8gahuOyYW8J",
+    "name": "TomeTrove Design System",
+    "lastModified": "2026-09-20T17:05:10Z",
+    "latestVersionId": "2401335830333378134",
+    "latestVersionCreatedAt": "2026-09-20T16:48:41Z",
+    "restApiExport": {
+      "exportedAt": "2026-09-20",
+      "fullFile": "metadata/figma-file.json",
+      "versions": "metadata/figma-versions.json",
+      "perScreenNodes": "context/<section>/<slug>-<theme>.json"
+    }
   }
 }

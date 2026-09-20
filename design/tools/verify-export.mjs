@@ -6,6 +6,7 @@
  *  3. no temporary Figma asset URLs remain in any exported file
  *  4. every asset referenced by an .assets.json exists locally and is non-empty
  *  5. all icon SVGs are well-formed (start with "<svg" or "<?xml")
+ *  6. every manifest contextJson exists, parses, and matches its entry (nodeId, slug, theme)
  * Exit code 0 = all checks pass.
  */
 import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
@@ -46,8 +47,37 @@ function checkPng(relPath, label) {
   }
 }
 
+/** verify a REST context JSON exists, parses, and matches the expected node */
+function checkContextJson(relPath, expect = {}) {
+  const p = join(root, relPath);
+  if (!existsSync(p)) {
+    errors.push(`missing contextJson: ${p}`);
+    return;
+  }
+  let data;
+  try {
+    data = JSON.parse(readFileSync(p, "utf8"));
+  } catch {
+    errors.push(`contextJson does not parse: ${p}`);
+    return;
+  }
+  if (!data.document || typeof data.document !== "object") {
+    errors.push(`contextJson has no document node: ${p}`);
+    return;
+  }
+  if (expect.id && data.nodeId !== expect.id) errors.push(`contextJson nodeId mismatch: ${p} (${data.nodeId} != ${expect.id})`);
+  if (expect.id && data.document.id !== expect.id) errors.push(`contextJson document.id mismatch: ${p}`);
+  if (expect.slug && data.slug !== expect.slug) errors.push(`contextJson slug mismatch: ${p}`);
+  if (expect.theme && data.theme !== expect.theme) errors.push(`contextJson theme mismatch: ${p}`);
+}
+
 for (const s of manifest.screens) {
   checkPng(join("screenshots", s.section, `${s.slug}-${s.theme}.png`), "screenshot");
+  if (!s.contextJson) errors.push(`screen has no contextJson: ${s.slug}-${s.theme}`);
+  else checkContextJson(s.contextJson, { id: s.id, slug: s.slug, theme: s.theme });
+}
+for (const g of manifest.componentGroups) {
+  if (g.contextJson) checkContextJson(g.contextJson, { id: g.id });
 }
 
 // 1b. screenshots for every component group and button variant that declares one
@@ -95,8 +125,9 @@ const shots = walk(join(root, "screenshots")).filter((f) => f.endsWith(".png")).
 const contextsWithShot = declaredScreens.length;
 const contexts = walk(join(root, "context")).filter((f) => f.endsWith(".tsx")).length;
 const svgs = walk(join(root, "assets")).filter((f) => f.endsWith(".svg")).length;
+const contextJsons = walk(join(root, "context")).filter((f) => f.endsWith(".json") && !f.endsWith(".assets.json")).length;
 console.log(`screenshots: ${shots} (${manifest.screens.length} screens + ${contextsWithShot} component groups)`);
-console.log(`context files: ${contexts}`);
+console.log(`context files: ${contexts} tsx + ${contextJsons} REST node JSONs`);
 console.log(`svg assets: ${svgs}`);
 
 if (errors.length) {

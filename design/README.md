@@ -10,16 +10,20 @@ The design maps to the [feature inventory](../docs/contributor/ux/features.md) a
 |------|----------|
 | `manifest.json` | Machine-readable index: every section, screen, component group, icon, and button variant with its Figma node ID and the files it was exported to |
 | `metadata/page-final.xml` | Full node tree of the Figma page — node IDs, names, and exact x/y/width/height geometry for every layer |
+| `metadata/figma-file.json` | The complete Figma REST file response (~12 MB) — raw source the per-screen JSONs were split from (file version `2401335830333378134`, 2026-09-20) |
+| `metadata/figma-versions.json` | Figma version history of the file |
 | `tokens/variables.json` | All Figma variables (design tokens): mode-scoped colors (light/dark), typography styles, button state colors, radii, effects |
 | `notes/behavior-notes.md` | The authoritative interaction spec for every component (listing states, search logic, autocomplete, alerts, preferences, grid, wish detail) |
 | `notes/ai-design-handoff-prompt.md` | The complete handoff prompt the design was produced from: product summary, information architecture, all 29 screens, data-model context |
+| `notes/known-issues.md` | Defects the export reproduces faithfully — chiefly the broken header wordmark in every **screen** screenshot; the component-level header/logo files were re-exported from the fixed Figma version `ready` and are the authoritative reference |
 | `screenshots/<section>/` | All 62 screens (light + dark) at native 1280px resolution |
 | `screenshots/components/` | Visual reference for all 95 component captures: every state variant (button default/hover/disabled with its icon, form states, and so on), the 21 named button variants (`button-primary-add.png`, `button-destructive-delete.png`, …), and separate light/dark files for every mode-bearing component (`header-{light,dark}`, `footer-{light,dark}`, `logo-*-{light,dark}`, `notification-{success,info,warning}-{light,dark}`, `form-type-toggle-{selected,unselected}[-hover]-{light,dark}`, `header-button-theme-toggle-{light,dark}-{default,hover}`) |
-| `context/components/` | Reference code for every design-system component (see "How to use the context code" below) |
+| `context/<section>/` | Per-screen node JSON for all 62 screens — each file is the complete Figma subtree of one screen frame (geometry, fills, strokes, text runs, style references), split from `metadata/figma-file.json`; named `<slug>-<light|dark>.json` |
+| `context/components/` | Reference code for every design-system component (see "How to use the context code" below), plus REST node trees `header.json` and `logo-{full,mark,wordmark}.json` exported from Figma version `ready` |
 | `context/my-wishes/` | Reference code for a representative full screen (`my-wishes-default-light`) |
 | `assets/icons/` | All 31 icon symbols as named SVGs (`user.svg`, `bell.svg`, …) |
 | `assets/exports/` | Per-component asset bundles referenced by the context code, plus PNG exports of the 21 named button variants and every icon |
-| `tools/` | The export scripts (`fetch-context-assets.mjs`, `save-context.sh`) and `verify-export.mjs` |
+| `tools/` | The export scripts (`fetch-context-assets.mjs`, `save-context.sh`, `split-screen-nodes.mjs`, `analyze-png.mjs`) and `verify-export.mjs` |
 
 ## Screen inventory
 
@@ -52,7 +56,13 @@ There is no authenticated dashboard homepage. After login the app routes to **`p
 - Every element carries `data-node-id` attributes mapping back to the Figma node IDs in `metadata/page-final.xml`, so exact geometry can be looked up when rebuilding a layout.
 - CSS variables in the code (e.g. `var(--modes/general/surface, white)`) correspond to `tokens/variables.json` — wire them into the Tailwind theme config. The fallback value in the code is the light-mode value; the token file also carries the dark-mode value.
 - Asset references (`../../assets/exports/<component>/<file>.svg`) are local paths that resolve from the context file's directory. Each `.tsx` has a sibling `.assets.json` recording the original Figma asset URL → local path mapping.
-- Screens other than `my-wishes-default-light` were not exported as flattened code — compose them from the component contexts, the geometry in `metadata/page-final.xml`, and the screenshots.
+- Flattened code was exported only for the representative screen `my-wishes-default-light`. Every screen's complete data is instead available as a REST node tree under `context/<section>/<slug>-<light|dark>.json` — see "Per-screen node JSON" below.
+
+## Per-screen node JSON
+
+`context/<section>/<slug>-<light|dark>.json` files were split from `metadata/figma-file.json` by `tools/split-screen-nodes.mjs` — one file per screen variant, each containing that screen frame's full Figma document subtree: every node with its `id`, `name`, `type`, `absoluteBoundingBox` geometry, fills/strokes/effects, text characters and styles, component-instance references, and layout properties. Each file records its provenance (file key, file version, page). Use these as the structural source of truth when rebuilding a screen; the screenshot is the visual target, and the component `.tsx` files show idiomatic markup for the shared pieces.
+
+The four `context/components/*.json` files (`header`, `logo-full`, `logo-mark`, `logo-wordmark`) are the same kind of node tree, but exported from Figma version `ready` (`2399505405459241420`) where the header wordmark defect is fixed — see `notes/known-issues.md`.
 
 ## Icons
 
