@@ -36,15 +36,15 @@ for (const s of manifest.screens) {
   }
 }
 
-// 1b. screenshots for every component group that declares one
-for (const g of manifest.componentGroups) {
-  const declared = g.screenshots || (g.screenshot ? [g.screenshot] : []);
-  if (declared.length === 0) continue;
-  for (const rel of declared) {
-    const shot = join(root, rel);
-    if (!existsSync(shot)) errors.push(`missing component screenshot: ${shot}`);
-    else if (statSync(shot).size === 0) errors.push(`empty component screenshot: ${shot}`);
-  }
+// 1b. screenshots for every component group and button variant that declares one
+const declaredScreens = [
+  ...manifest.componentGroups.flatMap((g) => g.screenshots || (g.screenshot ? [g.screenshot] : [])),
+  ...manifest.buttonVariants.map((b) => b.screenshot).filter(Boolean),
+];
+for (const rel of declaredScreens) {
+  const shot = join(root, rel);
+  if (!existsSync(shot)) errors.push(`missing component screenshot: ${shot}`);
+  else if (statSync(shot).size === 0) errors.push(`empty component screenshot: ${shot}`);
 }
 
 // 2-4. context files and assets
@@ -80,7 +80,7 @@ for (const f of readdirSync(iconDir)) {
 
 // summary counts
 const shots = walk(join(root, "screenshots")).filter((f) => f.endsWith(".png")).length;
-const contextsWithShot = manifest.componentGroups.flatMap((g) => g.screenshots || (g.screenshot ? [g.screenshot] : [])).length;
+const contextsWithShot = declaredScreens.length;
 const contexts = walk(join(root, "context")).filter((f) => f.endsWith(".tsx")).length;
 const svgs = walk(join(root, "assets")).filter((f) => f.endsWith(".svg")).length;
 console.log(`screenshots: ${shots} (${manifest.screens.length} screens + ${contextsWithShot} component groups)`);

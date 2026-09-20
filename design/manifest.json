@@ -568,7 +568,17 @@
       "name": "form/type-toggle",
       "slug": "form-type-toggle",
       "contextFile": "context/components/form-type-toggle.tsx",
-      "screenshot": "screenshots/components/form-type-toggle.png"
+      "screenshots": [
+        "screenshots/components/form-type-toggle-selected-light.png",
+        "screenshots/components/form-type-toggle-selected-hover-light.png",
+        "screenshots/components/form-type-toggle-unselected-light.png",
+        "screenshots/components/form-type-toggle-unselected-hover-light.png",
+        "screenshots/components/form-type-toggle-selected-dark.png",
+        "screenshots/components/form-type-toggle-selected-hover-dark.png",
+        "screenshots/components/form-type-toggle-unselected-dark.png",
+        "screenshots/components/form-type-toggle-unselected-hover-dark.png"
+      ],
+      "modeVariants": "selected/hover × light/dark variants stacked in the source frame; captured separately"
     },
     {
       "id": "341:762",
@@ -649,7 +659,13 @@
       "name": "header/button/theme-toggle",
       "slug": "header-button-theme-toggle",
       "coveredBy": "context/components/header.tsx (HeaderButtonThemeToggle)",
-      "screenshot": "screenshots/components/header-button-theme-toggle.png"
+      "screenshots": [
+        "screenshots/components/header-button-theme-toggle-dark-default.png",
+        "screenshots/components/header-button-theme-toggle-dark-hover.png",
+        "screenshots/components/header-button-theme-toggle-light-default.png",
+        "screenshots/components/header-button-theme-toggle-light-hover.png"
+      ],
+      "modeVariants": "mode × state variants laid out in the source frame; captured separately"
     },
     {
       "id": "317:922",
@@ -663,7 +679,11 @@
       "name": "header",
       "slug": "header",
       "contextFile": "context/components/header.tsx",
-      "screenshot": "screenshots/components/header.png"
+      "screenshots": [
+        "screenshots/components/header-light.png",
+        "screenshots/components/header-dark.png"
+      ],
+      "modeVariants": "light and dark variants stacked in the source frame; captured separately"
     },
     {
       "id": "187:458",
@@ -787,7 +807,15 @@
       "name": "notification",
       "slug": "notification",
       "contextFile": "context/components/notification.tsx",
-      "screenshot": "screenshots/components/notification.png"
+      "screenshots": [
+        "screenshots/components/notification-success-light.png",
+        "screenshots/components/notification-success-dark.png",
+        "screenshots/components/notification-info-light.png",
+        "screenshots/components/notification-info-dark.png",
+        "screenshots/components/notification-warning-light.png",
+        "screenshots/components/notification-warning-dark.png"
+      ],
+      "modeVariants": "type × mode variants stacked in the source frame; captured separately"
     },
     {
       "id": "132:298",
@@ -905,87 +933,108 @@
   "buttonVariants": [
     {
       "id": "603:1599",
-      "name": "button/primary/add"
+      "name": "button/primary/add",
+      "screenshot": "screenshots/components/button-primary-add.png"
     },
     {
       "id": "603:1604",
-      "name": "button/primary/change"
+      "name": "button/primary/change",
+      "screenshot": "screenshots/components/button-primary-change.png"
     },
     {
       "id": "603:1609",
-      "name": "button/primary/save-country"
+      "name": "button/primary/save-country",
+      "screenshot": "screenshots/components/button-primary-save-country.png"
     },
     {
       "id": "603:1614",
-      "name": "button/primary/save-theme"
+      "name": "button/primary/save-theme",
+      "screenshot": "screenshots/components/button-primary-save-theme.png"
     },
     {
       "id": "603:1619",
-      "name": "button/primary/save-formats"
+      "name": "button/primary/save-formats",
+      "screenshot": "screenshots/components/button-primary-save-formats.png"
     },
     {
       "id": "603:1624",
-      "name": "button/primary/save-threshold"
+      "name": "button/primary/save-threshold",
+      "screenshot": "screenshots/components/button-primary-save-threshold.png"
     },
     {
       "id": "603:1629",
-      "name": "button/primary/save-languages"
+      "name": "button/primary/save-languages",
+      "screenshot": "screenshots/components/button-primary-save-languages.png"
     },
     {
       "id": "603:1634",
-      "name": "button/primary/download-data"
+      "name": "button/primary/download-data",
+      "screenshot": "screenshots/components/button-primary-download-data.png"
     },
     {
       "id": "603:1639",
-      "name": "button/primary/save"
+      "name": "button/primary/save",
+      "screenshot": "screenshots/components/button-primary-save.png"
     },
     {
       "id": "603:1644",
-      "name": "button/primary/detail"
+      "name": "button/primary/detail",
+      "screenshot": "screenshots/components/button-primary-detail.png"
     },
     {
       "id": "603:1649",
-      "name": "button/primary/or-browse-files"
+      "name": "button/primary/or-browse-files",
+      "screenshot": "screenshots/components/button-primary-or-browse-files.png"
     },
     {
       "id": "603:1654",
-      "name": "button/primary/confirm-match"
+      "name": "button/primary/confirm-match",
+      "screenshot": "screenshots/components/button-primary-confirm-match.png"
     },
     {
       "id": "603:1659",
-      "name": "button/primary/fetch-quotes"
+      "name": "button/primary/fetch-quotes",
+      "screenshot": "screenshots/components/button-primary-fetch-quotes.png"
     },
     {
       "id": "603:1664",
-      "name": "button/primary/import-csv"
+      "name": "button/primary/import-csv",
+      "screenshot": "screenshots/components/button-primary-import-csv.png"
     },
     {
       "id": "603:1675",
-      "name": "button/secondary/unwatch"
+      "name": "button/secondary/unwatch",
+      "screenshot": "screenshots/components/button-secondary-unwatch.png"
     },
     {
       "id": "603:1680",
-      "name": "button/secondary/skip-row"
+      "name": "button/secondary/skip-row",
+      "screenshot": "screenshots/components/button-secondary-skip-row.png"
     },
     {
       "id": "603:1685",
-      "name": "button/secondary/download-skipped-rows-csv"
+      "name": "button/secondary/download-skipped-rows-csv",
+      "screenshot": "screenshots/components/button-secondary-download-skipped-rows-csv.png"
     },
     {
       "id": "603:1690",
-      "name": "button/secondary/cancel"
+      "name": "button/secondary/cancel",
+      "screenshot": "screenshots/components/button-secondary-cancel.png"
     },
     {
       "id": "603:1696",
-      "name": "button/destructive/delete-account"
+      "name": "button/destructive/delete-account",
+      "screenshot": "screenshots/components/button-destructive-delete-account.png"
     },
     {
       "id": "603:1701",
-      "name": "button/destructive/delete-from-wishes"
+      "name": "button/destructive/delete-from-wishes",
+      "screenshot": "screenshots/components/button-destructive-delete-from-wishes.png"
     },
     {
       "id": "603:1706",
-      "name": "button/destructive/delete"
+      "name": "button/destructive/delete",
+      "screenshot": "screenshots/components/button-destructive-delete.png"
     }
   ],
   "icons": [
