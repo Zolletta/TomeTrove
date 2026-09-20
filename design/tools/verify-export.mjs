@@ -26,14 +26,28 @@ function walk(dir, out = []) {
 
 // 1. screenshots for every manifest screen
 const manifest = JSON.parse(readFileSync(join(root, "manifest.json"), "utf8"));
-for (const s of manifest.screens) {
-  const shot = join(root, "screenshots", s.section, `${s.slug}-${s.theme}.png`);
-  if (!existsSync(shot)) errors.push(`missing screenshot: ${shot}`);
-  else {
-    const buf = readFileSync(shot);
-    if (buf.length < 1000) errors.push(`suspiciously small screenshot (${buf.length}B): ${shot}`);
-    if (!(buf[0] === 0x89 && buf[1] === 0x50)) errors.push(`not a PNG: ${shot}`);
+
+/** verify a PNG file exists, is non-empty, and has PNG magic bytes */
+function checkPng(relPath, label) {
+  const shot = join(root, relPath);
+  if (!existsSync(shot)) {
+    errors.push(`missing ${label}: ${shot}`);
+    return;
   }
+  const size = statSync(shot).size;
+  if (size === 0) {
+    errors.push(`empty ${label}: ${shot}`);
+    return;
+  }
+  const fd = readFileSync(shot);
+  if (!(fd[0] === 0x89 && fd[1] === 0x50 && fd[2] === 0x4e && fd[3] === 0x47)) {
+    // catches failed downloads where an error body (JSON/HTML) was saved as the file
+    errors.push(`not a PNG (bad magic bytes, ${size}B): ${shot}`);
+  }
+}
+
+for (const s of manifest.screens) {
+  checkPng(join("screenshots", s.section, `${s.slug}-${s.theme}.png`), "screenshot");
 }
 
 // 1b. screenshots for every component group and button variant that declares one
@@ -42,9 +56,7 @@ const declaredScreens = [
   ...manifest.buttonVariants.map((b) => b.screenshot).filter(Boolean),
 ];
 for (const rel of declaredScreens) {
-  const shot = join(root, rel);
-  if (!existsSync(shot)) errors.push(`missing component screenshot: ${shot}`);
-  else if (statSync(shot).size === 0) errors.push(`empty component screenshot: ${shot}`);
+  checkPng(rel, "component screenshot");
 }
 
 // 2-4. context files and assets
