@@ -617,7 +617,11 @@
       "name": "footer",
       "slug": "footer",
       "coveredBy": "context/my-wishes/my-wishes-default-light.tsx",
-      "screenshot": "screenshots/components/footer.png"
+      "screenshots": [
+        "screenshots/components/footer-light.png",
+        "screenshots/components/footer-dark.png"
+      ],
+      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files"
     },
     {
       "id": "314:911",
@@ -666,21 +670,33 @@
       "name": "logo/full",
       "slug": "logo-full",
       "contextFile": "context/components/logo-full.tsx",
-      "screenshot": "screenshots/components/logo-full.png"
+      "screenshots": [
+        "screenshots/components/logo-full-light.png",
+        "screenshots/components/logo-full-dark.png"
+      ],
+      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files"
     },
     {
       "id": "187:489",
       "name": "logo/mark",
       "slug": "logo-mark",
       "contextFile": "context/components/logo-mark.tsx",
-      "screenshot": "screenshots/components/logo-mark.png"
+      "screenshots": [
+        "screenshots/components/logo-mark-light.png",
+        "screenshots/components/logo-mark-dark.png"
+      ],
+      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files"
     },
     {
       "id": "187:500",
       "name": "logo/wordmark",
       "slug": "logo-wordmark",
       "contextFile": "context/components/logo-wordmark.tsx",
-      "screenshot": "screenshots/components/logo-wordmark.png"
+      "screenshots": [
+        "screenshots/components/logo-wordmark-light.png",
+        "screenshots/components/logo-wordmark-dark.png"
+      ],
+      "modeVariants": "light and dark symbols overlap at the same position in the source frame, so they are captured as separate files"
     },
     {
       "id": "464:86",
