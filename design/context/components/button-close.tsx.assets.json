@@ -1,0 +1,7 @@
+{
+	"node": "button-close.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/864aeaef-5e49-4bfc-93b7-f6c7d3747ee3/09bfa.svg": "../../assets/exports/button-close/09bfa.svg",
+		"https://www.figma.com/api/mcp/asset/864aeaef-5e49-4bfc-93b7-f6c7d3747ee3/a2808.svg": "../../assets/exports/button-close/a2808.svg"
+	}
+}

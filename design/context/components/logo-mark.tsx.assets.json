@@ -1,0 +1,7 @@
+{
+	"node": "logo-mark.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/c7cf1197-7db7-4a98-8284-6b23ddbb3898/4b50f.svg": "../../assets/exports/logo-mark/4b50f.svg",
+		"https://www.figma.com/api/mcp/asset/c7cf1197-7db7-4a98-8284-6b23ddbb3898/3abb5.svg": "../../assets/exports/logo-mark/3abb5.svg"
+	}
+}

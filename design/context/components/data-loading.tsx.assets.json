@@ -1,0 +1,6 @@
+{
+	"node": "data-loading.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/83ae9139-d139-4aed-a67a-2f1c815eeda6/e85be.svg": "../../assets/exports/data-loading/e85be.svg"
+	}
+}

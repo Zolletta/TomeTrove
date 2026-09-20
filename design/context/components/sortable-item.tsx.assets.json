@@ -1,0 +1,9 @@
+{
+	"node": "sortable-item.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/8c763d1b-ab19-4a24-8ac3-005c90df2cb1/d54c5.svg": "../../assets/exports/sortable-item/d54c5.svg",
+		"https://www.figma.com/api/mcp/asset/8c763d1b-ab19-4a24-8ac3-005c90df2cb1/9d7ca.svg": "../../assets/exports/sortable-item/9d7ca.svg",
+		"https://www.figma.com/api/mcp/asset/8c763d1b-ab19-4a24-8ac3-005c90df2cb1/c1d21.svg": "../../assets/exports/sortable-item/c1d21.svg",
+		"https://www.figma.com/api/mcp/asset/8c763d1b-ab19-4a24-8ac3-005c90df2cb1/07753.svg": "../../assets/exports/sortable-item/07753.svg"
+	}
+}

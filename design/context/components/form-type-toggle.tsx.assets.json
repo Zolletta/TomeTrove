@@ -1,0 +1,11 @@
+{
+	"node": "form-type-toggle.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/f16b919f-1bbe-4b94-b1eb-b646b9bc4477/ff480.svg": "../../assets/exports/form-type-toggle/ff480.svg",
+		"https://www.figma.com/api/mcp/asset/f16b919f-1bbe-4b94-b1eb-b646b9bc4477/a8347.svg": "../../assets/exports/form-type-toggle/a8347.svg",
+		"https://www.figma.com/api/mcp/asset/f16b919f-1bbe-4b94-b1eb-b646b9bc4477/598dd.svg": "../../assets/exports/form-type-toggle/598dd.svg",
+		"https://www.figma.com/api/mcp/asset/f16b919f-1bbe-4b94-b1eb-b646b9bc4477/c37ea.svg": "../../assets/exports/form-type-toggle/c37ea.svg",
+		"https://www.figma.com/api/mcp/asset/f16b919f-1bbe-4b94-b1eb-b646b9bc4477/9dd99.svg": "../../assets/exports/form-type-toggle/9dd99.svg",
+		"https://www.figma.com/api/mcp/asset/f16b919f-1bbe-4b94-b1eb-b646b9bc4477/cb099.svg": "../../assets/exports/form-type-toggle/cb099.svg"
+	}
+}

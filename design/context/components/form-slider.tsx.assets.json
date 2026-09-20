@@ -1,0 +1,7 @@
+{
+	"node": "form-slider.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/f20ca68f-751b-4d9b-84f6-51c46444e2ea/d8b20.svg": "../../assets/exports/form-slider/d8b20.svg",
+		"https://www.figma.com/api/mcp/asset/f20ca68f-751b-4d9b-84f6-51c46444e2ea/8e78a.svg": "../../assets/exports/form-slider/8e78a.svg"
+	}
+}

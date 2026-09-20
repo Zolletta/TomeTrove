@@ -1,0 +1,9 @@
+{
+	"node": "button-destructive.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/61a67fb8-ed94-4446-b974-12949bde375d/40ca8.svg": "../../assets/exports/button-destructive/40ca8.svg",
+		"https://www.figma.com/api/mcp/asset/61a67fb8-ed94-4446-b974-12949bde375d/7c98a.svg": "../../assets/exports/button-destructive/7c98a.svg",
+		"https://www.figma.com/api/mcp/asset/61a67fb8-ed94-4446-b974-12949bde375d/ab84d.svg": "../../assets/exports/button-destructive/ab84d.svg",
+		"https://www.figma.com/api/mcp/asset/61a67fb8-ed94-4446-b974-12949bde375d/6f3d3.svg": "../../assets/exports/button-destructive/6f3d3.svg"
+	}
+}

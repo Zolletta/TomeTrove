@@ -1,0 +1,10 @@
+{
+	"node": "shared-list-grid.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/b6082743-efa9-4051-aad9-bf1a4fb1923c/0d085.svg": "../../assets/exports/shared-list-grid/0d085.svg",
+		"https://www.figma.com/api/mcp/asset/b6082743-efa9-4051-aad9-bf1a4fb1923c/8c47f.svg": "../../assets/exports/shared-list-grid/8c47f.svg",
+		"https://www.figma.com/api/mcp/asset/b6082743-efa9-4051-aad9-bf1a4fb1923c/40ca8.svg": "../../assets/exports/shared-list-grid/40ca8.svg",
+		"https://www.figma.com/api/mcp/asset/b6082743-efa9-4051-aad9-bf1a4fb1923c/07b22.svg": "../../assets/exports/shared-list-grid/07b22.svg",
+		"https://www.figma.com/api/mcp/asset/b6082743-efa9-4051-aad9-bf1a4fb1923c/1b9f9.svg": "../../assets/exports/shared-list-grid/1b9f9.svg"
+	}
+}

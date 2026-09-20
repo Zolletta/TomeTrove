@@ -1,0 +1,8 @@
+{
+	"node": "logo-full.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/ac60a856-5c46-4c6c-bad8-e88832e79903/c77c7.svg": "../../assets/exports/logo-full/c77c7.svg",
+		"https://www.figma.com/api/mcp/asset/ac60a856-5c46-4c6c-bad8-e88832e79903/c2d52.svg": "../../assets/exports/logo-full/c2d52.svg",
+		"https://www.figma.com/api/mcp/asset/ac60a856-5c46-4c6c-bad8-e88832e79903/8100f.svg": "../../assets/exports/logo-full/8100f.svg"
+	}
+}

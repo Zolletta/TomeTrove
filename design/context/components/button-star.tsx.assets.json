@@ -1,0 +1,7 @@
+{
+	"node": "button-star.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/c4eafb9d-f996-424d-bee0-875077b14538/54226.svg": "../../assets/exports/button-star/54226.svg",
+		"https://www.figma.com/api/mcp/asset/c4eafb9d-f996-424d-bee0-875077b14538/aa509.svg": "../../assets/exports/button-star/aa509.svg"
+	}
+}

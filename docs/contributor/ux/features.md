@@ -2,7 +2,7 @@
 
 This is the inventory of TomeTrove's features (functionalities), grouped by subject. Each feature will eventually map to a concrete UI element — a mini-SPA, a component, or a simple button — recorded in the **Type** column. The **Contained in** column records where the feature lives (e.g. a named page, the header). Both columns are filled in as the UI is designed.
 
-For the flows that connect these features, see the [user journeys](user-journeys/).
+For the flows that connect these features, see the [user journeys](user-journeys/). The exported UI design backing this inventory lives in [`design/`](../../../design/README.md) — screenshots, component reference code, tokens, and interaction specs.
 
 > [!NOTE]
 > Store selection is **not** a feature in this list — it is automatic, derived from the user's preferences (currency, country, formats) intersected with store capabilities ([ADR 0013](../../explanation/adr/0013-store-integration-architecture.md)). Relevant ADRs and reference docs already document this; no user-facing action is needed.
@@ -99,7 +99,7 @@ Features grouped by subject, then by type.
 
 | #  | Feature                                                                                                                                                                                                                                         | Type     | Name         | Contained in |
 |----|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|--------------|--------------|
-| 32 | Homepage — login/landing when unauthenticated; dashboard when authenticated. Aggregates summary components: recent wishes, watchlist overview, 3 most recent sharable lists, latest alerts. Click-through to dedicated pages for the full view. | Mini-SPA | homepage     | N/A          |
+| 32 | Homepage — login/landing when unauthenticated only. After login, users are routed to `preferences` while setup is incomplete, otherwise to `list-wishes`; an authenticated dashboard is deferred until further information ([design export](../../../design/README.md)) | Mini-SPA | homepage     | N/A          |
 | 33 | Privacy (view privacy policy, [PRIVACY](https://github.com/Zolletta/TomeTrove/blob/main/PRIVACY.md))                                                                                                                                            | Mini-SPA | privacy      | N/A          |
 | 34 | License (view license, [LICENSE](https://github.com/Zolletta/TomeTrove/blob/main/LICENSE))                                                                                                                                                      | Mini-SPA | license      | N/A          |
 | 2  | Header — global widget present on every authenticated page; hosts `logout`, `theme-toggle`, `notifications`, `search-wishes`                                                                                                                    | Widget   | header       | \<all\>      |

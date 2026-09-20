@@ -1,0 +1,14 @@
+{
+	"node": "my-wishes-default-light.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/87827.svg": "../../assets/exports/my-wishes-default-light/87827.svg",
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/b98cc.svg": "../../assets/exports/my-wishes-default-light/b98cc.svg",
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/eb4d9.svg": "../../assets/exports/my-wishes-default-light/eb4d9.svg",
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/6b7f9.svg": "../../assets/exports/my-wishes-default-light/6b7f9.svg",
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/99614.svg": "../../assets/exports/my-wishes-default-light/99614.svg",
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/4c1fc.svg": "../../assets/exports/my-wishes-default-light/4c1fc.svg",
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/28e77.svg": "../../assets/exports/my-wishes-default-light/28e77.svg",
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/78203.svg": "../../assets/exports/my-wishes-default-light/78203.svg",
+		"https://www.figma.com/api/mcp/asset/16eccbd0-4264-4d16-8f78-0724413c1075/67fd2.svg": "../../assets/exports/my-wishes-default-light/67fd2.svg"
+	}
+}

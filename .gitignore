@@ -180,3 +180,6 @@ mkdocs_build/
 
 # Local dev scripts
 restart-mkdocs.sh
+
+# macOS
+.DS_Store

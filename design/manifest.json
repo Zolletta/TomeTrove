@@ -1,0 +1,1075 @@
+{
+  "figmaFileKey": "z6yz2kWXO9D8gahuOyYW8J",
+  "figmaFileUrl": "https://www.figma.com/design/z6yz2kWXO9D8gahuOyYW8J",
+  "page": {
+    "id": "497:12284",
+    "name": "final"
+  },
+  "exportedAt": "2026-09-20",
+  "screenCount": 62,
+  "screens": [
+    {
+      "section": "watchlist",
+      "id": "365:2372",
+      "name": "watchlist / default",
+      "theme": "light",
+      "slug": "watchlist-default"
+    },
+    {
+      "section": "watchlist",
+      "id": "494:4093",
+      "name": "watchlist / default",
+      "theme": "dark",
+      "slug": "watchlist-default"
+    },
+    {
+      "section": "my-wishes",
+      "id": "263:879",
+      "name": "my wishes / default",
+      "theme": "light",
+      "slug": "my-wishes-default"
+    },
+    {
+      "section": "my-wishes",
+      "id": "314:835",
+      "name": "my wishes / search results",
+      "theme": "light",
+      "slug": "my-wishes-search-results"
+    },
+    {
+      "section": "my-wishes",
+      "id": "494:4064",
+      "name": "my wishes / default",
+      "theme": "dark",
+      "slug": "my-wishes-default"
+    },
+    {
+      "section": "my-wishes",
+      "id": "494:4078",
+      "name": "my wishes / search results",
+      "theme": "dark",
+      "slug": "my-wishes-search-results"
+    },
+    {
+      "section": "homepage",
+      "id": "263:741",
+      "name": "homepage-not-logged-light",
+      "theme": "light",
+      "slug": "homepage-not-logged"
+    },
+    {
+      "section": "homepage",
+      "id": "494:2612",
+      "name": "homepage-not-logged-dark",
+      "theme": "dark",
+      "slug": "homepage-not-logged"
+    },
+    {
+      "section": "alerts",
+      "id": "229:70",
+      "name": "alert-overlay-light",
+      "theme": "light",
+      "slug": "alert-overlay"
+    },
+    {
+      "section": "alerts",
+      "id": "494:3547",
+      "name": "alert-overlay-dark",
+      "theme": "dark",
+      "slug": "alert-overlay"
+    },
+    {
+      "section": "user-preferences",
+      "id": "236:626",
+      "name": "user-preference/all-closed",
+      "theme": "light",
+      "slug": "user-preferences-all-closed"
+    },
+    {
+      "section": "user-preferences",
+      "id": "236:729",
+      "name": "user-preference/country",
+      "theme": "light",
+      "slug": "user-preferences-country"
+    },
+    {
+      "section": "user-preferences",
+      "id": "242:562",
+      "name": "user-preference/theme",
+      "theme": "light",
+      "slug": "user-preferences-theme"
+    },
+    {
+      "section": "user-preferences",
+      "id": "242:689",
+      "name": "user-preference/format",
+      "theme": "light",
+      "slug": "user-preferences-format"
+    },
+    {
+      "section": "user-preferences",
+      "id": "242:836",
+      "name": "user-preferences/alert-thresold",
+      "theme": "light",
+      "slug": "user-preferences-alert-threshold"
+    },
+    {
+      "section": "user-preferences",
+      "id": "242:963",
+      "name": "user-preferences/reading-languages",
+      "theme": "light",
+      "slug": "user-preferences-reading-languages"
+    },
+    {
+      "section": "user-preferences",
+      "id": "488:2557",
+      "name": "user-preference/download-data/request",
+      "theme": "light",
+      "slug": "user-preferences-download-data-request"
+    },
+    {
+      "section": "user-preferences",
+      "id": "489:4267",
+      "name": "user-preference/download-data/waiting",
+      "theme": "light",
+      "slug": "user-preferences-download-data-waiting"
+    },
+    {
+      "section": "user-preferences",
+      "id": "489:4385",
+      "name": "user-preference/download-data/data-ready",
+      "theme": "light",
+      "slug": "user-preferences-download-data-ready"
+    },
+    {
+      "section": "user-preferences",
+      "id": "488:2664",
+      "name": "user-preference/delete-account",
+      "theme": "light",
+      "slug": "user-preferences-delete-account"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:2626",
+      "name": "user-preference/all-closed",
+      "theme": "dark",
+      "slug": "user-preferences-all-closed"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:2693",
+      "name": "user-preference/country",
+      "theme": "dark",
+      "slug": "user-preferences-country"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:2761",
+      "name": "user-preference/theme",
+      "theme": "dark",
+      "slug": "user-preferences-theme"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:2838",
+      "name": "user-preference/format",
+      "theme": "dark",
+      "slug": "user-preferences-format"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:2907",
+      "name": "user-preferences/alert-thresold",
+      "theme": "dark",
+      "slug": "user-preferences-alert-threshold"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:2984",
+      "name": "user-preferences/reading-languages",
+      "theme": "dark",
+      "slug": "user-preferences-reading-languages"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:3091",
+      "name": "user-preference/download-data/request",
+      "theme": "dark",
+      "slug": "user-preferences-download-data-request"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:3202",
+      "name": "user-preference/download-data/waiting",
+      "theme": "dark",
+      "slug": "user-preferences-download-data-waiting"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:3312",
+      "name": "user-preference/download-data/data-ready",
+      "theme": "dark",
+      "slug": "user-preferences-download-data-ready"
+    },
+    {
+      "section": "user-preferences",
+      "id": "494:3422",
+      "name": "user-preference/delete-account",
+      "theme": "dark",
+      "slug": "user-preferences-delete-account"
+    },
+    {
+      "section": "wish-detail",
+      "id": "364:2033",
+      "name": "wish detail / empty (no data)",
+      "theme": "light",
+      "slug": "wish-detail-empty"
+    },
+    {
+      "section": "wish-detail",
+      "id": "367:2429",
+      "name": "wish detail / delete confirmation",
+      "theme": "light",
+      "slug": "wish-detail-delete-confirmation"
+    },
+    {
+      "section": "wish-detail",
+      "id": "479:482",
+      "name": "wish detail / fetching quotes",
+      "theme": "light",
+      "slug": "wish-detail-fetching-quotes"
+    },
+    {
+      "section": "wish-detail",
+      "id": "479:519",
+      "name": "wish detail / watched (with data)",
+      "theme": "light",
+      "slug": "wish-detail-watched"
+    },
+    {
+      "section": "wish-detail",
+      "id": "479:556",
+      "name": "wish detail / unwatched (sparse data)",
+      "theme": "light",
+      "slug": "wish-detail-unwatched"
+    },
+    {
+      "section": "wish-detail",
+      "id": "494:3576",
+      "name": "wish detail / empty (no data)",
+      "theme": "dark",
+      "slug": "wish-detail-empty"
+    },
+    {
+      "section": "wish-detail",
+      "id": "494:3613",
+      "name": "wish detail / delete confirmation",
+      "theme": "dark",
+      "slug": "wish-detail-delete-confirmation"
+    },
+    {
+      "section": "wish-detail",
+      "id": "494:3660",
+      "name": "wish detail / fetching quotes",
+      "theme": "dark",
+      "slug": "wish-detail-fetching-quotes"
+    },
+    {
+      "section": "wish-detail",
+      "id": "494:3748",
+      "name": "wish detail / watched (with data)",
+      "theme": "dark",
+      "slug": "wish-detail-watched"
+    },
+    {
+      "section": "wish-detail",
+      "id": "494:3882",
+      "name": "wish detail / unwatched (sparse data)",
+      "theme": "dark",
+      "slug": "wish-detail-unwatched"
+    },
+    {
+      "section": "shared-lists",
+      "id": "414:1932",
+      "name": "before-adding",
+      "theme": "light",
+      "slug": "shared-lists-before-adding"
+    },
+    {
+      "section": "shared-lists",
+      "id": "420:1853",
+      "name": "search-autocomplete-open",
+      "theme": "light",
+      "slug": "shared-lists-search-autocomplete-open"
+    },
+    {
+      "section": "shared-lists",
+      "id": "420:1974",
+      "name": "book-selected-add-to-list",
+      "theme": "light",
+      "slug": "shared-lists-book-selected"
+    },
+    {
+      "section": "shared-lists",
+      "id": "423:824",
+      "name": "book-added-overlay",
+      "theme": "light",
+      "slug": "shared-lists-book-added-overlay"
+    },
+    {
+      "section": "shared-lists",
+      "id": "423:893",
+      "name": "edit-wishlist-overlay",
+      "theme": "light",
+      "slug": "shared-lists-edit-wishlist-overlay"
+    },
+    {
+      "section": "shared-lists",
+      "id": "539:4789",
+      "name": "shared-wishes-items",
+      "theme": "light",
+      "slug": "shared-lists-public-view"
+    },
+    {
+      "section": "shared-lists",
+      "id": "494:4284",
+      "name": "before-adding",
+      "theme": "dark",
+      "slug": "shared-lists-before-adding"
+    },
+    {
+      "section": "shared-lists",
+      "id": "494:4356",
+      "name": "search-autocomplete-open",
+      "theme": "dark",
+      "slug": "shared-lists-search-autocomplete-open"
+    },
+    {
+      "section": "shared-lists",
+      "id": "494:4415",
+      "name": "book-selected-add-to-list",
+      "theme": "dark",
+      "slug": "shared-lists-book-selected"
+    },
+    {
+      "section": "shared-lists",
+      "id": "494:4473",
+      "name": "book-added-overlay",
+      "theme": "dark",
+      "slug": "shared-lists-book-added-overlay"
+    },
+    {
+      "section": "shared-lists",
+      "id": "494:4532",
+      "name": "edit-wishlist-overlay",
+      "theme": "dark",
+      "slug": "shared-lists-edit-wishlist-overlay"
+    },
+    {
+      "section": "shared-lists",
+      "id": "539:4849",
+      "name": "shared-wishes-items",
+      "theme": "dark",
+      "slug": "shared-lists-public-view"
+    },
+    {
+      "section": "import-wishes",
+      "id": "451:1475",
+      "name": "import-wishes / upload",
+      "theme": "light",
+      "slug": "import-wishes-upload"
+    },
+    {
+      "section": "import-wishes",
+      "id": "451:1550",
+      "name": "import-wishes / reconciling",
+      "theme": "light",
+      "slug": "import-wishes-reconciling"
+    },
+    {
+      "section": "import-wishes",
+      "id": "451:1646",
+      "name": "import-wishes / summary",
+      "theme": "light",
+      "slug": "import-wishes-summary"
+    },
+    {
+      "section": "import-wishes",
+      "id": "494:3967",
+      "name": "import-wishes / upload",
+      "theme": "dark",
+      "slug": "import-wishes-upload"
+    },
+    {
+      "section": "import-wishes",
+      "id": "494:4000",
+      "name": "import-wishes / reconciling",
+      "theme": "dark",
+      "slug": "import-wishes-reconciling"
+    },
+    {
+      "section": "import-wishes",
+      "id": "494:4037",
+      "name": "import-wishes / summary",
+      "theme": "dark",
+      "slug": "import-wishes-summary"
+    },
+    {
+      "section": "privacy-policy",
+      "id": "328:938",
+      "name": "privacy-policy-light",
+      "theme": "light",
+      "slug": "privacy-policy"
+    },
+    {
+      "section": "privacy-policy",
+      "id": "494:4174",
+      "name": "privacy-policy-dark",
+      "theme": "dark",
+      "slug": "privacy-policy"
+    },
+    {
+      "section": "license-agreement",
+      "id": "328:1018",
+      "name": "license-agreement-light",
+      "theme": "light",
+      "slug": "license-agreement"
+    },
+    {
+      "section": "license-agreement",
+      "id": "494:4230",
+      "name": "license-agreement-dark",
+      "theme": "dark",
+      "slug": "license-agreement"
+    }
+  ],
+  "sections": [
+    {
+      "id": "539:4590",
+      "name": "components",
+      "kind": "design-system"
+    },
+    {
+      "id": "499:4229",
+      "name": "Watchlist",
+      "kind": "screens"
+    },
+    {
+      "id": "499:4228",
+      "name": "My wishes",
+      "kind": "screens"
+    },
+    {
+      "id": "499:4222",
+      "name": "Homepage",
+      "kind": "screens"
+    },
+    {
+      "id": "499:4223",
+      "name": "Alerts",
+      "kind": "screens"
+    },
+    {
+      "id": "497:9026",
+      "name": "User preferences",
+      "kind": "screens"
+    },
+    {
+      "id": "499:4224",
+      "name": "Wish detail",
+      "kind": "screens"
+    },
+    {
+      "id": "499:4232",
+      "name": "Shared lists",
+      "kind": "screens"
+    },
+    {
+      "id": "499:4225",
+      "name": "Import wishes user journey",
+      "kind": "screens"
+    },
+    {
+      "id": "499:4230",
+      "name": "Privacy policy",
+      "kind": "screens"
+    },
+    {
+      "id": "499:4231",
+      "name": "License agreement",
+      "kind": "screens"
+    },
+    {
+      "id": "338:1037",
+      "name": "Notes",
+      "kind": "notes"
+    }
+  ],
+  "componentGroups": [
+    {
+      "id": "185:565",
+      "name": "form/checkbox",
+      "slug": "form-checkbox",
+      "contextFile": "context/components/form-checkbox.tsx"
+    },
+    {
+      "id": "185:573",
+      "name": "form/radio",
+      "slug": "form-radio",
+      "contextFile": "context/components/form-radio.tsx"
+    },
+    {
+      "id": "190:176",
+      "name": "form/slider",
+      "slug": "form-slider",
+      "contextFile": "context/components/form-slider.tsx"
+    },
+    {
+      "id": "185:474",
+      "name": "form/select",
+      "slug": "form-select",
+      "contextFile": "context/components/form-select.tsx"
+    },
+    {
+      "id": "185:157",
+      "name": "form/textarea",
+      "slug": "form-textarea",
+      "contextFile": "context/components/form-textarea.tsx"
+    },
+    {
+      "id": "190:186",
+      "name": "form/date-picker",
+      "slug": "form-date-picker",
+      "contextFile": "context/components/form-date-picker.tsx"
+    },
+    {
+      "id": "185:582",
+      "name": "form/toggle",
+      "slug": "form-toggle",
+      "contextFile": "context/components/form-toggle.tsx"
+    },
+    {
+      "id": "185:140",
+      "name": "form/input",
+      "slug": "form-input",
+      "contextFile": "context/components/form-input.tsx"
+    },
+    {
+      "id": "246:299",
+      "name": "form/type-toggle",
+      "slug": "form-type-toggle",
+      "contextFile": "context/components/form-type-toggle.tsx"
+    },
+    {
+      "id": "341:762",
+      "name": "data/no-results",
+      "slug": "data-no-results",
+      "contextFile": "context/components/data-no-results.tsx"
+    },
+    {
+      "id": "341:772",
+      "name": "data/empty-list",
+      "slug": "data-empty-list",
+      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx (also embedded in screens)"
+    },
+    {
+      "id": "357:1559",
+      "name": "data/loading",
+      "slug": "data-loading",
+      "contextFile": "context/components/data-loading.tsx"
+    },
+    {
+      "id": "185:554",
+      "name": "scrollbar",
+      "slug": "scrollbar",
+      "coveredBy": "context/components/form-select.tsx (scrollbar node inside dropdown)"
+    },
+    {
+      "id": "247:857",
+      "name": "notifications",
+      "slug": "notifications",
+      "contextFile": "context/components/notifications.tsx"
+    },
+    {
+      "id": "317:318",
+      "name": "footer/navigation",
+      "slug": "footer-navigation",
+      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx (Footer includes footer/navigation)"
+    },
+    {
+      "id": "187:779",
+      "name": "footer",
+      "slug": "footer",
+      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx"
+    },
+    {
+      "id": "314:911",
+      "name": "navigation-item",
+      "slug": "navigation-item",
+      "contextFile": "context/components/navigation-item.tsx"
+    },
+    {
+      "id": "246:882",
+      "name": "header/button/logout",
+      "slug": "header-button-logout",
+      "coveredBy": "context/components/header.tsx (HeaderButtonLogout)"
+    },
+    {
+      "id": "246:885",
+      "name": "header/button/personal-area",
+      "slug": "header-button-personal-area",
+      "coveredBy": "context/components/header.tsx (HeaderButtonPersonalArea)"
+    },
+    {
+      "id": "249:824",
+      "name": "header/button/theme-toggle",
+      "slug": "header-button-theme-toggle",
+      "coveredBy": "context/components/header.tsx (HeaderButtonThemeToggle)"
+    },
+    {
+      "id": "317:922",
+      "name": "header/navigation",
+      "slug": "header-navigation",
+      "contextFile": "context/components/header-navigation.tsx"
+    },
+    {
+      "id": "187:778",
+      "name": "header",
+      "slug": "header",
+      "contextFile": "context/components/header.tsx"
+    },
+    {
+      "id": "187:458",
+      "name": "logo/full",
+      "slug": "logo-full",
+      "contextFile": "context/components/logo-full.tsx"
+    },
+    {
+      "id": "187:489",
+      "name": "logo/mark",
+      "slug": "logo-mark",
+      "contextFile": "context/components/logo-mark.tsx"
+    },
+    {
+      "id": "187:500",
+      "name": "logo/wordmark",
+      "slug": "logo-wordmark",
+      "contextFile": "context/components/logo-wordmark.tsx"
+    },
+    {
+      "id": "464:86",
+      "name": "badge/quote/down",
+      "slug": "badge-quote-down",
+      "contextFile": "context/components/badge-quote-down.tsx"
+    },
+    {
+      "id": "464:90",
+      "name": "badge/quote/up",
+      "slug": "badge-quote-up",
+      "contextFile": "context/components/badge-quote-up.tsx"
+    },
+    {
+      "id": "464:94",
+      "name": "badge/quote/unchanged",
+      "slug": "badge-quote-unchanged",
+      "contextFile": "context/components/badge-quote-unchanged.tsx"
+    },
+    {
+      "id": "429:1795",
+      "name": "button/github-login",
+      "slug": "button-github-login",
+      "contextFile": "context/components/button-github-login.tsx"
+    },
+    {
+      "id": "246:861",
+      "name": "button/close",
+      "slug": "button-close",
+      "contextFile": "context/components/button-close.tsx"
+    },
+    {
+      "id": "232:564",
+      "name": "button/star",
+      "slug": "button-star",
+      "contextFile": "context/components/button-star.tsx"
+    },
+    {
+      "id": "251:364",
+      "name": "button/primary",
+      "slug": "button-primary",
+      "contextFile": "context/components/button-primary.tsx"
+    },
+    {
+      "id": "251:367",
+      "name": "button/secondary",
+      "slug": "button-secondary",
+      "contextFile": "context/components/button-secondary.tsx"
+    },
+    {
+      "id": "251:370",
+      "name": "button/destructive",
+      "slug": "button-destructive",
+      "contextFile": "context/components/button-destructive.tsx"
+    },
+    {
+      "id": "542:2212",
+      "name": "autocomplete/composite",
+      "slug": "autocomplete-composite",
+      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)"
+    },
+    {
+      "id": "227:588",
+      "name": "autocomplete/search-field",
+      "slug": "autocomplete-search-field",
+      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)"
+    },
+    {
+      "id": "227:592",
+      "name": "autocomplete/dropdown-panel",
+      "slug": "autocomplete-dropdown-panel",
+      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)"
+    },
+    {
+      "id": "317:1030",
+      "name": "notification",
+      "slug": "notification",
+      "contextFile": "context/components/notification.tsx"
+    },
+    {
+      "id": "132:298",
+      "name": "separator",
+      "slug": "separator",
+      "coveredBy": "context/components/shared-list-grid.tsx (Separator)"
+    },
+    {
+      "id": "341:369",
+      "name": "grid/column-name",
+      "slug": "grid-column-name",
+      "coveredBy": "context/components/shared-list-grid-content-header-default.tsx"
+    },
+    {
+      "id": "551:5923",
+      "name": "sortable/item",
+      "slug": "sortable-item",
+      "contextFile": "context/components/sortable-item.tsx"
+    },
+    {
+      "id": "341:406",
+      "name": "pagination",
+      "slug": "pagination",
+      "contextFile": "context/components/pagination.tsx"
+    },
+    {
+      "id": "341:386",
+      "name": "pagination/page-list",
+      "slug": "pagination-page-list",
+      "coveredBy": "context/components/pagination.tsx"
+    },
+    {
+      "id": "341:401",
+      "name": "pagination/change-page-size",
+      "slug": "pagination-change-page-size",
+      "coveredBy": "context/components/pagination.tsx"
+    },
+    {
+      "id": "537:3013",
+      "name": "shared-list/card/default",
+      "slug": "shared-list-card-default",
+      "contextFile": "context/components/shared-list-card-default.tsx"
+    },
+    {
+      "id": "537:4486",
+      "name": "shared-list/card/selected",
+      "slug": "shared-list-card-selected",
+      "contextFile": "context/components/shared-list-card-selected.tsx"
+    },
+    {
+      "id": "539:5043",
+      "name": "shared-wish/grid",
+      "slug": "shared-wish-grid",
+      "contextFile": "context/components/shared-wish-grid.tsx"
+    },
+    {
+      "id": "526:1773",
+      "name": "shared-list/grid",
+      "slug": "shared-list-grid",
+      "contextFile": "context/components/shared-list-grid.tsx"
+    },
+    {
+      "id": "526:1637",
+      "name": "shared-list/grid-content",
+      "slug": "shared-list-grid-content",
+      "contextFile": "context/components/shared-list-grid-content.tsx"
+    },
+    {
+      "id": "526:2401",
+      "name": "shared-list/grid-content-header/default",
+      "slug": "shared-list-grid-content-header-default",
+      "contextFile": "context/components/shared-list-grid-content-header-default.tsx"
+    },
+    {
+      "id": "539:5032",
+      "name": "shared-list/grid-content-header/wide",
+      "slug": "shared-list-grid-content-header-wide",
+      "contextFile": "context/components/shared-list-grid-content-header-wide.tsx"
+    },
+    {
+      "id": "537:4910",
+      "name": "add-wish/add-books/searching",
+      "slug": "add-wish-add-books-searching",
+      "contextFile": "context/components/add-wish-add-books-searching.tsx"
+    },
+    {
+      "id": "537:4929",
+      "name": "add-wish/add-books/selected",
+      "slug": "add-wish-add-books-selected",
+      "contextFile": "context/components/add-wish-add-books-selected.tsx"
+    },
+    {
+      "id": "537:4855",
+      "name": "add-wish/add-books/default",
+      "slug": "add-wish-add-books-default",
+      "contextFile": "context/components/add-wish-add-books-default.tsx"
+    }
+  ],
+  "buttonVariants": [
+    {
+      "id": "603:1599",
+      "name": "button/primary/add"
+    },
+    {
+      "id": "603:1604",
+      "name": "button/primary/change"
+    },
+    {
+      "id": "603:1609",
+      "name": "button/primary/save-country"
+    },
+    {
+      "id": "603:1614",
+      "name": "button/primary/save-theme"
+    },
+    {
+      "id": "603:1619",
+      "name": "button/primary/save-formats"
+    },
+    {
+      "id": "603:1624",
+      "name": "button/primary/save-threshold"
+    },
+    {
+      "id": "603:1629",
+      "name": "button/primary/save-languages"
+    },
+    {
+      "id": "603:1634",
+      "name": "button/primary/download-data"
+    },
+    {
+      "id": "603:1639",
+      "name": "button/primary/save"
+    },
+    {
+      "id": "603:1644",
+      "name": "button/primary/detail"
+    },
+    {
+      "id": "603:1649",
+      "name": "button/primary/or-browse-files"
+    },
+    {
+      "id": "603:1654",
+      "name": "button/primary/confirm-match"
+    },
+    {
+      "id": "603:1659",
+      "name": "button/primary/fetch-quotes"
+    },
+    {
+      "id": "603:1664",
+      "name": "button/primary/import-csv"
+    },
+    {
+      "id": "603:1675",
+      "name": "button/secondary/unwatch"
+    },
+    {
+      "id": "603:1680",
+      "name": "button/secondary/skip-row"
+    },
+    {
+      "id": "603:1685",
+      "name": "button/secondary/download-skipped-rows-csv"
+    },
+    {
+      "id": "603:1690",
+      "name": "button/secondary/cancel"
+    },
+    {
+      "id": "603:1696",
+      "name": "button/destructive/delete-account"
+    },
+    {
+      "id": "603:1701",
+      "name": "button/destructive/delete-from-wishes"
+    },
+    {
+      "id": "603:1706",
+      "name": "button/destructive/delete"
+    }
+  ],
+  "icons": [
+    {
+      "id": "385:1020",
+      "name": "icon/user"
+    },
+    {
+      "id": "385:1012",
+      "name": "icon/x"
+    },
+    {
+      "id": "405:962",
+      "name": "icon/used-book"
+    },
+    {
+      "id": "453:968",
+      "name": "icon/download"
+    },
+    {
+      "id": "464:78",
+      "name": "icon/equal"
+    },
+    {
+      "id": "464:76",
+      "name": "icon/arrow-up"
+    },
+    {
+      "id": "464:74",
+      "name": "icon/arrow-down"
+    },
+    {
+      "id": "453:976",
+      "name": "icon/cloud-arrow-up"
+    },
+    {
+      "id": "489:4562",
+      "name": "icon/trash"
+    },
+    {
+      "id": "370:2297",
+      "name": "icon/piggy-bank"
+    },
+    {
+      "id": "385:1000",
+      "name": "icon/star"
+    },
+    {
+      "id": "385:1036",
+      "name": "icon/smiley-melting"
+    },
+    {
+      "id": "385:1032",
+      "name": "icon/smiley-x-eyes"
+    },
+    {
+      "id": "385:1040",
+      "name": "icon/smiley-blank"
+    },
+    {
+      "id": "385:992",
+      "name": "icon/sign-out"
+    },
+    {
+      "id": "608:982",
+      "name": "icon/pencil-line"
+    },
+    {
+      "id": "385:976",
+      "name": "icon/sun"
+    },
+    {
+      "id": "385:1028",
+      "name": "icon/recycle"
+    },
+    {
+      "id": "437:2217",
+      "name": "icon/plus"
+    },
+    {
+      "id": "385:980",
+      "name": "icon/moon"
+    },
+    {
+      "id": "376:2212",
+      "name": "icon/eye-closed"
+    },
+    {
+      "id": "405:959",
+      "name": "icon/eye"
+    },
+    {
+      "id": "439:1639",
+      "name": "icon/external-link"
+    },
+    {
+      "id": "385:1004",
+      "name": "icon/dots-six-vertical"
+    },
+    {
+      "id": "385:1016",
+      "name": "icon/check"
+    },
+    {
+      "id": "385:996",
+      "name": "icon/caret-down"
+    },
+    {
+      "id": "385:988",
+      "name": "icon/bell"
+    },
+    {
+      "id": "385:1024",
+      "name": "icon/book"
+    },
+    {
+      "id": "385:1008",
+      "name": "icon/barcode"
+    },
+    {
+      "id": "439:1641",
+      "name": "button/row/pencil-line"
+    }
+  ],
+  "notes": [
+    {
+      "id": "338:1037",
+      "name": "Notes",
+      "contains": [
+        "Behavior Notes (338:1039)",
+        "AI Design Handoff Prompt (629:7274)"
+      ]
+    }
+  ],
+  "outputPaths": {
+    "screenshot": "design/screenshots/<section>/<slug>-<theme>.png",
+    "context": "design/context/<section>/<slug>-<theme>.tsx",
+    "contextAssets": "design/context/<section>/<slug>-<theme>.assets.json",
+    "assets": "design/assets/<icons|logos|images|exports>/..."
+  },
+  "coverage": {
+    "screens": {
+      "screenshots": "all 62 (light + dark, native 1280px resolution)",
+      "designContextCode": [
+        "context/my-wishes/my-wishes-default-light.tsx"
+      ],
+      "note": "Per-screen design-context code was exported for one representative screen only. For all other screens, compose from the component contexts, the node geometry in metadata/page-final.xml, and the screenshots."
+    },
+    "components": {
+      "designContextCode": "all groups (dedicated file or embedded in a sibling context)",
+      "icons": "all 31 icon symbols as named SVGs in assets/icons",
+      "buttonVariants": "all 21 as PNG exports in assets/exports"
+    },
+    "motion": "not exportable via MCP (requires a live selection in the Figma desktop app); the design is static - interaction behavior is specified in notes/behavior-notes.md",
+    "codeConnect": "not available on the current Figma plan; no mappings exist",
+    "libraries": "only public community kits were subscribed to the file; nothing custom to export"
+  }
+}

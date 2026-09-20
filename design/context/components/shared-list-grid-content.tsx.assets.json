@@ -1,0 +1,9 @@
+{
+	"node": "shared-list-grid-content.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/38bed912-08a0-49cc-baa8-df90b9ad3d21/8c47f.svg": "../../assets/exports/shared-list-grid-content/8c47f.svg",
+		"https://www.figma.com/api/mcp/asset/38bed912-08a0-49cc-baa8-df90b9ad3d21/40ca8.svg": "../../assets/exports/shared-list-grid-content/40ca8.svg",
+		"https://www.figma.com/api/mcp/asset/38bed912-08a0-49cc-baa8-df90b9ad3d21/07b22.svg": "../../assets/exports/shared-list-grid-content/07b22.svg",
+		"https://www.figma.com/api/mcp/asset/38bed912-08a0-49cc-baa8-df90b9ad3d21/1b9f9.svg": "../../assets/exports/shared-list-grid-content/1b9f9.svg"
+	}
+}

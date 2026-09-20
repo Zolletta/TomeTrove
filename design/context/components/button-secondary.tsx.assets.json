@@ -1,0 +1,9 @@
+{
+	"node": "button-secondary.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/3cebaf72-71aa-4bc8-a113-c0d532eeae90/40ca8.svg": "../../assets/exports/button-secondary/40ca8.svg",
+		"https://www.figma.com/api/mcp/asset/3cebaf72-71aa-4bc8-a113-c0d532eeae90/2f340.svg": "../../assets/exports/button-secondary/2f340.svg",
+		"https://www.figma.com/api/mcp/asset/3cebaf72-71aa-4bc8-a113-c0d532eeae90/de571.svg": "../../assets/exports/button-secondary/de571.svg",
+		"https://www.figma.com/api/mcp/asset/3cebaf72-71aa-4bc8-a113-c0d532eeae90/7c98a.svg": "../../assets/exports/button-secondary/7c98a.svg"
+	}
+}

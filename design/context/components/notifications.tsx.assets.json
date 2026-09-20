@@ -1,0 +1,7 @@
+{
+	"node": "notifications.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/7f04c58b-da52-4365-9d35-ca462641c822/28e77.svg": "../../assets/exports/notifications/28e77.svg",
+		"https://www.figma.com/api/mcp/asset/7f04c58b-da52-4365-9d35-ca462641c822/67fd2.svg": "../../assets/exports/notifications/67fd2.svg"
+	}
+}

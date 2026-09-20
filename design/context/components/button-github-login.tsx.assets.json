@@ -1,0 +1,6 @@
+{
+	"node": "button-github-login.tsx",
+	"assets": {
+		"https://www.figma.com/api/mcp/asset/114c3755-42f2-4fdf-8bd8-b736c547c1dd/bd05f.svg": "../../assets/exports/button-github-login/bd05f.svg"
+	}
+}
