@@ -14,6 +14,7 @@ The design maps to the [feature inventory](../docs/contributor/ux/features.md) a
 | `notes/behavior-notes.md` | The authoritative interaction spec for every component (listing states, search logic, autocomplete, alerts, preferences, grid, wish detail) |
 | `notes/ai-design-handoff-prompt.md` | The complete handoff prompt the design was produced from: product summary, information architecture, all 29 screens, data-model context |
 | `screenshots/<section>/` | All 62 screens (light + dark) at native 1280px resolution |
+| `screenshots/components/` | Visual reference for all 54 design-system component groups — every state variant (button default/hover/disabled with its icon, logos light + dark, form states, notification types, header/footer, and so on) |
 | `context/components/` | Reference code for every design-system component (see "How to use the context code" below) |
 | `context/my-wishes/` | Reference code for a representative full screen (`my-wishes-default-light`) |
 | `assets/icons/` | All 31 icon symbols as named SVGs (`user.svg`, `bell.svg`, …) |

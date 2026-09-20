@@ -36,6 +36,14 @@ for (const s of manifest.screens) {
   }
 }
 
+// 1b. screenshots for every component group that declares one
+for (const g of manifest.componentGroups) {
+  if (!g.screenshot) continue;
+  const shot = join(root, g.screenshot);
+  if (!existsSync(shot)) errors.push(`missing component screenshot: ${shot}`);
+  else if (statSync(shot).size === 0) errors.push(`empty component screenshot: ${shot}`);
+}
+
 // 2-4. context files and assets
 // note: .assets.json files intentionally keep the original Figma URL as the mapping key (provenance);
 // the "no dangling URL" check therefore only applies to code files (.tsx) and docs (.md)
@@ -69,9 +77,10 @@ for (const f of readdirSync(iconDir)) {
 
 // summary counts
 const shots = walk(join(root, "screenshots")).filter((f) => f.endsWith(".png")).length;
+const contextsWithShot = manifest.componentGroups.filter((g) => g.screenshot).length;
 const contexts = walk(join(root, "context")).filter((f) => f.endsWith(".tsx")).length;
 const svgs = walk(join(root, "assets")).filter((f) => f.endsWith(".svg")).length;
-console.log(`screenshots: ${shots}/62`);
+console.log(`screenshots: ${shots} (${manifest.screens.length} screens + ${contextsWithShot} component groups)`);
 console.log(`context files: ${contexts}`);
 console.log(`svg assets: ${svgs}`);
 

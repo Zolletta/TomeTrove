@@ -447,7 +447,8 @@
     {
       "id": "539:4590",
       "name": "components",
-      "kind": "design-system"
+      "kind": "design-system",
+      "screenshotDirectory": "screenshots/components"
     },
     {
       "id": "499:4229",
@@ -510,325 +511,379 @@
       "id": "185:565",
       "name": "form/checkbox",
       "slug": "form-checkbox",
-      "contextFile": "context/components/form-checkbox.tsx"
+      "contextFile": "context/components/form-checkbox.tsx",
+      "screenshot": "screenshots/components/form-checkbox.png"
     },
     {
       "id": "185:573",
       "name": "form/radio",
       "slug": "form-radio",
-      "contextFile": "context/components/form-radio.tsx"
+      "contextFile": "context/components/form-radio.tsx",
+      "screenshot": "screenshots/components/form-radio.png"
     },
     {
       "id": "190:176",
       "name": "form/slider",
       "slug": "form-slider",
-      "contextFile": "context/components/form-slider.tsx"
+      "contextFile": "context/components/form-slider.tsx",
+      "screenshot": "screenshots/components/form-slider.png"
     },
     {
       "id": "185:474",
       "name": "form/select",
       "slug": "form-select",
-      "contextFile": "context/components/form-select.tsx"
+      "contextFile": "context/components/form-select.tsx",
+      "screenshot": "screenshots/components/form-select.png"
     },
     {
       "id": "185:157",
       "name": "form/textarea",
       "slug": "form-textarea",
-      "contextFile": "context/components/form-textarea.tsx"
+      "contextFile": "context/components/form-textarea.tsx",
+      "screenshot": "screenshots/components/form-textarea.png"
     },
     {
       "id": "190:186",
       "name": "form/date-picker",
       "slug": "form-date-picker",
-      "contextFile": "context/components/form-date-picker.tsx"
+      "contextFile": "context/components/form-date-picker.tsx",
+      "screenshot": "screenshots/components/form-date-picker.png"
     },
     {
       "id": "185:582",
       "name": "form/toggle",
       "slug": "form-toggle",
-      "contextFile": "context/components/form-toggle.tsx"
+      "contextFile": "context/components/form-toggle.tsx",
+      "screenshot": "screenshots/components/form-toggle.png"
     },
     {
       "id": "185:140",
       "name": "form/input",
       "slug": "form-input",
-      "contextFile": "context/components/form-input.tsx"
+      "contextFile": "context/components/form-input.tsx",
+      "screenshot": "screenshots/components/form-input.png"
     },
     {
       "id": "246:299",
       "name": "form/type-toggle",
       "slug": "form-type-toggle",
-      "contextFile": "context/components/form-type-toggle.tsx"
+      "contextFile": "context/components/form-type-toggle.tsx",
+      "screenshot": "screenshots/components/form-type-toggle.png"
     },
     {
       "id": "341:762",
       "name": "data/no-results",
       "slug": "data-no-results",
-      "contextFile": "context/components/data-no-results.tsx"
+      "contextFile": "context/components/data-no-results.tsx",
+      "screenshot": "screenshots/components/data-no-results.png"
     },
     {
       "id": "341:772",
       "name": "data/empty-list",
       "slug": "data-empty-list",
-      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx (also embedded in screens)"
+      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx (also embedded in screens)",
+      "screenshot": "screenshots/components/data-empty-list.png"
     },
     {
       "id": "357:1559",
       "name": "data/loading",
       "slug": "data-loading",
-      "contextFile": "context/components/data-loading.tsx"
+      "contextFile": "context/components/data-loading.tsx",
+      "screenshot": "screenshots/components/data-loading.png"
     },
     {
       "id": "185:554",
       "name": "scrollbar",
       "slug": "scrollbar",
-      "coveredBy": "context/components/form-select.tsx (scrollbar node inside dropdown)"
+      "coveredBy": "context/components/form-select.tsx (scrollbar node inside dropdown)",
+      "screenshot": "screenshots/components/scrollbar.png"
     },
     {
       "id": "247:857",
       "name": "notifications",
       "slug": "notifications",
-      "contextFile": "context/components/notifications.tsx"
+      "contextFile": "context/components/notifications.tsx",
+      "screenshot": "screenshots/components/notifications.png"
     },
     {
       "id": "317:318",
       "name": "footer/navigation",
       "slug": "footer-navigation",
-      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx (Footer includes footer/navigation)"
+      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx (Footer includes footer/navigation)",
+      "screenshot": "screenshots/components/footer-navigation.png"
     },
     {
       "id": "187:779",
       "name": "footer",
       "slug": "footer",
-      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx"
+      "coveredBy": "context/my-wishes/my-wishes-default-light.tsx",
+      "screenshot": "screenshots/components/footer.png"
     },
     {
       "id": "314:911",
       "name": "navigation-item",
       "slug": "navigation-item",
-      "contextFile": "context/components/navigation-item.tsx"
+      "contextFile": "context/components/navigation-item.tsx",
+      "screenshot": "screenshots/components/navigation-item.png"
     },
     {
       "id": "246:882",
       "name": "header/button/logout",
       "slug": "header-button-logout",
-      "coveredBy": "context/components/header.tsx (HeaderButtonLogout)"
+      "coveredBy": "context/components/header.tsx (HeaderButtonLogout)",
+      "screenshot": "screenshots/components/header-button-logout.png"
     },
     {
       "id": "246:885",
       "name": "header/button/personal-area",
       "slug": "header-button-personal-area",
-      "coveredBy": "context/components/header.tsx (HeaderButtonPersonalArea)"
+      "coveredBy": "context/components/header.tsx (HeaderButtonPersonalArea)",
+      "screenshot": "screenshots/components/header-button-personal-area.png"
     },
     {
       "id": "249:824",
       "name": "header/button/theme-toggle",
       "slug": "header-button-theme-toggle",
-      "coveredBy": "context/components/header.tsx (HeaderButtonThemeToggle)"
+      "coveredBy": "context/components/header.tsx (HeaderButtonThemeToggle)",
+      "screenshot": "screenshots/components/header-button-theme-toggle.png"
     },
     {
       "id": "317:922",
       "name": "header/navigation",
       "slug": "header-navigation",
-      "contextFile": "context/components/header-navigation.tsx"
+      "contextFile": "context/components/header-navigation.tsx",
+      "screenshot": "screenshots/components/header-navigation.png"
     },
     {
       "id": "187:778",
       "name": "header",
       "slug": "header",
-      "contextFile": "context/components/header.tsx"
+      "contextFile": "context/components/header.tsx",
+      "screenshot": "screenshots/components/header.png"
     },
     {
       "id": "187:458",
       "name": "logo/full",
       "slug": "logo-full",
-      "contextFile": "context/components/logo-full.tsx"
+      "contextFile": "context/components/logo-full.tsx",
+      "screenshot": "screenshots/components/logo-full.png"
     },
     {
       "id": "187:489",
       "name": "logo/mark",
       "slug": "logo-mark",
-      "contextFile": "context/components/logo-mark.tsx"
+      "contextFile": "context/components/logo-mark.tsx",
+      "screenshot": "screenshots/components/logo-mark.png"
     },
     {
       "id": "187:500",
       "name": "logo/wordmark",
       "slug": "logo-wordmark",
-      "contextFile": "context/components/logo-wordmark.tsx"
+      "contextFile": "context/components/logo-wordmark.tsx",
+      "screenshot": "screenshots/components/logo-wordmark.png"
     },
     {
       "id": "464:86",
       "name": "badge/quote/down",
       "slug": "badge-quote-down",
-      "contextFile": "context/components/badge-quote-down.tsx"
+      "contextFile": "context/components/badge-quote-down.tsx",
+      "screenshot": "screenshots/components/badge-quote-down.png"
     },
     {
       "id": "464:90",
       "name": "badge/quote/up",
       "slug": "badge-quote-up",
-      "contextFile": "context/components/badge-quote-up.tsx"
+      "contextFile": "context/components/badge-quote-up.tsx",
+      "screenshot": "screenshots/components/badge-quote-up.png"
     },
     {
       "id": "464:94",
       "name": "badge/quote/unchanged",
       "slug": "badge-quote-unchanged",
-      "contextFile": "context/components/badge-quote-unchanged.tsx"
+      "contextFile": "context/components/badge-quote-unchanged.tsx",
+      "screenshot": "screenshots/components/badge-quote-unchanged.png"
     },
     {
       "id": "429:1795",
       "name": "button/github-login",
       "slug": "button-github-login",
-      "contextFile": "context/components/button-github-login.tsx"
+      "contextFile": "context/components/button-github-login.tsx",
+      "screenshot": "screenshots/components/button-github-login.png"
     },
     {
       "id": "246:861",
       "name": "button/close",
       "slug": "button-close",
-      "contextFile": "context/components/button-close.tsx"
+      "contextFile": "context/components/button-close.tsx",
+      "screenshot": "screenshots/components/button-close.png"
     },
     {
       "id": "232:564",
       "name": "button/star",
       "slug": "button-star",
-      "contextFile": "context/components/button-star.tsx"
+      "contextFile": "context/components/button-star.tsx",
+      "screenshot": "screenshots/components/button-star.png"
     },
     {
       "id": "251:364",
       "name": "button/primary",
       "slug": "button-primary",
-      "contextFile": "context/components/button-primary.tsx"
+      "contextFile": "context/components/button-primary.tsx",
+      "screenshot": "screenshots/components/button-primary.png"
     },
     {
       "id": "251:367",
       "name": "button/secondary",
       "slug": "button-secondary",
-      "contextFile": "context/components/button-secondary.tsx"
+      "contextFile": "context/components/button-secondary.tsx",
+      "screenshot": "screenshots/components/button-secondary.png"
     },
     {
       "id": "251:370",
       "name": "button/destructive",
       "slug": "button-destructive",
-      "contextFile": "context/components/button-destructive.tsx"
+      "contextFile": "context/components/button-destructive.tsx",
+      "screenshot": "screenshots/components/button-destructive.png"
     },
     {
       "id": "542:2212",
       "name": "autocomplete/composite",
       "slug": "autocomplete-composite",
-      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)"
+      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)",
+      "screenshot": "screenshots/components/autocomplete-composite.png"
     },
     {
       "id": "227:588",
       "name": "autocomplete/search-field",
       "slug": "autocomplete-search-field",
-      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)"
+      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)",
+      "screenshot": "screenshots/components/autocomplete-search-field.png"
     },
     {
       "id": "227:592",
       "name": "autocomplete/dropdown-panel",
       "slug": "autocomplete-dropdown-panel",
-      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)"
+      "coveredBy": "context/components/add-wish-add-books-searching.tsx (AutocompleteComposite)",
+      "screenshot": "screenshots/components/autocomplete-dropdown-panel.png"
     },
     {
       "id": "317:1030",
       "name": "notification",
       "slug": "notification",
-      "contextFile": "context/components/notification.tsx"
+      "contextFile": "context/components/notification.tsx",
+      "screenshot": "screenshots/components/notification.png"
     },
     {
       "id": "132:298",
       "name": "separator",
       "slug": "separator",
-      "coveredBy": "context/components/shared-list-grid.tsx (Separator)"
+      "coveredBy": "context/components/shared-list-grid.tsx (Separator)",
+      "screenshot": "screenshots/components/separator.png"
     },
     {
       "id": "341:369",
       "name": "grid/column-name",
       "slug": "grid-column-name",
-      "coveredBy": "context/components/shared-list-grid-content-header-default.tsx"
+      "coveredBy": "context/components/shared-list-grid-content-header-default.tsx",
+      "screenshot": "screenshots/components/grid-column-name.png"
     },
     {
       "id": "551:5923",
       "name": "sortable/item",
       "slug": "sortable-item",
-      "contextFile": "context/components/sortable-item.tsx"
+      "contextFile": "context/components/sortable-item.tsx",
+      "screenshot": "screenshots/components/sortable-item.png"
     },
     {
       "id": "341:406",
       "name": "pagination",
       "slug": "pagination",
-      "contextFile": "context/components/pagination.tsx"
+      "contextFile": "context/components/pagination.tsx",
+      "screenshot": "screenshots/components/pagination.png"
     },
     {
       "id": "341:386",
       "name": "pagination/page-list",
       "slug": "pagination-page-list",
-      "coveredBy": "context/components/pagination.tsx"
+      "coveredBy": "context/components/pagination.tsx",
+      "screenshot": "screenshots/components/pagination-page-list.png"
     },
     {
       "id": "341:401",
       "name": "pagination/change-page-size",
       "slug": "pagination-change-page-size",
-      "coveredBy": "context/components/pagination.tsx"
+      "coveredBy": "context/components/pagination.tsx",
+      "screenshot": "screenshots/components/pagination-change-page-size.png"
     },
     {
       "id": "537:3013",
       "name": "shared-list/card/default",
       "slug": "shared-list-card-default",
-      "contextFile": "context/components/shared-list-card-default.tsx"
+      "contextFile": "context/components/shared-list-card-default.tsx",
+      "screenshot": "screenshots/components/shared-list-card-default.png"
     },
     {
       "id": "537:4486",
       "name": "shared-list/card/selected",
       "slug": "shared-list-card-selected",
-      "contextFile": "context/components/shared-list-card-selected.tsx"
+      "contextFile": "context/components/shared-list-card-selected.tsx",
+      "screenshot": "screenshots/components/shared-list-card-selected.png"
     },
     {
       "id": "539:5043",
       "name": "shared-wish/grid",
       "slug": "shared-wish-grid",
-      "contextFile": "context/components/shared-wish-grid.tsx"
+      "contextFile": "context/components/shared-wish-grid.tsx",
+      "screenshot": "screenshots/components/shared-wish-grid.png"
     },
     {
       "id": "526:1773",
       "name": "shared-list/grid",
       "slug": "shared-list-grid",
-      "contextFile": "context/components/shared-list-grid.tsx"
+      "contextFile": "context/components/shared-list-grid.tsx",
+      "screenshot": "screenshots/components/shared-list-grid.png"
     },
     {
       "id": "526:1637",
       "name": "shared-list/grid-content",
       "slug": "shared-list-grid-content",
-      "contextFile": "context/components/shared-list-grid-content.tsx"
+      "contextFile": "context/components/shared-list-grid-content.tsx",
+      "screenshot": "screenshots/components/shared-list-grid-content.png"
     },
     {
       "id": "526:2401",
       "name": "shared-list/grid-content-header/default",
       "slug": "shared-list-grid-content-header-default",
-      "contextFile": "context/components/shared-list-grid-content-header-default.tsx"
+      "contextFile": "context/components/shared-list-grid-content-header-default.tsx",
+      "screenshot": "screenshots/components/shared-list-grid-content-header-default.png"
     },
     {
       "id": "539:5032",
       "name": "shared-list/grid-content-header/wide",
       "slug": "shared-list-grid-content-header-wide",
-      "contextFile": "context/components/shared-list-grid-content-header-wide.tsx"
+      "contextFile": "context/components/shared-list-grid-content-header-wide.tsx",
+      "screenshot": "screenshots/components/shared-list-grid-content-header-wide.png"
     },
     {
       "id": "537:4910",
       "name": "add-wish/add-books/searching",
       "slug": "add-wish-add-books-searching",
-      "contextFile": "context/components/add-wish-add-books-searching.tsx"
+      "contextFile": "context/components/add-wish-add-books-searching.tsx",
+      "screenshot": "screenshots/components/add-wish-add-books-searching.png"
     },
     {
       "id": "537:4929",
       "name": "add-wish/add-books/selected",
       "slug": "add-wish-add-books-selected",
-      "contextFile": "context/components/add-wish-add-books-selected.tsx"
+      "contextFile": "context/components/add-wish-add-books-selected.tsx",
+      "screenshot": "screenshots/components/add-wish-add-books-selected.png"
     },
     {
       "id": "537:4855",
       "name": "add-wish/add-books/default",
       "slug": "add-wish-add-books-default",
-      "contextFile": "context/components/add-wish-add-books-default.tsx"
+      "contextFile": "context/components/add-wish-add-books-default.tsx",
+      "screenshot": "screenshots/components/add-wish-add-books-default.png"
     }
   ],
   "buttonVariants": [
