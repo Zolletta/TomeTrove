@@ -1,4 +1,10 @@
 import { describe, expect, it } from "vitest";
+import {
+	GITHUB_AUTH_URL,
+	GITHUB_OAUTH_SCOPE,
+	OAUTH_STATE_COOKIE_NAME,
+	SESSION_COOKIE_NAME,
+} from "../../src/constants";
 import app from "../../src/index";
 import { authService } from "../../src/services/auth-service";
 import type { AppEnv } from "../../src/types";
@@ -30,7 +36,7 @@ describe("Authentication & Session Infrastructure", () => {
 			expect(parsed.origin).toBe("https://github.com");
 			expect(parsed.pathname).toBe("/login/oauth/authorize");
 			expect(parsed.searchParams.get("client_id")).toBe("client-123");
-			expect(parsed.searchParams.get("scope")).toBe("read:user");
+			expect(parsed.searchParams.get("scope")).toBe(GITHUB_OAUTH_SCOPE);
 			expect(parsed.searchParams.get("state")).toBe("state-abc");
 		});
 
@@ -101,7 +107,7 @@ describe("Authentication & Session Infrastructure", () => {
 				"/api/user/me",
 				{
 					headers: {
-						Cookie: `tometrove_session=${token}`,
+						Cookie: `${SESSION_COOKIE_NAME}=${token}`,
 					},
 				},
 				testEnv,
@@ -127,11 +133,11 @@ describe("Authentication & Session Infrastructure", () => {
 			expect(res.status).toBe(302);
 
 			const location = res.headers.get("Location");
-			expect(location).toContain("https://github.com/login/oauth/authorize");
+			expect(location).toContain(GITHUB_AUTH_URL);
 			expect(location).toContain("client_id=test-github-client-id");
 
 			const setCookie = res.headers.get("Set-Cookie");
-			expect(setCookie).toContain("oauth_state=");
+			expect(setCookie).toContain(`${OAUTH_STATE_COOKIE_NAME}=`);
 			expect(setCookie).toContain("HttpOnly");
 		});
 
@@ -140,7 +146,7 @@ describe("Authentication & Session Infrastructure", () => {
 				"/auth/github/callback?code=test-code&state=wrong-state",
 				{
 					headers: {
-						Cookie: "oauth_state=expected-state",
+						Cookie: `${OAUTH_STATE_COOKIE_NAME}=expected-state`,
 					},
 				},
 				testEnv,
@@ -156,7 +162,7 @@ describe("Authentication & Session Infrastructure", () => {
 				"/auth/github/callback?state=expected-state",
 				{
 					headers: {
-						Cookie: "oauth_state=expected-state",
+						Cookie: `${OAUTH_STATE_COOKIE_NAME}=expected-state`,
 					},
 				},
 				testEnv,
@@ -173,7 +179,7 @@ describe("Authentication & Session Infrastructure", () => {
 			expect(res.headers.get("Location")).toBe("/");
 
 			const setCookie = res.headers.get("Set-Cookie");
-			expect(setCookie).toContain("tometrove_session=");
+			expect(setCookie).toContain(`${SESSION_COOKIE_NAME}=`);
 			expect(setCookie).toContain("HttpOnly");
 		});
 
@@ -183,7 +189,7 @@ describe("Authentication & Session Infrastructure", () => {
 				{
 					method: "POST",
 					headers: {
-						Cookie: "tometrove_session=existing-session-token",
+						Cookie: `${SESSION_COOKIE_NAME}=existing-session-token`,
 					},
 				},
 				testEnv,
@@ -191,7 +197,7 @@ describe("Authentication & Session Infrastructure", () => {
 
 			expect(res.status).toBe(204);
 			const setCookie = res.headers.get("Set-Cookie");
-			expect(setCookie).toContain("tometrove_session=;");
+			expect(setCookie).toContain(`${SESSION_COOKIE_NAME}=;`);
 			expect(setCookie).toContain("Max-Age=0");
 		});
 	});
