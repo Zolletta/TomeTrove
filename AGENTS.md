@@ -9,3 +9,12 @@ STOP. Before you start, identify which guide applies to your task and read it fi
 - **Working on UX (maybe with Figma), features, or user journeys?** Read the [feature inventory](docs/contributor/ux/features.md) and [user journeys](docs/contributor/ux/user-journeys/index.md) — all planned features with their UI type, container, and the flows that connect them. The complete UI design export (screenshots, component code, tokens, interaction specs) lives in [`design/`](design/README.md) — start from `design/README.md`.
 
 If your task spans more than one area, read all the relevant guides.
+
+## Just-In-Time (JIT) Planning
+
+TomeTrove follows a Just-In-Time (JIT) planning philosophy for issue implementation:
+
+- **No upfront batch-planning**: Do not write implementation plans for future issues in advance. Architectural insights and runtime lessons from active issues refine downstream tasks. Plan an issue only when work on it begins.
+- **Plan before code**: Before writing code for an issue, formulate a concrete, step-by-step implementation plan detailing the exact files to create or edit, Drizzle/Zod schemas, method signatures, edge cases, and test specifications.
+- **Human review gate**: Obtain human approval on the plan before implementation starts. Attach the approved plan to the GitHub issue or maintain it as a `PLAN-<issue>.md` on the working branch.
+
