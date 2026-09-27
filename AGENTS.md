@@ -18,3 +18,10 @@ TomeTrove follows a Just-In-Time (JIT) planning philosophy for issue implementat
 - **Plan before code**: Before writing code for an issue, formulate a concrete, step-by-step implementation plan detailing the exact files to create or edit, Drizzle/Zod schemas, method signatures, edge cases, and test specifications.
 - **Human review gate**: Obtain human approval on the plan before implementation starts. Attach the approved plan to the GitHub issue or maintain it as a `PLAN-<issue>.md` on the working branch.
 
+## Development & Branch Workflow
+
+- **Branch per issue**: For every issue, create a dedicated feature branch starting from `main` (e.g. `<issue-number>-<slug>`). Never commit or push feature implementation directly to `main`.
+- **Work locally**: Implement and verify all changes locally on the branch using `wrangler dev`, `vitest`, `tsc`, and `biome`.
+- **Pull Request workflow**: Push the branch to GitHub and create a Pull Request against `main` that references the issue (e.g. `Closes #<number>`). Merge to `main` only through approved PRs.
+
+
