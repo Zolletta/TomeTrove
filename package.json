@@ -2,19 +2,35 @@
   "name": "tometrove",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "start": "wrangler dev",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "check": "biome check --write"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
     "@types/node": "^26.2.0",
     "typescript": "^5.5.2",
-    "wrangler": "^4.125.0"
+    "vitest": "^5.0.2",
+    "wrangler": "^4.142.0"
   },
   "dependencies": {
-    "@tidbcloud/serverless": "^0.3.0"
+    "@hono/zod-validator": "^0.9.1",
+    "@tidbcloud/serverless": "^0.3.0",
+    "hono": "^4.13.9",
+    "zod": "^4.6.5"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "esbuild@0.28.1": true,
+    "workerd@1.20260926.1": true,
+    "workerd@1.20260815.1": true
   }
 }

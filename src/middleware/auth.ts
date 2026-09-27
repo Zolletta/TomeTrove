@@ -1,0 +1,54 @@
+import type { MiddlewareHandler } from "hono";
+import { getCookie } from "hono/cookie";
+import { authService } from "../services/auth-service";
+import type { AppEnv, SessionPayload } from "../types/auth";
+
+export interface AuthEnv {
+	Bindings: AppEnv;
+	Variables: {
+		userId: string;
+		user: SessionPayload;
+	};
+}
+
+/**
+ * Authentication middleware for protecting endpoints under `/api/*`.
+ * Extracts session JWT from either `tometrove_session` cookie or `Authorization: Bearer` header.
+ * Attaches validated `userId` and `user` payload to the Hono request context.
+ */
+export const authMiddleware: MiddlewareHandler<AuthEnv> = async (c, next) => {
+	const cookieToken = getCookie(c, "tometrove_session");
+	const authHeader = c.req.header("Authorization");
+	const bearerToken = authHeader?.startsWith("Bearer ")
+		? authHeader.slice(7).trim()
+		: null;
+	const token = cookieToken || bearerToken;
+
+	if (!token) {
+		return c.json(
+			{ error: "unauthorized", message: "Authentication required" },
+			401,
+		);
+	}
+
+	const secret = c.env.JWT_SECRET;
+	if (!secret) {
+		return c.json(
+			{ error: "internal_error", message: "JWT secret is not configured" },
+			500,
+		);
+	}
+
+	const session = await authService.verifySessionToken(token, secret);
+	if (!session) {
+		return c.json(
+			{ error: "unauthorized", message: "Invalid or expired session token" },
+			401,
+		);
+	}
+
+	c.set("userId", session.sub);
+	c.set("user", session);
+
+	await next();
+};
