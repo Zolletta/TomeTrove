@@ -1,4 +1,13 @@
 import { sign, verify } from "hono/jwt";
+import {
+	APP_USER_AGENT,
+	GITHUB_AUTH_URL,
+	GITHUB_OAUTH_SCOPE,
+	GITHUB_TOKEN_URL,
+	GITHUB_USER_URL,
+	JWT_ALGORITHM,
+	SESSION_COOKIE_MAX_AGE_SECONDS,
+} from "../constants";
 import type { GitHubUser, SessionPayload } from "../types";
 
 /**
@@ -16,11 +25,11 @@ export class AuthService {
 		redirectUri: string,
 		state: string,
 	): string => {
-		const url = new URL("https://github.com/login/oauth/authorize");
+		const url = new URL(GITHUB_AUTH_URL);
 		url.searchParams.set("client_id", clientId);
 		url.searchParams.set("redirect_uri", redirectUri);
 		url.searchParams.set("state", state);
-		url.searchParams.set("scope", "read:user");
+		url.searchParams.set("scope", GITHUB_OAUTH_SCOPE);
 		url.searchParams.set("allow_signup", "true");
 		return url.toString();
 	};
@@ -34,23 +43,20 @@ export class AuthService {
 		clientSecret: string,
 		redirectUri: string,
 	): Promise<string> => {
-		const response = await fetch(
-			"https://github.com/login/oauth/access_token",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-					"User-Agent": "TomeTrove-Workers",
-				},
-				body: JSON.stringify({
-					client_id: clientId,
-					client_secret: clientSecret,
-					code,
-					redirect_uri: redirectUri,
-				}),
+		const response = await fetch(GITHUB_TOKEN_URL, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+				"User-Agent": APP_USER_AGENT,
 			},
-		);
+			body: JSON.stringify({
+				client_id: clientId,
+				client_secret: clientSecret,
+				code,
+				redirect_uri: redirectUri,
+			}),
+		});
 
 		if (!response.ok) {
 			throw new Error(
@@ -79,11 +85,11 @@ export class AuthService {
 	 * Per PRIVACY.md, email, name, and profile metadata are discarded immediately.
 	 */
 	fetchGitHubUser = async (accessToken: string): Promise<GitHubUser> => {
-		const response = await fetch("https://api.github.com/user", {
+		const response = await fetch(GITHUB_USER_URL, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 				Accept: "application/vnd.github.v3+json",
-				"User-Agent": "TomeTrove-Workers",
+				"User-Agent": APP_USER_AGENT,
 			},
 		});
 
@@ -108,7 +114,7 @@ export class AuthService {
 		userId: string,
 		githubId: number,
 		secret: string,
-		expiresInSeconds: number = 60 * 60 * 24 * 7,
+		expiresInSeconds: number = SESSION_COOKIE_MAX_AGE_SECONDS,
 	): Promise<string> => {
 		const now = Math.floor(Date.now() / 1000);
 		const payload: SessionPayload = {
@@ -118,7 +124,11 @@ export class AuthService {
 			exp: now + expiresInSeconds,
 		};
 
-		return await sign(payload as unknown as Record<string, unknown>, secret);
+		return await sign(
+			payload as unknown as Record<string, unknown>,
+			secret,
+			JWT_ALGORITHM,
+		);
 	};
 
 	/**
@@ -132,7 +142,7 @@ export class AuthService {
 			const decoded = (await verify(
 				token,
 				secret,
-				"HS256",
+				JWT_ALGORITHM,
 			)) as unknown as Partial<SessionPayload>;
 			const now = Math.floor(Date.now() / 1000);
 

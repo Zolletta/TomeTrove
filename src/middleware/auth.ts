@@ -1,5 +1,6 @@
 import type { MiddlewareHandler } from "hono";
 import { getCookie } from "hono/cookie";
+import { SESSION_COOKIE_NAME } from "../constants";
 import { authService } from "../services/auth-service";
 import type { AuthEnv } from "../types";
 
@@ -9,7 +10,7 @@ import type { AuthEnv } from "../types";
  * Attaches validated `userId` and `user` payload to the Hono request context.
  */
 export const authMiddleware: MiddlewareHandler<AuthEnv> = async (c, next) => {
-	const cookieToken = getCookie(c, "tometrove_session");
+	const cookieToken = getCookie(c, SESSION_COOKIE_NAME);
 	const authHeader = c.req.header("Authorization");
 	const bearerToken = authHeader?.startsWith("Bearer ")
 		? authHeader.slice(7).trim()

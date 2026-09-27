@@ -1,5 +1,11 @@
 import { Hono } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
+import {
+	OAUTH_STATE_COOKIE_MAX_AGE_SECONDS,
+	OAUTH_STATE_COOKIE_NAME,
+	SESSION_COOKIE_MAX_AGE_SECONDS,
+	SESSION_COOKIE_NAME,
+} from "../constants";
 import { authService } from "../services/auth-service";
 import type { AppEnv } from "../types";
 
@@ -25,12 +31,12 @@ authRouter.get("/github", (c) => {
 	const redirectUri = `${origin}/auth/github/callback`;
 	const state = crypto.randomUUID();
 
-	setCookie(c, "oauth_state", state, {
+	setCookie(c, OAUTH_STATE_COOKIE_NAME, state, {
 		path: "/",
 		httpOnly: true,
 		secure: c.req.url.startsWith("https"),
 		sameSite: "Lax",
-		maxAge: 600, // 10 minutes
+		maxAge: OAUTH_STATE_COOKIE_MAX_AGE_SECONDS,
 	});
 
 	const authUrl = authService.generateAuthUrl(clientId, redirectUri, state);
@@ -44,9 +50,9 @@ authRouter.get("/github", (c) => {
 authRouter.get("/github/callback", async (c) => {
 	const code = c.req.query("code");
 	const state = c.req.query("state");
-	const expectedState = getCookie(c, "oauth_state");
+	const expectedState = getCookie(c, OAUTH_STATE_COOKIE_NAME);
 
-	deleteCookie(c, "oauth_state", { path: "/" });
+	deleteCookie(c, OAUTH_STATE_COOKIE_NAME, { path: "/" });
 
 	if (!state || !expectedState || state !== expectedState) {
 		return c.json(
@@ -95,12 +101,12 @@ authRouter.get("/github/callback", async (c) => {
 			jwtSecret,
 		);
 
-		setCookie(c, "tometrove_session", sessionToken, {
+		setCookie(c, SESSION_COOKIE_NAME, sessionToken, {
 			path: "/",
 			httpOnly: true,
 			secure: c.req.url.startsWith("https"),
 			sameSite: "Lax",
-			maxAge: 60 * 60 * 24 * 7, // 7 days
+			maxAge: SESSION_COOKIE_MAX_AGE_SECONDS,
 		});
 
 		return c.redirect("/", 302);
@@ -115,7 +121,7 @@ authRouter.get("/github/callback", async (c) => {
  * Logs out the current user by clearing the session cookie.
  */
 authRouter.post("/logout", (c) => {
-	deleteCookie(c, "tometrove_session", { path: "/" });
+	deleteCookie(c, SESSION_COOKIE_NAME, { path: "/" });
 	return c.body(null, 204);
 });
 
@@ -144,12 +150,12 @@ authRouter.get("/dev-login", async (c) => {
 		jwtSecret,
 	);
 
-	setCookie(c, "tometrove_session", sessionToken, {
+	setCookie(c, SESSION_COOKIE_NAME, sessionToken, {
 		path: "/",
 		httpOnly: true,
 		secure: false,
 		sameSite: "Lax",
-		maxAge: 60 * 60 * 24 * 7,
+		maxAge: SESSION_COOKIE_MAX_AGE_SECONDS,
 	});
 
 	if (c.req.header("Accept")?.includes("application/json")) {
