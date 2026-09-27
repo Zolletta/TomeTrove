@@ -183,3 +183,6 @@ restart-mkdocs.sh
 
 # macOS
 .DS_Store
+
+# JIT implementation plans
+plans/
