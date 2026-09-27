@@ -23,6 +23,7 @@ Constraints:
 - **Plural route prefixes for collections**: `/api/books`, `/api/authors`, `/api/wishes`. `GET /api/books` lists books; `GET /api/books/:id` returns one book. The `:id` disambiguates list vs. single.
 - **Singular route prefixes for singletons**: `/api/user/preferences` (one per user). No `:id` — the resource is scoped to the authenticated user.
 - **Search is a query param on the list endpoint**: `GET /api/books?q=hamlet`, `GET /api/authors?q=poe`. Same endpoint for listing and searching — search is just a filter.
+- **Mutation verbs**: `POST` creates resources or triggers actions on sub-resources; `PATCH` applies partial updates to an existing resource (e.g. updating one or more preference fields in `/api/user/preferences`); `PUT` replaces a resource in its entirety; `DELETE` removes a resource.
 - **Non-CRUD actions are POST to a sub-resource**: `POST /api/editions/:id/prices` (on-demand fetch), `POST /api/wishes/import` (CSV import). Actions are modeled as creates on a sub-resource.
 - **Child resources are nested under their parent**: editions under books, price quotes under editions. Direct lookup by ID is also supported via a flat route when the parent ID is not needed.
 
@@ -71,7 +72,7 @@ Since the UI consumes only these endpoints, response shapes must be consistent a
   - Changing `per_page` resets to the first page — cursor positions are relative to the page size, so a different `per_page` invalidates the current cursor. The `first` link uses the new `per_page` value.
   - The UI follows these links — it does not construct URLs or know cursor encoding.
   - No total count — the UI shows "first/prev/next/last" navigation, not "page 2 of 10". This avoids the expensive `COUNT(*)` query on large tables.
-- **Errors**: a JSON object with `error` (machine-readable code) and `message` (human-readable) (e.g. `{ "error": "not_found", "message": "Book not found" }`). HTTP status code matches the error (400, 404, 409, 500).
+- **Errors**: a JSON object with `error` (machine-readable code), `message` (human-readable), and an optional `issues` array for field-level validation errors (e.g. `{ "error": "validation_error", "message": "Invalid request payload", "issues": [{ "field": "alert_threshold", "message": "Must be an integer between 1 and 100" }] }`). HTTP status code matches the error (400 for validation errors, 401 for unauthorized, 404 for not found, 409 for conflicts, 500 for internal errors).
 - **Empty mutations**: `204 No Content` for DELETE and PATCH that don't return a body.
 - **Created resources**: `201 Created` with the resource body.
 
@@ -83,21 +84,29 @@ Cursor pagination is used uniformly on all list endpoints for consistency, even 
 
 The ontology tree (`GET /api/ontology`) is an exception — it returns the full tree for a (type, genre) pair, not paginated. The tree is small (hundreds of nodes) and is rendered client-side as a whole.
 
-### Route organization
+### Route organization and validation
 
-Each business object gets its own route file under `src/routes/`, exporting a Hono instance with its routes. The main app composes them:
+Each business object gets its own route file under `src/routes/`, exporting a Hono instance with its routes. Input validation is performed at the route boundary using [Zod](https://zod.dev/) schemas with `@hono/zod-validator`. Validated data is retrieved via `c.req.valid()` and passed directly to service methods, preventing untyped or malformed data from reaching the service and database layers.
 
 ```typescript
 // src/routes/books.ts — pseudocode, see ADR 0012 for method binding conventions
 import { Hono } from "hono";
+import { zValidator } from "@hono/zod-validator";
+import { z } from "zod";
 import { bookService } from "../services/book-service";
 
 export const books = new Hono();
 
-books.get("/", (c) => bookService.list(c.req.query("q"), c.req.param()));
-books.post("/", (c) => bookService.create(c.req.json()));
+const createBookSchema = z.object({
+    original_title: z.string().min(1),
+    original_language_id: z.string().length(2),
+    type_id: z.number().int().positive(),
+});
+
+books.get("/", (c) => bookService.list(c.req.query("q")));
+books.post("/", zValidator("json", createBookSchema), (c) => bookService.create(c.req.valid("json")));
 books.get("/:id", (c) => bookService.get(c.req.param("id")));
-books.put("/:id", (c) => bookService.update(c.req.param("id"), c.req.json()));
+books.patch("/:id", zValidator("json", createBookSchema.partial()), (c) => bookService.update(c.req.param("id"), c.req.valid("json")));
 books.delete("/:id", (c) => bookService.delete(c.req.param("id")));
 ```
 
@@ -127,6 +136,6 @@ Hono's middleware chain handles cross-cutting concerns:
 
 ## Consequences
 
-- **Positive**: Hono is the de-facto Workers router — well-documented, TS-first, large ecosystem; route groups per business object keep the codebase organized — each resource is a self-contained file; path parameters with type inference reduce boilerplate; middleware chain handles auth, error handling, and logging uniformly; the REST conventions (plural collections, singular singletons, query-param search, POST-to-sub-resource actions) are standard and predictable; search reuses the list endpoint — no extra routes; non-CRUD actions are RESTful (POST to sub-resource).
+- **Positive**: Hono is the de-facto Workers router — well-documented, TS-first, large ecosystem; route groups per business object keep the codebase organized — each resource is a self-contained file; path parameters with type inference reduce boilerplate; middleware chain handles auth, error handling, and logging uniformly; the REST conventions (plural collections, singular singletons, query-param search, POST-to-sub-resource actions, PATCH for partial updates) are standard and predictable; search reuses the list endpoint — no extra routes; non-CRUD actions are RESTful (POST to sub-resource); schema validation with Zod guarantees sanitized, runtime-validated inputs before service execution; field-level error reporting via `issues` provides precise feedback for UI forms.
 - **Negative**: a dependency on Hono — but it's tiny, Workers-native, and widely used; the number of route files grows with the number of business objects (acceptable — each is small and self-contained); nested routes (editions under books, price quotes under editions) require careful path parameter handling.
 - **Neutral**: the frontend is a multi-page application consuming these REST endpoints ([ADR 0007](0007-frontend-delivery.md)) — Hono serves the API, static assets serve the HTML pages; the public list endpoint (`GET /api/lists/:token`) bypasses auth middleware — this is an explicit exception, not a gap.

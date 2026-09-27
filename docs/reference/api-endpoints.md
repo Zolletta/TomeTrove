@@ -7,6 +7,7 @@ This is the canonical list of TomeTrove's REST API endpoints. For the routing ar
 - **Plural route prefixes for collections**: `/api/books`, `/api/wishes`. `GET /api/books` lists; `GET /api/books/:id` returns one.
 - **Singular route prefixes for singletons**: `/api/user/preferences` — scoped to the authenticated user, no `:id`.
 - **Search is a query param on the list endpoint**: `GET /api/books?q=hamlet`. Same endpoint for listing and searching.
+- **Mutation verbs**: `PATCH` for partial resource updates (e.g. updating one or more preference settings); `PUT` for complete resource replacement; `POST` for creates and sub-resource actions; `DELETE` for removal.
 - **Non-CRUD actions are POST to a sub-resource**: `POST /api/editions/:id/prices` (on-demand fetch), `POST /api/wishes/import` (CSV import).
 - **Child resources nested under their parent**: editions under books, price quotes under editions.
 - **Cursor-based pagination** on all list endpoints, with HATEOAS `_links` (`self`, `first`, `prev`, `next`, `last`). No total count.
@@ -27,7 +28,7 @@ This is the canonical list of TomeTrove's REST API endpoints. For the routing ar
 | Route                                 | Method | Purpose                                                            | Auth | Source                                              |
 |---------------------------------------|--------|--------------------------------------------------------------------|------|-----------------------------------------------------|
 | `/api/user/preferences`               | GET    | Get user preferences (currency, country, alert threshold, formats) | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md) |
-| `/api/user/preferences`               | PUT    | Update user preferences                                            | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md) |
+| `/api/user/preferences`               | PATCH  | Update user preferences (supports partial updates)                 | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md) |
 | `/api/user/preferences/languages`     | GET    | List user's readable languages                                     | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md) |
 | `/api/user/preferences/languages`     | POST   | Add a readable language                                            | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md) |
 | `/api/user/preferences/languages/:id` | DELETE | Remove a readable language                                         | Yes  | [ADR 0008](../explanation/adr/0008-http-routing.md) |
@@ -136,7 +137,7 @@ Shared lists are materialized public subsets of the user's wishes — see [ADR 0
 
 - **Single resource**: the resource object as the JSON body.
 - **Collections**: `{ "data": [...], "_links": { "self", "first", "prev", "next", "last" } }` — cursor-based pagination, HATEOAS links. No total count.
-- **Errors**: `{ "error": "machine_code", "message": "Human-readable message" }` with matching HTTP status (400, 404, 409, 500).
+- **Errors**: `{ "error": "machine_code", "message": "Human-readable message", "issues": [{ "field": "field_name", "message": "reason" }] }` with matching HTTP status (400, 401, 404, 409, 500). The `issues` array is populated on 400 validation failures to detail field-level errors.
 - **Empty mutations**: `204 No Content` for DELETE and PATCH without a body.
 - **Created resources**: `201 Created` with the resource body.
 

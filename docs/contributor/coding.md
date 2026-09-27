@@ -44,6 +44,31 @@ router.get("/books/:id/read", async (c) => {
 
 Do not use `.bind()` at call sites or in constructors. See [ADR 0012](../explanation/adr/0012-method-binding-strategy.md) for the full rationale.
 
+## Route validation (ADR 0008)
+
+All incoming request payloads (JSON request bodies and query parameters) must be validated at the route boundary using [Zod](https://zod.dev/) schemas with [`@hono/zod-validator`](https://github.com/honojs/middleware/tree/main/packages/zod-validator). Never pass unvalidated payloads directly to service classes.
+
+```typescript
+import { Hono } from "hono";
+import { zValidator } from "@hono/zod-validator";
+import { z } from "zod";
+
+const updatePreferencesSchema = z.object({
+    country_code: z.string().length(2).optional(),
+    currency_code: z.string().length(3).optional(),
+    alert_threshold: z.number().int().min(1).max(100).optional(),
+    theme: z.enum(["light", "dark", "system"]).optional(),
+});
+
+preferencesRouter.patch("/", zValidator("json", updatePreferencesSchema), async (c) => {
+    const data = c.req.valid("json");
+    await preferenceService.update(c.get("userId"), data);
+    return c.body(null, 204);
+});
+```
+
+Using `zValidator` guarantees runtime type safety before service code executes and automatically returns a standard `400 Bad Request` with an `issues` array detailing invalid fields when validation fails.
+
 ## Testing
 
 [Vitest](https://vitest.dev/) with the Workers runtime is the test framework (see [ADR 0010](../explanation/adr/0010-testing-strategy.md)):
