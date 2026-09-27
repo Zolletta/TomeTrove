@@ -1,15 +1,7 @@
 import type { MiddlewareHandler } from "hono";
 import { getCookie } from "hono/cookie";
 import { authService } from "../services/auth-service";
-import type { AppEnv, SessionPayload } from "../types/auth";
-
-export interface AuthEnv {
-	Bindings: AppEnv;
-	Variables: {
-		userId: string;
-		user: SessionPayload;
-	};
-}
+import type { AuthEnv } from "../types";
 
 /**
  * Authentication middleware for protecting endpoints under `/api/*`.

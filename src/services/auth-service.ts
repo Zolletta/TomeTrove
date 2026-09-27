@@ -1,5 +1,5 @@
 import { sign, verify } from "hono/jwt";
-import type { GitHubUser, SessionPayload } from "../types/auth";
+import type { GitHubUser, SessionPayload } from "../types";
 
 /**
  * Service orchestrating GitHub OAuth handshake and session JWT lifecycle.
