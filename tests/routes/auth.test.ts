@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import app from "../../src/index";
 import { authService } from "../../src/services/auth-service";
-import type { AppEnv } from "../../src/types/auth";
+import type { AppEnv } from "../../src/types";
 
 const testEnv: AppEnv = {
 	ENVIRONMENT: "development",

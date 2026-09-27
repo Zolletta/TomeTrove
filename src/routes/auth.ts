@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { authService } from "../services/auth-service";
-import type { AppEnv } from "../types/auth";
+import type { AppEnv } from "../types";
 
 export const authRouter = new Hono<{ Bindings: AppEnv }>();
 

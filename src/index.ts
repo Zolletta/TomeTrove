@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/user";
-import type { AppEnv } from "./types/auth";
+import type { AppEnv } from "./types";
 
 const app = new Hono<{ Bindings: AppEnv }>();
 

@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { type AuthEnv, authMiddleware } from "../middleware/auth";
-import type { UserProfileResponse } from "../types/auth";
+import { authMiddleware } from "../middleware/auth";
+import type { AuthEnv, UserProfileResponse } from "../types";
 
 export const userRouter = new Hono<AuthEnv>();
 
