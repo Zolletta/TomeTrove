@@ -95,7 +95,18 @@ for (const rel of declaredScreens) {
 const files = walk(root).filter((f) => !f.includes(`${root}/tools/`)).filter((f) => f.endsWith(".tsx") || f.endsWith(".md") || f.endsWith(".xml"));
 for (const f of files) {
   const content = readFileSync(f, "utf8");
-  if (content.includes("https://www.figma.com/api/mcp/asset/")) errors.push(`dangling Figma asset URL in ${f}`);
+  const urls = content.match(/https?:\/\/[^\s"'`<>]+/g) || [];
+  for (const rawUrl of urls) {
+    try {
+      const parsed = new URL(rawUrl);
+      if (parsed.hostname === "www.figma.com" && parsed.pathname.startsWith("/api/mcp/asset/")) {
+        errors.push(`dangling Figma asset URL in ${f}`);
+        break;
+      }
+    } catch {
+      // ignore non-URL matches in scanned text
+    }
+  }
   if (f.endsWith(".tsx") && !existsSync(`${f}.assets.json`)) errors.push(`missing .assets.json for ${f}`);
 }
 const contextTsx = walk(join(root, "context")).filter((f) => f.endsWith(".tsx"));
