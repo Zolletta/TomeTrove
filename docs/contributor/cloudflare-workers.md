@@ -47,6 +47,14 @@ Relevant ADRs: [ADR 0003](../explanation/adr/0003-database-choice.md) (TiDB Clou
 
 TomeTrove connects to TiDB Cloud Starter using the [`@tidbcloud/serverless`](https://www.npmjs.com/package/@tidbcloud/serverless) driver, which works over HTTP (Workers cannot make TCP connections). See the [coding style guide](coding.md#database-connection) for setup and usage, and the [official PingCAP integration docs](https://docs.pingcap.com/tidbcloud/integrate-tidbcloud-with-cloudflare/).
 
+## Domains and environments
+
+| Environment       | Purpose                                                  | URL                                   |
+|-------------------|----------------------------------------------------------|---------------------------------------|
+| **Production**    | Production Worker deployment                             | `https://tometrove.zolletta.org`      |
+| **Documentation** | MkDocs documentation site (GitHub Pages)                 | `https://docs.tometrove.zolletta.org` |
+| **Local dev**     | Local development via Miniflare/workerd (`wrangler dev`) | `http://localhost:8787`               |
+
 ## Best Practices (conditional)
 
 If the application uses Durable Objects or Workflows, refer to the relevant best practices:

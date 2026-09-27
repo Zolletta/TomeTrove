@@ -31,7 +31,7 @@ Constraints:
 
 ## Decision
 
-Adopt **Cloudflare Workers** as the compute platform. The application runs as a single Worker (or a small set of Workers) deployed via `wrangler`, with state held entirely in Cloudflare bindings rather than in-process memory.
+Adopt **Cloudflare Workers** as the compute platform. The application runs as a Worker deployed via `wrangler` to custom domain `tometrove.zolletta.org`, with state held in Cloudflare bindings and external serverless storage (TiDB Cloud) rather than in-process memory.
 
 ## Consequences
 

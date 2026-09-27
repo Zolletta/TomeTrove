@@ -27,11 +27,16 @@ The definitive book list — track books you want, monitor prices across stores,
 | Auth     | GitHub OAuth + JWT                                                     |
 | Docs     | [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)        |
 
+## Deployment & Domains
+
+- **Application**: [tometrove.zolletta.org](https://tometrove.zolletta.org/)
+- **Documentation**: [docs.tometrove.zolletta.org](https://docs.tometrove.zolletta.org/)
+
 ## Documentation
 
 The full documentation is at [docs.tometrove.zolletta.org](https://docs.tometrove.zolletta.org/) and covers:
 
-- **Architecture Decision Records** — 23 ADRs documenting every major design choice, from the runtime to the ontology i18n strategy.
+- **Architecture Decision Records** — 25 ADRs documenting every major design choice, from the runtime to the ontology i18n strategy.
 - **Data model reference** — tables, fields, types, and constraints.
 - **Book classification ontology** — the 9 Types, genre hierarchies, and modifier vocabularies.
 - **Contributor guides** — coding style, documentation style, Cloudflare Workers reference.
