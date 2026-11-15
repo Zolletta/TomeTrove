@@ -24,5 +24,9 @@
 	},
 	"dependencies": {
 		"@tidbcloud/serverless": "^0.3.0"
+	},
+	"allowScripts": {
+		"esbuild": true,
+		"workerd": true
 	}
 }
