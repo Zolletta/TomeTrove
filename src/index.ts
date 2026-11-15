@@ -22,7 +22,4 @@ app.onError((err, c) => {
 // Mount route groups
 app.route("/api", createReferenceRouter());
 
-// Health check endpoint
-app.get("/health", (c) => c.json({ status: "healthy" }));
-
 export default app;
