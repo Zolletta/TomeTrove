@@ -1,0 +1,396 @@
+{
+  "id": "cb9f345c-807d-43a1-bc30-5584cea1d05e",
+  "prevId": "af15188b-be74-4a54-87c8-2524cd9532ef",
+  "version": "5",
+  "dialect": "mysql",
+  "tables": {
+    "country": {
+      "name": "country",
+      "columns": {
+        "country_id": {
+          "name": "country_id",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "country_name_en": {
+          "name": "country_name_en",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "country_country_id": {
+          "name": "country_country_id",
+          "columns": [
+            "country_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "currency": {
+      "name": "currency",
+      "columns": {
+        "currency_id": {
+          "name": "currency_id",
+          "type": "char(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currency_name_en": {
+          "name": "currency_name_en",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currency_minor_units": {
+          "name": "currency_minor_units",
+          "type": "tinyint unsigned",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "currency_currency_id": {
+          "name": "currency_currency_id",
+          "columns": [
+            "currency_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "language": {
+      "name": "language",
+      "columns": {
+        "language_id": {
+          "name": "language_id",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "language_name_en": {
+          "name": "language_name_en",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "language_name_native": {
+          "name": "language_name_native",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "language_language_id": {
+          "name": "language_language_id",
+          "columns": [
+            "language_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "type": {
+      "name": "type",
+      "columns": {
+        "type_id": {
+          "name": "type_id",
+          "type": "tinyint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "type_slug": {
+          "name": "type_slug",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "type_name_en": {
+          "name": "type_name_en",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "type_type_id": {
+          "name": "type_type_id",
+          "columns": [
+            "type_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "type_type_slug_unique": {
+          "name": "type_type_slug_unique",
+          "columns": [
+            "type_slug"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "user": {
+      "name": "user",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "user_github_id": {
+          "name": "user_github_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_last_login_at": {
+          "name": "user_last_login_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_created_at": {
+          "name": "user_created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "user_user_id": {
+          "name": "user_user_id",
+          "columns": [
+            "user_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "user_user_github_id_unique": {
+          "name": "user_user_github_id_unique",
+          "columns": [
+            "user_github_id"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "user_preference": {
+      "name": "user_preference",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_country_id": {
+          "name": "user_country_id",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_currency_id": {
+          "name": "user_currency_id",
+          "type": "char(3)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_alert_threshold_percentage": {
+          "name": "user_alert_threshold_percentage",
+          "type": "tinyint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 5
+        },
+        "user_format_preference": {
+          "name": "user_format_preference",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_preference_updated_at": {
+          "name": "user_preference_updated_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_preference_user_id_user_user_id_fk": {
+          "name": "user_preference_user_id_user_user_id_fk",
+          "tableFrom": "user_preference",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "user",
+          "columnsTo": [
+            "user_id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        },
+        "user_preference_user_country_id_country_country_id_fk": {
+          "name": "user_preference_user_country_id_country_country_id_fk",
+          "tableFrom": "user_preference",
+          "columnsFrom": [
+            "user_country_id"
+          ],
+          "tableTo": "country",
+          "columnsTo": [
+            "country_id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "user_preference_user_currency_id_currency_currency_id_fk": {
+          "name": "user_preference_user_currency_id_currency_currency_id_fk",
+          "tableFrom": "user_preference",
+          "columnsFrom": [
+            "user_currency_id"
+          ],
+          "tableTo": "currency",
+          "columnsTo": [
+            "currency_id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "user_preference_user_id": {
+          "name": "user_preference_user_id",
+          "columns": [
+            "user_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "user_reading_language": {
+      "name": "user_reading_language",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "language_id": {
+          "name": "language_id",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_reading_language_preferred": {
+          "name": "user_reading_language_preferred",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "user_reading_language_type_ids": {
+          "name": "user_reading_language_type_ids",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_reading_language_user_id_user_user_id_fk": {
+          "name": "user_reading_language_user_id_user_user_id_fk",
+          "tableFrom": "user_reading_language",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "user",
+          "columnsTo": [
+            "user_id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        },
+        "user_reading_language_language_id_language_language_id_fk": {
+          "name": "user_reading_language_language_id_language_language_id_fk",
+          "tableFrom": "user_reading_language",
+          "columnsFrom": [
+            "language_id"
+          ],
+          "tableTo": "language",
+          "columnsTo": [
+            "language_id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "user_reading_language_user_id_language_id_pk": {
+          "name": "user_reading_language_user_id_language_id_pk",
+          "columns": [
+            "user_id",
+            "language_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  },
+  "internal": {
+    "tables": {},
+    "indexes": {}
+  }
+}
