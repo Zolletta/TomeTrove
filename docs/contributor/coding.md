@@ -86,6 +86,10 @@ npx drizzle-kit generate
 npx drizzle-kit migrate
 ```
 
+Reference data (Types, ISO languages, countries, currencies) ships as custom migrations (`npx drizzle-kit generate --custom --name <name>`), never as separate seed files. Edit the generated `CREATE TABLE` statements to state `CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci` ([ADR 0025](../explanation/adr/0025-collation-convention.md)); Drizzle Kit does not emit table options.
+
+`drizzle-kit migrate` reads `TIDB_HOST`, `TIDB_PORT`, `TIDB_USER` and `TIDB_PASSWORD` and connects over TLS to `tometrove_staging` by default. Apply to staging first; set `TIDB_DATABASE=tometrove_production` only after the migration is verified there ([ADR 0024](../explanation/adr/0024-database-environments.md)).
+
 ## Database connection
 
 TomeTrove uses [TiDB Cloud Starter](https://www.pingcap.com/tidb-cloud/) (MySQL-compatible) as its database ([ADR 0003](../explanation/adr/0003-database-choice.md)). Workers run on the V8 engine and cannot make direct TCP connections, so TomeTrove uses the [`@tidbcloud/serverless`](https://www.npmjs.com/package/@tidbcloud/serverless) driver, which connects to TiDB over HTTP. This is the [official integration path](https://docs.pingcap.com/tidbcloud/integrate-tidbcloud-with-cloudflare/) documented by PingCAP for Cloudflare Workers.
@@ -112,10 +116,10 @@ Drizzle ORM connects through the serverless driver. The driver provides a `conne
 
 ```typescript
 import { connect } from "@tidbcloud/serverless";
-import { drizzle } from "drizzle-orm/mysql-serverless";
+import { drizzle } from "drizzle-orm/tidb-serverless";
 
 const conn = connect({ url: env.DATABASE_URL });
-const db = drizzle(conn);
+const db = drizzle({ client: conn, schema });
 ```
 
 The connection is created per-request (Workers cannot keep TCP connections alive between requests). The serverless driver handles pooling internally over HTTP — no Hyperdrive binding needed.
