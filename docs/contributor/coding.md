@@ -74,8 +74,12 @@ Using `zValidator` guarantees runtime type safety before service code executes a
 [Vitest](https://vitest.dev/) with the Workers runtime is the test framework (see [ADR 0010](../explanation/adr/0010-testing-strategy.md)):
 
 ```bash
-npx vitest
+npm test           # vitest run, inside workerd via @cloudflare/vitest-plugin
+npm run typecheck  # tsc --noEmit for src/ and test/
+npm run lint       # biome check
 ```
+
+Tests live in `test/` (`*.spec.ts`). The `Code tests` GitHub workflow runs the same three commands on every push and pull request that touches code.
 
 ## Schema changes
 
@@ -112,7 +116,7 @@ Drizzle ORM connects through the serverless driver. The driver provides a `conne
 
 ```typescript
 import { connect } from "@tidbcloud/serverless";
-import { drizzle } from "drizzle-orm/mysql-serverless";
+import { drizzle } from "drizzle-orm/tidb-serverless";
 
 const conn = connect({ url: env.DATABASE_URL });
 const db = drizzle(conn);

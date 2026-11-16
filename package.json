@@ -1,20 +1,32 @@
 {
-  "name": "tometrove",
-  "version": "0.0.0",
-  "private": true,
-  "license": "MIT",
-  "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev",
-    "cf-typegen": "wrangler types"
-  },
-  "devDependencies": {
-    "@types/node": "^26.2.0",
-    "typescript": "^5.5.2",
-    "wrangler": "^4.125.0"
-  },
-  "dependencies": {
-    "@tidbcloud/serverless": "^0.3.0"
-  }
+	"name": "tometrove",
+	"version": "0.0.0",
+	"private": true,
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"cf-typegen": "wrangler types",
+		"test": "vitest run",
+		"typecheck": "tsc --noEmit && tsc --noEmit -p test",
+		"lint": "biome check",
+		"check": "biome check --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.6.8",
+		"@cloudflare/vitest-plugin": "^1.8.2",
+		"@types/node": "^26.2.0",
+		"typescript": "^5.5.2",
+		"vitest": "^5.1.0",
+		"wrangler": "^4.125.0"
+	},
+	"dependencies": {
+		"@tidbcloud/serverless": "^0.3.0"
+	},
+	"allowScripts": {
+		"esbuild": true,
+		"workerd": true
+	}
 }

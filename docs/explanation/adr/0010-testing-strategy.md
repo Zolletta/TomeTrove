@@ -16,8 +16,8 @@ The TS ecosystem has direct equivalents for each. The testing setup should mirro
 
 Constraints:
 
-- Vitest is the standard TS test runner for Workers and integrates with Miniflare (the local Workers runtime) via `@cloudflare/vitest-plugin` (v0.22.0, requires Vitest 4.1+).
-- Tests run against the real bindings (TiDB via Hyperdrive, KV, R2 if needed) locally through Miniflare — no manual mocking of the platform.
+- Vitest is the standard TS test runner for Workers and integrates with Miniflare (the local Workers runtime) via `@cloudflare/vitest-plugin` (v1.8+, supports Vitest 4.1 and 5).
+- Tests run against the real bindings (KV, R2 if needed; TiDB is reached over HTTP through `@tidbcloud/serverless`, without Hyperdrive) locally through Miniflare — no manual mocking of the platform.
 - Vitest has mocking built in (`vi.fn()`, `vi.mock()`) — no separate mocking library needed (replaces Prophecy).
 - TypeScript's compiler (`tsc --noEmit`) IS the static analyzer — unlike PHP where PHPStan runs on top, TS static analysis is built into the language. No separate tool needed for type checking.
 - Code formatting/linting: Biome (single Rust-based tool, replaces both Prettier + ESLint) is the recommended choice for new TS projects in 2026 — near-zero config, very fast, 97% Prettier compatibility.
@@ -40,7 +40,7 @@ Constraints:
 - Isolated per-test storage — each test gets a fresh database/KV state.
 - Hot-module reloading for near-instant reruns during development.
 - Declarative interface for mocking outbound `fetch()` requests (e.g. mocking OpenLibrary API responses).
-- Requires Vitest 4.1+ and `@cloudflare/vitest-plugin` v0.22.0+.
+- Requires Vitest 4.1+ (Vitest 5 supported) and `@cloudflare/vitest-plugin` v1.8+.
 
 ### Biome
 
@@ -64,7 +64,7 @@ Constraints:
 
 Adopt **option 1: Vitest + `@cloudflare/vitest-plugin` + Biome + `tsc --noEmit`**.
 
-- **Test runner**: Vitest 4.1+ with `@cloudflare/vitest-plugin`. Tests run inside the Workers runtime via Miniflare with real bindings. Config in `vitest.config.ts`.
+- **Test runner**: Vitest 4.1+ (TomeTrove uses Vitest 5) with `@cloudflare/vitest-plugin`. Tests run inside the Workers runtime via Miniflare with real bindings. Config in `vitest.config.ts`.
 - **Mocking**: Vitest's built-in `vi.fn()` and `vi.mock()`. No separate mocking library. For outbound HTTP requests (OpenLibrary, Google Books, store APIs), use the Vitest plugin's declarative `fetch()` mocking.
 - **Static analysis**: `tsc --noEmit` — run as part of the type-check step. TypeScript's type system is the static analyzer; no separate tool like PHPStan is needed. Type errors are caught at compile time, not at runtime.
 - **Formatting & linting**: Biome. One config (`biome.json`), one command (`biome check --write` to format + lint + fix). Replaces both PHP CS Fixer (formatting) and the linting aspect of PHPStan (code quality rules).
