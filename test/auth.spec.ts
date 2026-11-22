@@ -146,8 +146,8 @@ describe("GET /auth/github/callback", () => {
 	it.each([
 		["a non-UUID state", "code=c&state=s1", "state"],
 		["a missing state", "code=c", "state"],
-		["a code with unexpected characters", `code=a%26b&state=${STATE}`, "code"],
-		["an oversized code", `code=${"a".repeat(257)}&state=${STATE}`, "code"],
+		["an empty code", `code=&state=${STATE}`, "code"],
+		["an oversized code", `code=${"a".repeat(1025)}&state=${STATE}`, "code"],
 	])("rejects %s before calling GitHub", async (_name, query, field) => {
 		const fetchSpy = mockGitHub();
 		const res = await app.request(

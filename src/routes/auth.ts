@@ -21,13 +21,12 @@ const appOrigin = (env: AppEnv, requestUrl: string): string =>
 const callbackUrl = (env: AppEnv, requestUrl: string): string =>
 	`${appOrigin(env, requestUrl)}/auth/github/callback`;
 
-/** `state` is the `crypto.randomUUID()` set by /github/login. */
+/**
+ * GitHub does not document the code format, so only its length is bounded;
+ * it is sent JSON-encoded. `state` is the `crypto.randomUUID()` from /github/login.
+ */
 const callbackQuerySchema = z.object({
-	code: z
-		.string()
-		.min(1)
-		.max(256)
-		.regex(/^[A-Za-z0-9_-]+$/),
+	code: z.string().min(1).max(1024),
 	state: z.uuid(),
 });
 
