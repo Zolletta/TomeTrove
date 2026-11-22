@@ -83,6 +83,7 @@ nav:
   - "How-to guides":
       - how-to/index.md
       - "Navigate the docs": how-to/navigate-the-docs.md
+      - "Set up GitHub OAuth": how-to/set-up-github-oauth.md
   - "Reference":
       - reference/index.md
       - "Data model": reference/data-model.md
