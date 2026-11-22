@@ -20,6 +20,14 @@ GitHub OAuth apps accept a single callback URL, so production and local developm
 
 The callback URL is always `<APP_URL>/auth/github/callback`. The Worker requests only the `read:user` scope and stores only the numeric GitHub user ID ([PRIVACY.md](https://github.com/Zolletta/TomeTrove/blob/main/PRIVACY.md)).
 
+## Apply the production migration
+
+Sign-in writes to the `user` table, so `tometrove_production` needs the migrations in `drizzle/` before the first production login. `GET /api/health` does not check the database, so a missing table shows up only as a failed callback. After the migration has been verified on `tometrove_staging`, export `TIDB_HOST`, `TIDB_PORT`, `TIDB_USER` and `TIDB_PASSWORD`, then run:
+
+```bash
+TIDB_DATABASE=tometrove_production npx drizzle-kit migrate
+```
+
 ## Configure production secrets
 
 `ENVIRONMENT` and `APP_URL` are plain variables in `wrangler.jsonc`. Set the four secrets with Wrangler, pasting each value at the prompt:
