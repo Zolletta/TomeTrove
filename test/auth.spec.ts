@@ -103,6 +103,10 @@ describe("GET /auth/github/login", () => {
 	it("no longer exposes /auth/dev-login", async () => {
 		const res = await app.request("/auth/dev-login", {}, testEnv);
 		expect(res.status).toBe(404);
+		expect(await res.json()).toEqual({
+			error: "not_found",
+			message: "Route not found",
+		});
 	});
 });
 

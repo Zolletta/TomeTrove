@@ -30,6 +30,10 @@ export const createApp = ({ userRepositoryFor }: AppDependencies) => {
 		return c.json({ error: "internal_error", message }, 500);
 	});
 
+	app.notFound((c) =>
+		c.json({ error: "not_found", message: "Route not found" }, 404),
+	);
+
 	// Public, like GET /api/lists/:token (api-endpoints.md).
 	app.get("/api/health", (c) => c.json({ status: "ok" }));
 
