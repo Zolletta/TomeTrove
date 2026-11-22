@@ -23,6 +23,8 @@ const testEnv: AppEnv = {
 };
 const JWT_SECRET = testEnv.JWT_SECRET as string;
 const GITHUB_ID = 13484638;
+const STATE = "6f1c1b6e-3f7a-4d2b-9c4e-2a8d5e7f9b10";
+const OTHER_STATE = "0b7e2c4a-9d1f-4e6b-8a3c-5f2d7e9c1a04";
 
 let repo: MemoryUserRepository;
 let app: ReturnType<typeof createApp>;
@@ -43,8 +45,8 @@ const mockGitHub = (
 
 const callback = (env: AppEnv = testEnv) =>
 	app.request(
-		"/auth/github/callback?code=test-code&state=s1",
-		{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=s1` } },
+		`/auth/github/callback?code=test-code&state=${STATE}`,
+		{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=${STATE}` } },
 		env,
 	);
 
@@ -107,8 +109,8 @@ describe("GET /auth/github/login", () => {
 describe("GET /auth/github/callback", () => {
 	it("rejects a state mismatch", async () => {
 		const res = await app.request(
-			"/auth/github/callback?code=c&state=wrong",
-			{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=expected` } },
+			`/auth/github/callback?code=c&state=${OTHER_STATE}`,
+			{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=${STATE}` } },
 			testEnv,
 		);
 		expect(res.status).toBe(400);
@@ -117,7 +119,7 @@ describe("GET /auth/github/callback", () => {
 
 	it("rejects a missing state cookie", async () => {
 		const res = await app.request(
-			"/auth/github/callback?code=c&state=s1",
+			`/auth/github/callback?code=c&state=${STATE}`,
 			{},
 			testEnv,
 		);
@@ -127,12 +129,38 @@ describe("GET /auth/github/callback", () => {
 
 	it("rejects a missing code", async () => {
 		const res = await app.request(
-			"/auth/github/callback?state=s1",
-			{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=s1` } },
+			`/auth/github/callback?state=${STATE}`,
+			{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=${STATE}` } },
 			testEnv,
 		);
 		expect(res.status).toBe(400);
-		expect(await res.json()).toMatchObject({ error: "missing_code" });
+		expect(await res.json()).toMatchObject({
+			error: "validation_error",
+			issues: [{ field: "code" }],
+		});
+		expect(res.headers.get("Set-Cookie")).toContain(
+			`${OAUTH_STATE_COOKIE_NAME}=;`,
+		);
+	});
+
+	it.each([
+		["a non-UUID state", "code=c&state=s1", "state"],
+		["a missing state", "code=c", "state"],
+		["a code with unexpected characters", `code=a%26b&state=${STATE}`, "code"],
+		["an oversized code", `code=${"a".repeat(257)}&state=${STATE}`, "code"],
+	])("rejects %s before calling GitHub", async (_name, query, field) => {
+		const fetchSpy = mockGitHub();
+		const res = await app.request(
+			`/auth/github/callback?${query}`,
+			{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=${STATE}` } },
+			testEnv,
+		);
+		expect(res.status).toBe(400);
+		expect(await res.json()).toMatchObject({
+			error: "validation_error",
+			issues: [{ field }],
+		});
+		expect(fetchSpy).not.toHaveBeenCalled();
 	});
 
 	it("returns 500 when secrets are missing", async () => {
@@ -199,8 +227,8 @@ describe("GET /auth/github/callback", () => {
 	it("sets a Secure cookie over https", async () => {
 		mockGitHub();
 		const res = await app.request(
-			"https://tometrove.zolletta.org/auth/github/callback?code=c&state=s1",
-			{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=s1` } },
+			`https://tometrove.zolletta.org/auth/github/callback?code=c&state=${STATE}`,
+			{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=${STATE}` } },
 			{ ...testEnv, APP_URL: "https://tometrove.zolletta.org" },
 		);
 		expect(sessionCookie(res)).toContain("Secure");
@@ -276,15 +304,41 @@ describe("GET /api/user/me", () => {
 });
 
 describe("POST /auth/logout", () => {
-	it("clears the session cookie and returns 204", async () => {
-		const res = await app.request(
+	const logout = (headers: Record<string, string>) =>
+		app.request(
 			"/auth/logout",
 			{
 				method: "POST",
-				headers: { Cookie: `${SESSION_COOKIE_NAME}=existing` },
+				headers: { Cookie: `${SESSION_COOKIE_NAME}=existing`, ...headers },
 			},
 			testEnv,
 		);
+
+	it.each([
+		["a cross-site Origin", { Origin: "https://evil.example" }],
+		[
+			"a cross-site form post",
+			{
+				Origin: "https://evil.example",
+				"Content-Type": "application/x-www-form-urlencoded",
+				"Sec-Fetch-Site": "cross-site",
+			},
+		],
+		["no Origin or Sec-Fetch-Site", {}],
+	])("rejects %s with 403 and keeps the cookie", async (_name, headers) => {
+		const res = await logout(headers);
+		expect(res.status).toBe(403);
+		expect(await res.json()).toMatchObject({ error: "forbidden" });
+		expect(res.headers.get("Set-Cookie")).toBeNull();
+	});
+
+	it("accepts a same-origin Sec-Fetch-Site", async () => {
+		const res = await logout({ "Sec-Fetch-Site": "same-origin" });
+		expect(res.status).toBe(204);
+	});
+
+	it("clears the session cookie and returns 204", async () => {
+		const res = await logout({ Origin: "http://localhost:8787" });
 		expect(res.status).toBe(204);
 		const cookie = res.headers.get("Set-Cookie") ?? "";
 		expect(cookie).toContain(`${SESSION_COOKIE_NAME}=;`);

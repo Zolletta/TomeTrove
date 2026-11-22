@@ -13,6 +13,18 @@
 			"custom_domain": true
 		}
 	],
+	// MyDurableObject came from the Workers template and is deployed to
+	// production; v2 deletes the class and its (empty) namespace.
+	"migrations": [
+		{
+			"new_sqlite_classes": ["MyDurableObject"],
+			"tag": "v1"
+		},
+		{
+			"deleted_classes": ["MyDurableObject"],
+			"tag": "v2"
+		}
+	],
 	"assets": {
 		// The path to the directory containing the `index.html` file to be served at `/`
 		"directory": "./public"
