@@ -3,18 +3,20 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Hello, World!</title>
+		<title>TomeTrove</title>
 	</head>
 	<body>
-		<h1 id="heading"></h1>
-		<p>This page comes from a static asset stored at `public/index.html` as configured in `wrangler.jsonc`.</p>
+		<h1>TomeTrove</h1>
+		<p id="signed-out" hidden><a href="/auth/github/login">Sign in with GitHub</a></p>
+		<p id="signed-in" hidden>Signed in. <button id="logout" type="button">Sign out</button></p>
 		<script>
-			fetch('/message')
-				.then((resp) => resp.text())
-				.then((text) => {
-					const h1 = document.getElementById('heading');
-					h1.textContent = text;
-				});
+			const show = (id) => {
+				document.getElementById(id).hidden = false;
+			};
+			fetch("/api/user/me").then((res) => show(res.ok ? "signed-in" : "signed-out"));
+			document.getElementById("logout").addEventListener("click", () => {
+				fetch("/auth/logout", { method: "POST" }).then(() => location.reload());
+			});
 		</script>
 	</body>
 </html>
