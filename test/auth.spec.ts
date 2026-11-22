@@ -29,15 +29,27 @@ const OTHER_STATE = "0b7e2c4a-9d1f-4e6b-8a3c-5f2d7e9c1a04";
 let repo: MemoryUserRepository;
 let app: ReturnType<typeof createApp>;
 
-const mockGitHub = (
-	user: unknown = { id: GITHUB_ID, login: "ignored", email: "ignored" },
-) =>
-	vi.spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+const mockGitHub = ({
+	user = { id: GITHUB_ID, login: "ignored", email: "ignored" } as unknown,
+	code = "test-code",
+	appUrl = testEnv.APP_URL,
+} = {}) =>
+	vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => {
 		const url = input instanceof Request ? input.url : String(input);
 		if (url === GITHUB_TOKEN_URL) {
+			expect(init?.method).toBe("POST");
+			expect(JSON.parse(String(init?.body))).toEqual({
+				client_id: testEnv.GITHUB_CLIENT_ID,
+				client_secret: testEnv.GITHUB_CLIENT_SECRET,
+				code,
+				redirect_uri: `${appUrl}/auth/github/callback`,
+			});
 			return Response.json({ access_token: "gho_test" });
 		}
 		if (url === GITHUB_USER_URL) {
+			expect(new Headers(init?.headers).get("Authorization")).toBe(
+				"Bearer gho_test",
+			);
 			return Response.json(user);
 		}
 		throw new Error(`Unexpected fetch to ${url}`);
@@ -228,7 +240,7 @@ describe("GET /auth/github/callback", () => {
 	});
 
 	it("sets a Secure cookie over https", async () => {
-		mockGitHub();
+		mockGitHub({ code: "c", appUrl: "https://tometrove.zolletta.org" });
 		const res = await app.request(
 			`https://tometrove.zolletta.org/auth/github/callback?code=c&state=${STATE}`,
 			{ headers: { Cookie: `${OAUTH_STATE_COOKIE_NAME}=${STATE}` } },
