@@ -6,17 +6,11 @@ import type { AuthEnv } from "../types";
 
 /**
  * Authentication middleware for protecting endpoints under `/api/*`.
- * Extracts session JWT from either `tometrove_session` cookie or `Authorization: Bearer` header.
- * Attaches validated `userId` and `user` payload to the Hono request context.
+ * Reads the session JWT from the `tometrove_session` cookie only and attaches
+ * the validated `userId` and `user` payload to the Hono request context.
  */
 export const authMiddleware: MiddlewareHandler<AuthEnv> = async (c, next) => {
-	const cookieToken = getCookie(c, SESSION_COOKIE_NAME);
-	const authHeader = c.req.header("Authorization");
-	const bearerToken = authHeader?.startsWith("Bearer ")
-		? authHeader.slice(7).trim()
-		: null;
-	const token = cookieToken || bearerToken;
-
+	const token = getCookie(c, SESSION_COOKIE_NAME);
 	if (!token) {
 		return c.json(
 			{ error: "unauthorized", message: "Authentication required" },
@@ -27,7 +21,7 @@ export const authMiddleware: MiddlewareHandler<AuthEnv> = async (c, next) => {
 	const secret = c.env.JWT_SECRET;
 	if (!secret) {
 		return c.json(
-			{ error: "internal_error", message: "JWT secret is not configured" },
+			{ error: "configuration_error", message: "JWT_SECRET is not configured" },
 			500,
 		);
 	}

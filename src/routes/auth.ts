@@ -7,97 +7,116 @@ import {
 	SESSION_COOKIE_NAME,
 } from "../constants";
 import { authService } from "../services/auth-service";
+import type { UserRepository } from "../services/user-repository";
 import type { AppEnv } from "../types";
 
-export const authRouter = new Hono<{ Bindings: AppEnv }>();
+export type UserRepositoryFactory = (env: AppEnv) => UserRepository;
+
+const callbackUrl = (env: AppEnv, requestUrl: string): string =>
+	`${env.APP_URL || new URL(requestUrl).origin}/auth/github/callback`;
 
 /**
- * Initiates GitHub OAuth flow.
- * Generates an unguessable CSRF state, stores it in an HttpOnly cookie, and redirects to GitHub.
+ * GitHub OAuth in the Worker with an HS256 JWT session cookie
+ * (supersedes ADR 0006; TODO: cite the ADR from #47 once it has a number).
  */
-authRouter.get("/github", (c) => {
-	const clientId = c.env.GITHUB_CLIENT_ID;
-	if (!clientId) {
-		return c.json(
-			{
-				error: "configuration_error",
-				message: "GITHUB_CLIENT_ID is not configured",
-			},
-			500,
+export const createAuthRouter = (userRepositoryFor: UserRepositoryFactory) => {
+	const router = new Hono<{ Bindings: AppEnv }>();
+
+	/**
+	 * Generates an unguessable CSRF state, stores it in an HttpOnly cookie,
+	 * and redirects to GitHub.
+	 */
+	router.get("/github/login", (c) => {
+		const clientId = c.env.GITHUB_CLIENT_ID;
+		if (!clientId) {
+			return c.json(
+				{
+					error: "configuration_error",
+					message: "GITHUB_CLIENT_ID is not configured",
+				},
+				500,
+			);
+		}
+
+		const state = crypto.randomUUID();
+		setCookie(c, OAUTH_STATE_COOKIE_NAME, state, {
+			path: "/",
+			httpOnly: true,
+			secure: c.req.url.startsWith("https"),
+			sameSite: "Lax",
+			maxAge: OAUTH_STATE_COOKIE_MAX_AGE_SECONDS,
+		});
+
+		return c.redirect(
+			authService.generateAuthUrl(
+				clientId,
+				callbackUrl(c.env, c.req.url),
+				state,
+			),
+			302,
 		);
-	}
-
-	const origin = c.env.APP_URL || new URL(c.req.url).origin;
-	const redirectUri = `${origin}/auth/github/callback`;
-	const state = crypto.randomUUID();
-
-	setCookie(c, OAUTH_STATE_COOKIE_NAME, state, {
-		path: "/",
-		httpOnly: true,
-		secure: c.req.url.startsWith("https"),
-		sameSite: "Lax",
-		maxAge: OAUTH_STATE_COOKIE_MAX_AGE_SECONDS,
 	});
 
-	const authUrl = authService.generateAuthUrl(clientId, redirectUri, state);
-	return c.redirect(authUrl, 302);
-});
+	/**
+	 * Validates the CSRF state, exchanges the code, upserts the user by GitHub
+	 * id and sets the session cookie with `sub` = internal `user_id`.
+	 */
+	router.get("/github/callback", async (c) => {
+		const code = c.req.query("code");
+		const state = c.req.query("state");
+		const expectedState = getCookie(c, OAUTH_STATE_COOKIE_NAME);
 
-/**
- * Handles GitHub OAuth callback.
- * Validates CSRF state, exchanges authorization code, signs session JWT, and sets session cookie.
- */
-authRouter.get("/github/callback", async (c) => {
-	const code = c.req.query("code");
-	const state = c.req.query("state");
-	const expectedState = getCookie(c, OAUTH_STATE_COOKIE_NAME);
+		deleteCookie(c, OAUTH_STATE_COOKIE_NAME, { path: "/" });
 
-	deleteCookie(c, OAUTH_STATE_COOKIE_NAME, { path: "/" });
+		if (!state || !expectedState || state !== expectedState) {
+			return c.json(
+				{ error: "invalid_state", message: "OAuth state mismatch or expired" },
+				400,
+			);
+		}
 
-	if (!state || !expectedState || state !== expectedState) {
-		return c.json(
-			{ error: "invalid_state", message: "OAuth state mismatch or expired" },
-			400,
+		if (!code) {
+			return c.json(
+				{ error: "missing_code", message: "Missing authorization code" },
+				400,
+			);
+		}
+
+		const clientId = c.env.GITHUB_CLIENT_ID;
+		const clientSecret = c.env.GITHUB_CLIENT_SECRET;
+		const jwtSecret = c.env.JWT_SECRET;
+		if (!clientId || !clientSecret || !jwtSecret) {
+			return c.json(
+				{
+					error: "configuration_error",
+					message: "OAuth credentials or JWT secret not configured",
+				},
+				500,
+			);
+		}
+
+		let githubId: number;
+		try {
+			const accessToken = await authService.exchangeCodeForToken(
+				code,
+				clientId,
+				clientSecret,
+				callbackUrl(c.env, c.req.url),
+			);
+			githubId = (await authService.fetchGitHubUser(accessToken)).id;
+		} catch (error) {
+			const message =
+				error instanceof Error ? error.message : "Authentication failed";
+			return c.json({ error: "oauth_exchange_failed", message }, 400);
+		}
+
+		const userId = await userRepositoryFor(c.env).upsertByGithubId(
+			githubId,
+			new Date(),
 		);
-	}
-
-	if (!code) {
-		return c.json(
-			{ error: "missing_code", message: "Missing authorization code" },
-			400,
-		);
-	}
-
-	const clientId = c.env.GITHUB_CLIENT_ID;
-	const clientSecret = c.env.GITHUB_CLIENT_SECRET;
-	const jwtSecret = c.env.JWT_SECRET;
-
-	if (!clientId || !clientSecret || !jwtSecret) {
-		return c.json(
-			{
-				error: "configuration_error",
-				message: "OAuth credentials or JWT secret not configured",
-			},
-			500,
-		);
-	}
-
-	try {
-		const origin = c.env.APP_URL || new URL(c.req.url).origin;
-		const redirectUri = `${origin}/auth/github/callback`;
-
-		const accessToken = await authService.exchangeCodeForToken(
-			code,
-			clientId,
-			clientSecret,
-			redirectUri,
-		);
-		const githubUser = await authService.fetchGitHubUser(accessToken);
-
-		const userId = `github:${githubUser.id}`;
 		const sessionToken = await authService.createSessionToken(
 			userId,
-			githubUser.id,
+			githubId,
 			jwtSecret,
 		);
 
@@ -110,57 +129,15 @@ authRouter.get("/github/callback", async (c) => {
 		});
 
 		return c.redirect("/", 302);
-	} catch (error) {
-		const message =
-			error instanceof Error ? error.message : "Authentication failed";
-		return c.json({ error: "oauth_exchange_failed", message }, 400);
-	}
-});
-
-/**
- * Logs out the current user by clearing the session cookie.
- */
-authRouter.post("/logout", (c) => {
-	deleteCookie(c, SESSION_COOKIE_NAME, { path: "/" });
-	return c.body(null, 204);
-});
-
-/**
- * Development-only bypass endpoint to issue a mock test session without live GitHub credentials.
- */
-authRouter.get("/dev-login", async (c) => {
-	const isDev = c.env.ENVIRONMENT === "development";
-	if (!isDev) {
-		return c.json(
-			{
-				error: "forbidden",
-				message: "Dev login is only available in development",
-			},
-			403,
-		);
-	}
-
-	const jwtSecret = c.env.JWT_SECRET || "dev-jwt-secret-for-testing-only-32b";
-	const mockGithubId = 13484638;
-	const userId = `github:${mockGithubId}`;
-
-	const sessionToken = await authService.createSessionToken(
-		userId,
-		mockGithubId,
-		jwtSecret,
-	);
-
-	setCookie(c, SESSION_COOKIE_NAME, sessionToken, {
-		path: "/",
-		httpOnly: true,
-		secure: false,
-		sameSite: "Lax",
-		maxAge: SESSION_COOKIE_MAX_AGE_SECONDS,
 	});
 
-	if (c.req.header("Accept")?.includes("application/json")) {
-		return c.json({ sessionToken, userId, githubId: mockGithubId });
-	}
+	/**
+	 * Logs out the current user by clearing the session cookie.
+	 */
+	router.post("/logout", (c) => {
+		deleteCookie(c, SESSION_COOKIE_NAME, { path: "/" });
+		return c.body(null, 204);
+	});
 
-	return c.redirect("/", 302);
-});
+	return router;
+};

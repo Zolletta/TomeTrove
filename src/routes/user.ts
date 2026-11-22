@@ -4,20 +4,19 @@ import type { AuthEnv, UserProfileResponse } from "../types";
 
 export const userRouter = new Hono<AuthEnv>();
 
-// Protect all /api/user routes with authMiddleware
 userRouter.use("*", authMiddleware);
 
 /**
  * GET /api/user/me
- * Retrieves current authenticated user's minimal identity and preferences status.
- * Per PRIVACY.md, returns only internal ID, GitHub numeric ID, and completion status.
+ * Per PRIVACY.md, returns only the internal ID, the GitHub numeric ID and the
+ * preferences status. `preferences_completed` is computed by #22.
  */
 userRouter.get("/me", (c) => {
 	const session = c.get("user");
 	const response: UserProfileResponse = {
 		user_id: session.sub,
-		user_github_id: String(session.github_id),
-		preferences_completed: false, // Updated by DB lookup in Issue #22
+		user_github_id: session.github_id,
+		preferences_completed: false,
 	};
 
 	return c.json(response, 200);

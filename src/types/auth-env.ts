@@ -8,7 +8,7 @@ import type { SessionPayload } from "./session-payload";
 export interface AuthEnv {
 	Bindings: AppEnv;
 	Variables: {
-		userId: string;
+		userId: number;
 		user: SessionPayload;
 	};
 }

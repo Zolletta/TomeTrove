@@ -1,30 +1,12 @@
-import { Hono } from "hono";
-import { authRouter } from "./routes/auth";
-import { userRouter } from "./routes/user";
-import type { AppEnv } from "./types";
+import { createApp } from "./app";
+import { createDb } from "./db/client";
+import { DrizzleUserRepository } from "./services/user-repository";
 
-const app = new Hono<{ Bindings: AppEnv }>();
-
-/**
- * Global error handler per ADR 0008.
- * Returns consistent JSON error format: `{ error: string, message: string }`.
- */
-app.onError((err, c) => {
-	console.error("Unhandled server error:", err);
-	return c.json(
-		{
-			error: "internal_error",
-			message: err instanceof Error ? err.message : "Internal server error",
-		},
-		500,
-	);
+export default createApp({
+	userRepositoryFor: (env) => {
+		if (!env.DATABASE_URL) {
+			throw new Error("DATABASE_URL is not configured");
+		}
+		return new DrizzleUserRepository(createDb(env.DATABASE_URL));
+	},
 });
-
-// Mount route groups
-app.route("/auth", authRouter);
-app.route("/api/user", userRouter);
-
-// Health check endpoint
-app.get("/health", (c) => c.json({ status: "healthy" }));
-
-export default app;

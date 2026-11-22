@@ -111,7 +111,7 @@ export class AuthService {
 	 * Signs a cryptographic HS256 JWT session token with a 7-day expiration by default.
 	 */
 	createSessionToken = async (
-		userId: string,
+		userId: number,
 		githubId: number,
 		secret: string,
 		expiresInSeconds: number = SESSION_COOKIE_MAX_AGE_SECONDS,
@@ -147,22 +147,19 @@ export class AuthService {
 			const now = Math.floor(Date.now() / 1000);
 
 			if (
-				!decoded.sub ||
-				typeof decoded.github_id !== "number" ||
-				!decoded.exp
+				!Number.isSafeInteger(decoded.sub) ||
+				!Number.isSafeInteger(decoded.github_id) ||
+				typeof decoded.exp !== "number" ||
+				decoded.exp <= now
 			) {
 				return null;
 			}
 
-			if (decoded.exp <= now) {
-				return null;
-			}
-
 			return {
-				sub: String(decoded.sub),
-				github_id: Number(decoded.github_id),
-				exp: Number(decoded.exp),
-				iat: Number(decoded.iat || now),
+				sub: decoded.sub as number,
+				github_id: decoded.github_id as number,
+				exp: decoded.exp,
+				iat: typeof decoded.iat === "number" ? decoded.iat : now,
 			};
 		} catch {
 			return null;
