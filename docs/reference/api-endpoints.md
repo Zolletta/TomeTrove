@@ -11,17 +11,26 @@ This is the canonical list of TomeTrove's REST API endpoints. For the routing ar
 - **Non-CRUD actions are POST to a sub-resource**: `POST /api/editions/:id/prices` (on-demand fetch), `POST /api/wishes/import` (CSV import).
 - **Child resources nested under their parent**: editions under books, price quotes under editions.
 - **Cursor-based pagination** on all list endpoints, with HATEOAS `_links` (`self`, `first`, `prev`, `next`, `last`). No total count.
-- **Auth**: all `/api/` endpoints require JWT authentication ([ADR 0006](../explanation/adr/0006-authentication-model.md)) except `GET /api/lists/:token` (public share). User-scoped resources are filtered to the authenticated user — no `:userId` in the path.
+- **Auth**: all `/api/` endpoints require the `tometrove_session` JWT cookie (HS256, set by the GitHub OAuth callback; supersedes [ADR 0006](../explanation/adr/0006-authentication-model.md), TODO: link the new ADR from [#47](https://github.com/Zolletta/TomeTrove/issues/47)) except `GET /api/health` (liveness probe) and `GET /api/lists/:token` (public share). The `Authorization` header is not accepted. User-scoped resources are filtered to the authenticated user — no `:userId` in the path.
 
 ## Endpoints
 
 ### Authentication & user
 
-| Route              | Method | Purpose                                                               | Auth | Source                                                         |
-|--------------------|--------|-----------------------------------------------------------------------|------|----------------------------------------------------------------|
-| `/api/user/me`     | GET    | Current user's profile (GitHub ID, display name, preferences status)  | Yes  | —                                                              |
-| `/api/user`        | DELETE | Delete account and all associated data (physical deletion)            | Yes  | [ADR 0021](../explanation/adr/0021-data-erasure-and-export.md) |
-| `/api/user/export` | GET    | Export user data as JSON download (`Content-Disposition: attachment`) | Yes  | [ADR 0021](../explanation/adr/0021-data-erasure-and-export.md) |
+| Route                   | Method | Purpose                                                                                                        | Auth | Source                                                         |
+|-------------------------|--------|----------------------------------------------------------------------------------------------------------------|------|----------------------------------------------------------------|
+| `/auth/github/login`    | GET    | Set the `oauth_state` cookie and redirect to GitHub (scope `read:user`)                                        | No   | —                                                              |
+| `/auth/github/callback` | GET    | Validate `code` and `state` (UUID) with Zod (`400 validation_error`), check the state cookie, upsert the user by GitHub ID, set the `tometrove_session` cookie (7 days), redirect to `/` | No   | —                                                              |
+| `/auth/logout`          | POST   | Clear the session cookie; `204 No Content`. Requests a cross-site page can send without CORS (form content types or no `Content-Type`) need `Sec-Fetch-Site: same-origin` or an `Origin` equal to `APP_URL`, else `403 forbidden` | No   | —                                                              |
+| `/api/user/me`          | GET    | Current user: `{ user_id, user_github_id, preferences_completed }`; the IDs are numbers, no name or avatar   | Yes  | —                                                              |
+| `/api/user`             | DELETE | Delete account and all associated data (physical deletion)                                                     | Yes  | [ADR 0021](../explanation/adr/0021-data-erasure-and-export.md) |
+| `/api/user/export`      | GET    | Export user data as JSON download (`Content-Disposition: attachment`)                                          | Yes  | [ADR 0021](../explanation/adr/0021-data-erasure-and-export.md) |
+
+### Health
+
+| Route         | Method | Purpose                                                       | Auth | Source |
+|---------------|--------|---------------------------------------------------------------|------|--------|
+| `/api/health` | GET    | Liveness probe: `200 { "status": "ok" }`. Public by exception | No   | —      |
 
 ### Preferences
 

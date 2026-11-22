@@ -6,12 +6,14 @@ This is the reference for TomeTrove's data model: the tables, fields, types, and
 
 Table: `user`
 
-| Field              | Type     | Notes                            |
-|--------------------|----------|----------------------------------|
-| user_id            | PK       |                                  |
-| user_github_id     | string   | From the Access JWT              |
-| user_last_login_at | DATETIME | UTC (ADR 0020). Updated on login |
-| user_created_at    | DATETIME | UTC (ADR 0020). Set once         |
+| Field              | Type                           | Notes                                                                          |
+|--------------------|--------------------------------|--------------------------------------------------------------------------------|
+| user_id            | BIGINT AUTO_RANDOM(5, 54) PK   | Internal ID; below 2^53, so a JavaScript number. JWT `sub`, as a string        |
+| user_github_id     | BIGINT UNIQUE                  | Numeric GitHub user ID from the OAuth callback. JWT `github_id`                |
+| user_last_login_at | DATETIME                       | UTC (ADR 0020), written by the app. Updated on every login                     |
+| user_created_at    | DATETIME                       | UTC (ADR 0020), written by the app. Set once on the first login                |
+
+No name, email or avatar is stored ([PRIVACY.md](https://github.com/Zolletta/TomeTrove/blob/main/PRIVACY.md)). Collation `utf8mb4_0900_ai_ci` (ADR 0025).
 
 ### User preferences
 

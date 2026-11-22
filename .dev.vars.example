@@ -4,7 +4,8 @@
 ENVIRONMENT="development"
 APP_URL="http://localhost:8787"
 
-# GitHub OAuth credentials (from https://github.com/settings/developers)
+# GitHub OAuth credentials of the localhost app (callback http://localhost:8787/auth/github/callback).
+# See docs/how-to/set-up-github-oauth.md
 GITHUB_CLIENT_ID="your_github_client_id"
 GITHUB_CLIENT_SECRET="your_github_client_secret"
 

@@ -3,18 +3,37 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Hello, World!</title>
+		<title>TomeTrove</title>
 	</head>
 	<body>
-		<h1 id="heading"></h1>
-		<p>This page comes from a static asset stored at `public/index.html` as configured in `wrangler.jsonc`.</p>
+		<h1>TomeTrove</h1>
+		<p id="signed-out" hidden><a href="/auth/github/login">Sign in with GitHub</a></p>
+		<p id="signed-in" hidden>Signed in. <button id="logout" type="button">Sign out</button></p>
+		<p id="status" role="alert" hidden></p>
 		<script>
-			fetch('/message')
-				.then((resp) => resp.text())
-				.then((text) => {
-					const h1 = document.getElementById('heading');
-					h1.textContent = text;
-				});
+			const show = (id) => {
+				document.getElementById(id).hidden = false;
+			};
+			const showError = (text) => {
+				const status = document.getElementById("status");
+				status.textContent = text;
+				status.hidden = false;
+			};
+			fetch("/api/user/me")
+				.then((res) => {
+					if (res.ok) show("signed-in");
+					else if (res.status === 401) show("signed-out");
+					else showError("Could not check your session. Try again later.");
+				})
+				.catch(() => showError("Could not check your session. Try again later."));
+			document.getElementById("logout").addEventListener("click", () => {
+				fetch("/auth/logout", { method: "POST" })
+					.then((res) => {
+						if (!res.ok) throw new Error(String(res.status));
+						location.reload();
+					})
+					.catch(() => showError("Sign out failed. Try again."));
+			});
 		</script>
 	</body>
 </html>
