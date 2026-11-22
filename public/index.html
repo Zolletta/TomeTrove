@@ -9,13 +9,30 @@
 		<h1>TomeTrove</h1>
 		<p id="signed-out" hidden><a href="/auth/github/login">Sign in with GitHub</a></p>
 		<p id="signed-in" hidden>Signed in. <button id="logout" type="button">Sign out</button></p>
+		<p id="status" role="alert" hidden></p>
 		<script>
 			const show = (id) => {
 				document.getElementById(id).hidden = false;
 			};
-			fetch("/api/user/me").then((res) => show(res.ok ? "signed-in" : "signed-out"));
+			const showError = (text) => {
+				const status = document.getElementById("status");
+				status.textContent = text;
+				status.hidden = false;
+			};
+			fetch("/api/user/me")
+				.then((res) => {
+					if (res.ok) show("signed-in");
+					else if (res.status === 401) show("signed-out");
+					else showError("Could not check your session. Try again later.");
+				})
+				.catch(() => showError("Could not check your session. Try again later."));
 			document.getElementById("logout").addEventListener("click", () => {
-				fetch("/auth/logout", { method: "POST" }).then(() => location.reload());
+				fetch("/auth/logout", { method: "POST" })
+					.then((res) => {
+						if (!res.ok) throw new Error(String(res.status));
+						location.reload();
+					})
+					.catch(() => showError("Sign out failed. Try again."));
 			});
 		</script>
 	</body>
