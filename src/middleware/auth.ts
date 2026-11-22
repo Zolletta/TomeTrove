@@ -34,7 +34,7 @@ export const authMiddleware: MiddlewareHandler<AuthEnv> = async (c, next) => {
 		);
 	}
 
-	c.set("userId", session.sub);
+	c.set("userId", session.userId);
 	c.set("user", session);
 
 	await next();

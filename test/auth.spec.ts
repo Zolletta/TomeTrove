@@ -1,4 +1,4 @@
-import { sign } from "hono/jwt";
+import { decode, sign } from "hono/jwt";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createApp } from "../src/app";
 import {
@@ -197,7 +197,7 @@ describe("GET /auth/github/callback", () => {
 		expect(repo.users.size).toBe(0);
 	});
 
-	it("upserts the user and signs a session with numeric sub and github_id", async () => {
+	it("upserts the user and signs a session with a string sub and a numeric github_id", async () => {
 		const fetchSpy = mockGitHub();
 		const before = Date.now();
 		const res = await callback();
@@ -217,9 +217,13 @@ describe("GET /auth/github/callback", () => {
 		expect(cookie).toContain("Max-Age=604800");
 
 		const token = cookie.split(";")[0].split("=")[1];
+		expect(decode(token).payload).toMatchObject({
+			sub: String(stored?.userId),
+			github_id: GITHUB_ID,
+		});
 		const session = await authService.verifySessionToken(token, JWT_SECRET);
-		expect(session?.sub).toBe(stored?.userId);
-		expect(session?.github_id).toBe(GITHUB_ID);
+		expect(session?.userId).toBe(stored?.userId);
+		expect(session?.githubId).toBe(GITHUB_ID);
 	});
 
 	it("keeps the same user_id on a second login", async () => {
@@ -231,10 +235,10 @@ describe("GET /auth/github/callback", () => {
 		expect(repo.users.size).toBe(1);
 		const t1 = sessionCookie(first).split(";")[0].split("=")[1];
 		const t2 = sessionCookie(second).split(";")[0].split("=")[1];
-		expect((await authService.verifySessionToken(t1, JWT_SECRET))?.sub).toBe(
+		expect((await authService.verifySessionToken(t1, JWT_SECRET))?.userId).toBe(
 			firstUserId,
 		);
-		expect((await authService.verifySessionToken(t2, JWT_SECRET))?.sub).toBe(
+		expect((await authService.verifySessionToken(t2, JWT_SECRET))?.userId).toBe(
 			firstUserId,
 		);
 	});
@@ -291,10 +295,14 @@ describe("GET /api/user/me", () => {
 		expect(res.status).toBe(401);
 	});
 
-	it("returns 401 for a token with a string sub", async () => {
+	it.each([
+		["a non-numeric", "github:1"],
+		["a numeric", 1],
+		["a zero-padded", "01"],
+	])("returns 401 for a token with %s sub", async (_name, sub) => {
 		const now = Math.floor(Date.now() / 1000);
 		const token = await sign(
-			{ sub: "github:1", github_id: GITHUB_ID, iat: now, exp: now + 60 },
+			{ sub, github_id: GITHUB_ID, iat: now, exp: now + 60 },
 			JWT_SECRET,
 			JWT_ALGORITHM,
 		);

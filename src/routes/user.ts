@@ -14,8 +14,8 @@ userRouter.use("*", authMiddleware);
 userRouter.get("/me", (c) => {
 	const session = c.get("user");
 	const response: UserProfileResponse = {
-		user_id: session.sub,
-		user_github_id: session.github_id,
+		user_id: session.userId,
+		user_github_id: session.githubId,
 		preferences_completed: false,
 	};
 

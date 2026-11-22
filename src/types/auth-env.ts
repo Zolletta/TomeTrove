@@ -1,5 +1,5 @@
 import type { AppEnv } from "./app-env";
-import type { SessionPayload } from "./session-payload";
+import type { Session } from "./session-payload";
 
 /**
  * Hono application context environment definition for authenticated routes.
@@ -9,6 +9,6 @@ export interface AuthEnv {
 	Bindings: AppEnv;
 	Variables: {
 		userId: number;
-		user: SessionPayload;
+		user: Session;
 	};
 }

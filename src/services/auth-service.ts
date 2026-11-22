@@ -8,7 +8,7 @@ import {
 	JWT_ALGORITHM,
 	SESSION_COOKIE_MAX_AGE_SECONDS,
 } from "../constants";
-import type { GitHubUser, SessionPayload } from "../types";
+import type { GitHubUser, Session, SessionPayload } from "../types";
 
 /**
  * Service orchestrating GitHub OAuth handshake and session JWT lifecycle.
@@ -118,7 +118,7 @@ export class AuthService {
 	): Promise<string> => {
 		const now = Math.floor(Date.now() / 1000);
 		const payload: SessionPayload = {
-			sub: userId,
+			sub: String(userId),
 			github_id: githubId,
 			iat: now,
 			exp: now + expiresInSeconds,
@@ -137,7 +137,7 @@ export class AuthService {
 	verifySessionToken = async (
 		token: string,
 		secret: string,
-	): Promise<SessionPayload | null> => {
+	): Promise<Session | null> => {
 		try {
 			const decoded = (await verify(
 				token,
@@ -145,9 +145,13 @@ export class AuthService {
 				JWT_ALGORITHM,
 			)) as unknown as Partial<SessionPayload>;
 			const now = Math.floor(Date.now() / 1000);
+			const userId =
+				typeof decoded.sub === "string" && /^[1-9][0-9]*$/.test(decoded.sub)
+					? Number(decoded.sub)
+					: Number.NaN;
 
 			if (
-				!Number.isSafeInteger(decoded.sub) ||
+				!Number.isSafeInteger(userId) ||
 				!Number.isSafeInteger(decoded.github_id) ||
 				typeof decoded.exp !== "number" ||
 				decoded.exp <= now
@@ -156,8 +160,8 @@ export class AuthService {
 			}
 
 			return {
-				sub: decoded.sub as number,
-				github_id: decoded.github_id as number,
+				userId,
+				githubId: decoded.github_id as number,
 				exp: decoded.exp,
 				iat: typeof decoded.iat === "number" ? decoded.iat : now,
 			};
